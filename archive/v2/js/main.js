@@ -125,7 +125,8 @@
 			{ src:"./img/back_2.jpg", id:"bg2" },
 			{ src:"./img/back_3.jpg", id:"bg3" },
 			{ src:"./img/back_4.jpg", id:"bg4" },
-			{ src:"./img/back_5.jpg", id:"bg5" }
+			{ src:"./img/back_5.jpg", id:"bg5" },
+			{ src:"./img/img_player.png", id:"player" }
 		];
 		
 		preload = new createjs.LoadQueue();
@@ -221,7 +222,7 @@
 	}
 
 	function makeStage() {
-		while ( makeStageFloor < 200 ) {
+		while ( makeStageFloor < 500 ) {
 			floorgroup[ f ] = new FloorGroup( 646 - ( f + 1 ) * 170, f + 1  );
 			floors = floorgroup[ f ].getfloor();
 			for ( var i = 0; i < floors.length; i++ ) {
@@ -233,7 +234,7 @@
 	}
 
 	function makeItem() {
-		while ( makeStageItem < 210 ) {
+		while ( makeStageItem < 510 ) {
 			if ( makeStageItem%10 === 0 ) {
 				item = new Item( floorgroup[ makeStageItem ].collection[ 0 ].children[ 0 ].y - 255 );
 				itemList.push( item );
@@ -388,32 +389,24 @@
 	}
 	
 	function setupSound() {
-		var isSound        = getCookie( 'sound' );
-		var soundElm       = $( "#sound" );
-		var switchSoundElm = $( "#switchSound" );
-		soundElm.onclick = function ( event ) {
-			if ( soundElm.attr( 'data-status' ) === 'on' ) {
+		var isSound      = getCookie( 'sound' );
+		var $sound       = $( "#sound" );
+		var $switchSound = $( "#switchSound" );
+		$switchSound.on( "change", function( event ) {
+			if ( $switchSound.is( ':checked' )) {
+				setCookie( 'sound', 'on', 1, '/', 1 );
+				createjs.Sound.setMute( false );
+				$sound.attr( 'data-status', 'on' );
+				return false;
+			} else {
 				setCookie( 'sound', 'off', 1, '/', 1 );
 				createjs.Sound.setMute( true );
-				soundElm.attr( 'data-status', 'off' );
-				switchSoundElm.checked = false;
+				$sound.attr( 'data-status', 'off' );
 				return false;
 			}
-			setCookie( 'sound', 'on', 1, '/', 1 );
-			createjs.Sound.setMute( false );
-			soundElm.attr( 'data-status', 'on' );
-			switchSoundElm.checked = true;
-			return false;
-		};
-		if ( isSound === null || isSound === 'on' ) {
-			createjs.Sound.setMute( false );
-			soundElm.attr( 'data-status', 'on' );
-			switchSoundElm.checked = true;
-		} else if ( isSound === 'off' ) {
-			createjs.Sound.setMute( true );
-			soundElm.attr( 'data-status', 'off' );
-			switchSoundElm.checked = false;
-		}
+		});
+
+		if ( isSound === 'off' ) $switchSound.click();
 	}
 
 	var HAS_SHARESCORE_SET_EVENT = false;
