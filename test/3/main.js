@@ -1,106 +1,95 @@
-// おまじない
-enchant();
+(function() {
 
-window.onload = function(){
+	// ゲーム設定用のオブジェクト
+	var setting = {
+		gameWidth: 960,
+		gameHeight: 540,
+		bulletWidht: 16,
+		bulletHieht: 16,
+		playerBulletAgility: 10 // プレイヤーの玉の速さ
+	};
 
-	var game = new Core(960, 540);
-	game.fps = 30;
-	game.preload('chara1.png', 'chara2.png', 'icon0.png', 'bigmonster1.gif','background.png');
-	game.onload = function() {
+	// ゲームの画像用ストア
+	var store = {
+		test: 'chara1.png',
+		player: 'chara2.png',
+		bullet: 'icon0.png',
+		boss: 'bigmonster1.gif',
+		title: 'title.jpg',
+		battle: 'battle.jpg'
+	};
 
-		// ゲームの設定
+	// ゲームの保存庫
+	var enemyArr = [],
+		playerBulletArr = [],
+		//playerArr = [],
+		enemyBulletArr = [];
+
+	// おまじない
+	enchant();
+
+
+	// DOM読み込み後
+	window.onload = function(){
+
+		// ################################
+		//            ゲームの設定
+		// ################################
+		var game = new Core(setting.gameWidth, setting.gameHeight);
+		game.fps = 30;
 		game.keybind(32, 'space');
-		// 背景の設定
-		//game.background = game.assets['background.png'];
 
-		/* #################################
-		 *  動くクマのテスト
-		 * #################################
-		 */
-		var bear5 = new Sprite(32, 32);
-		bear5.image = game.assets['chara2.png'];
-		bear5.x = bear5.y = 250;　// 初期位置
-		bear5.addEventListener('enterframe', function(e){ //イベントリスナーを追加する		 	
-		 	//enterframeイベントのイベントリスナー
-		  	// 移動処理、キャラクター分減らす
-		  	this.frame = [1,2,3];
-			if (game.input.left && this.x >0) {
-				this.x -= 3;
-				this.frame = 2;
-			}
-			if (game.input.right && this.x <400 - 32) {
-				this.x += 3;
-				this.frame = 1;
-			}
-			if (game.input.up && this.y >0) {
-				this.y -= 3;
-			}
-			if (game.input.down && this.y <400 - 32) {
-				this.y += 3;
-			}
-			if (game.input.left == false && game.input.right == false)  {
-				this.frame +=1;
-			}
+		// プリリロード
+		with　(store) {
+			game.preload(test, player, bullet, boss, title);
+		}
 
-			// 発射
-			if (game.input.space && game.frame % 3 == 0) {
-				// ミサイル
-				var bullet = new Sprite(16, 16);
-				bullet.image = game.assets['icon0.png'];
-				bullet.frame = [54, 62];
-				bullet.x = bear5.x + 30;
-				bullet.y = bear5.y + 32/2;
-				second.addChild(bullet);
-				bullet.addEventListener('enterframe', function(){
-					this.x += 10;
-					// 衝突判定
-					if (this.within(enemy, enemy.width/2)) {
-						console.log('球があたる');
-						second.removeChild(bullet);
-						enemy.frame = [7];
-					} else {
-						enemy.frame= [6];
-					}
-					if (this.x > 360) {
-						second.removeChild(this);
-					}
-				});
-			}
-		});
+		// ゲーム読み込み時
+		game.onload = function() {
 
-		/* #################################
-		 *  敵のテスト
-		 * #################################
-		 */
-		var enemy = new Sprite(80,80);
-		enemy.image = game.assets['bigmonster1.gif'];
-		enemy.frame = [6];
-		enemy.x = enemy.y = 150;　// 初期位置
-		enemy.addEventListener('enterframe', function(e){ //イベントリスナーを追加する
-			// intersect 
-			if (this.within(bear5, bear5.width/2)) {
-				console.log('ヒットしました');
-				game.pushScene(gameOverScene);
-				game.stop();
-			}
-			// within
+			// ########################################################
+			//            背景用スプライト
+			// ########################################################
 
-		});
+			// トップ用のスプライト
+			var titleBackground = new Sprite(setting.gameWidth, setting.gameHeight);
+			titleBackground.image  = game.assets["title.jpg"];
+
+			// 対戦用のスプライト
+			var battleBackground = new Sprite(setting.gameWdith, setting.gameHeight);
+			//battleBackground.image = game.assets['battle.jpg'];
+
+			// ########################################################
+			//            ラベル
+			// ########################################################
 
 			// ハローメッセージ
-			var helloMessage = new Label('ゲームスタート');
-			helloMessage.x = helloMessage.y = 40;
-			helloMessage.color = 'white';
-			helloMessage.font = '50px'
+			var welcomeMessage = new Label('ゲームを開始するには、画面をクリックしてください');
+			welcomeMessage.x = 50;
+			welcomeMessage.y = setting.gameHeight / 1.2;
+			welcomeMessage.width = setting.gameWidth;
+			welcomeMessage.color = 'black';
+			welcomeMessage.font = '40px arial, sans-serif';
 
-			// ラベルのテスト(得点)
-			var log = new Label('Hello World');
-			log.x = log.y = 10;
-			log.color ='red';
-			log.font = '14px "Arial"';
-			log.addEventListener('enterframe', function(){
-				log.text = (game.frame / game.fps).toFixed(2);
+			// 時間のラベル
+			var timeCounter = new Label('');
+			timeCounter.x = timeCounter.y = 10;
+			timeCounter.width = '300px';
+			timeCounter.color ='red';
+			timeCounter.font = '30px arial, sans-serif';
+			timeCounter.addEventListener('enterframe', function(){ // 時間のカウント
+				timeCounter.text = 'Time: ' + (game.frame / game.fps).toFixed(2) + '秒';
 			});
+
+			// ポイントのラベル(得点)
+			var pointCounter = new Label('0 point');
+			pointCounter.x = 100;
+			pointCounter.y = 100;
+			pointCounter.height = '300px';
+			pointCounter.width = '300px';
+			pointCounter.color = 'red';
+			pointCounter.font = '30px arial, sans-serif';
+			pointCounter.text = '0 points';
 
 			// ゲームオーバーのメッセージ
 			var gameOverMessage = new Label('ゲームオーバー');
@@ -108,51 +97,214 @@ window.onload = function(){
 			gameOverMessage.font = '40px';
 			gameOverMessage.color = "white";
 
-		// セカンドsceneの作成
-		var second = new Scene();
-		second.backgroundColor = 'pink';
+			// ########################################################
+			//            　　　　シーンの設定
+			// ########################################################
 
-		// サードsceneの作成
-		var third = new Scene();
-		third.backgroundColor = 'blue';
+			// #####################
+			//    ルートシーン
+			// #####################
+			game.rootScene.background = game.assets['background.png'];
+			game.rootScene.addEventListener('touchstart', function() {
+				game.pushScene(playGame);
+			});
+			game.rootScene.addChild(titleBackground);
+			game.rootScene.addChild(welcomeMessage); // 最初の文字列をつかする
 
-		// ゲームオーバーscene
-		var gameOverScene = new Scene();
-		gameOverScene.backgroundColor = 'black';
+			// ###################
+			//   セカンドシーン
+			// ###################
+			var playGame = new Scene();
+			playGame.backgroundColor = 'pink';
+			playGame.addChild(timeCounter); // 時間の表示
+			playGame.addChild(pointCounter); // ポイントの表示
+			// ゲームオーバー画面へ
+			playGame.addEventListener('touchstart', function() {
+				game.pushScene(gameOverScene);
+			});
 
+			// ###################
+			//   ゲームオーバーシーン
+			// ###################
+			var gameOverScene = new Scene();
+			gameOverScene.backgroundColor = 'black';	
+			gameOverScene.addChild(gameOverMessage);
+			gameOverScene.addEventListener('touchstart', function() {
+				game.pushScene(game.rootScene);
+			});
 
-		// #####################
-		//    ゲームのルートscene
-		// #####################
-		game.rootScene.background = game.assets['background.png'];
-		game.rootScene.addEventListener('touchstart', function() {
-			game.pushScene(second);
-		});
-		game.rootScene.addChild(helloMessage); // 最初の文字列をつかする
+			// ########################################################
+			//            　　　　     クラス
+			// ########################################################
 
-		// ###################
-		//    セカンドsceneをタッチしたら切り替え
-		// ###################
-		second.addChild(bear5); // クマを出現させる
-		second.addChild(log); // ルートsceneにメッセージを表示
-		second.addChild(enemy); // 敵キャラを出現する	
-		second.addEventListener('touchstart', function() {
-			game.pushScene(gameOverScene);
-		});
+			// ###########################
+			//    機体親クラス
+			// ###########################
+			var Airframe = Class.create(Sprite, {
+				// コンストラクタ
+				initialize: function(x, y){
+					Sprite.call(this, x, y);
+				},
+				// 機体の削除処理
+				removeAirframe: function(arr, airframe) {
+					playGame.removeChild(airframe);
+					// 配列のdelete処理
+				},
+				// 機体の追加処理
+				addAirframe: function(airframe) {
+					playGame.addChild(airframe);
+				}
+			});
 
-		gameOverScene.addChild(gameOverMessage);
-		gameOverScene.addEventListener('touchstart', function() {
-			game.pushScene(game.rootScene);
-		})
+			// ###########################
+			//    球親クラス
+			// ###########################
+			var Bullet = Class.create(Sprite, {
+				initialize: function() {
 
+				}
+			});
 
+			// ###########################
+			//    敵機（小）子クラス
+			// ###########################
+			var Enemy = Class.create(Sprite, {
+				initialize: function(x, y) {
+					Sprite.call(this, 80, 80);
+					this.x = x;
+					this.y = y;
+					this.image = game.assets['bigmonster1.gif'];
+					this.frame = [6];
+					// 出現処理
+					playGame.addChild(this);
+					this.addEventListener('enterframe', function(e){
+						// プレイヤーと衝突しました
+						if (this.within(player, player.width/2)) {
+							console.log('衝突しました');
+							// ゲーム中断
+							game.stop();
+							// ゲームオーバー
+							game.pushScene(gameOverScene);
+						}
+					});
+				}
+			});
+
+			// ###########################
+			//    実機玉子クラス
+			// ###########################
+			var PlayerBullet = Class.create(Sprite, {
+				initialize: function(x, y) {
+					Sprite.call(this, 16, 16);
+					this.x = player.width + x;
+					this.y = player.height/2 + y;
+					this.image = game.assets['icon0.png'];
+					this.frame = [54, 62];
+					playGame.addChild(this);
+					this.addEventListener('enterframe', function(){
+						// 球の速度
+						this.x += setting.playerBulletAgility;
+						// 衝突判定
+						for (var i in enemyArr) {
+							if (enemyArr[i].intersect(this)) {
+								playGame.removeChild(this);
+								enemyArr[i].frame = [7];
+								console.log('当たりました');
+							} else {
+								enemyArr[i].frame= [6];
+							}
+						}
+						// 画面外解放(x軸のみ)
+						if (this.x > setting.gameWidth) {
+							playGame.removeChild(this);
+						}
+					});
+				}
+			});
+
+			// ###########################
+			//    プレイヤー クラス
+			// ###########################
+			var Player = Class.create(Sprite, {
+				initialize: function(x, y) {
+					// キャラクター
+					Sprite.call(this, 32, 32);
+					this.x = x; this.y = y;
+					this.image = game.assets['chara2.png'];
+					// プレイヤーの初期移動処理
+					this.tl.moveBy(setting.gameWidth/2, 1, 30, enchant.Easing.QUAD_EASEINOUT) // (200,0 )に90フレーデ絶対位置でイージングで移動
+							.and()
+							.rotateTo(360 * 10, 30, enchant.Easing.LINEAR)
+							.and()
+							.scaleTo(3, 3, 30) //
+							.and() 
+							.rotateTo(360 * 10, 30, enchant.Easing.LINEAR)
+							.moveTo(0, setting.gameHeight/2, 30)
+							.and()
+							.scaleTo(1, 1, 30); // 絶対位置に移動 
+
+					// フレーム処理
+					this.addEventListener('enterframe', function() {
+
+						// 画像の切り替え
+					  	this.frame = [1,2,3];
+					  	// キャラクターの操作
+						if (game.input.left && this.x >0) {
+							this.x -= 4;
+							this.frame = 2;
+						}
+						if (game.input.right && this.x <setting.gameWidth - this.width) {
+							this.x += 4;
+							this.frame = 1;
+						}
+						if (game.input.up && this.y >0) {
+							this.y -= 4;
+						}
+						if (game.input.down && this.y <setting.gameHeight - this.height) {
+							this.y += 4;
+						}
+						if (game.input.left == false && game.input.right == false)  {
+							this.frame +=1;
+						}
+
+						// 発射処理
+						if (game.input.space && game.frame % 3 == 0) {
+							// ミサイル
+							new PlayerBullet(this.x, this.y);
+						}
+					});
+					playGame.addChild(this);
+				} 
+			});
+
+			// ###########################
+			//    メイン
+			// ###########################
+			var player = new Player(0, setting.gameHeight/2);
+			playGame.addEventListener('enterframe', function() {
+				//　敵の出現処理
+				enemyArr[game.frame] = new Enemy(150, 150);
+				// 最初に敵をたくさん出現させる(1/100)
+				if (game.frame % 100 == 0) {
+					console.log('敵出現アクション入れ込みタイミング');
+				}
+			});
+		};
+		game.start();
 	};
-	game.start();
-};
 
-/*
+	// 判定用の処理まとめ
+	/*
+	function hantei(arr, ) {
 
-	参考文献
-	http://www.slideshare.net/sidestepism/5-tlenchantjs
+	}
+	*/
 
-*/
+
+	/*
+
+		参考文献
+		http://www.slideshare.net/sidestepism/5-tlenchantjs
+
+	*/
+}());
