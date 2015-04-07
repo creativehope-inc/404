@@ -14,7 +14,7 @@
 		playerHitpoint: 3, // プレイヤーの初期体力
 		maxPlayerHitpoint: 10, // プレイヤーのMAX体力
 		playerAgility: 5, // プレイヤーの初期素早さ
-		maxPlayerAgility: 30, // プレイヤーの移動速度の上限
+		maxPlayerAgility: 20, // プレイヤーの移動速度の上限
 		enemyBulletAgility: 10, // 敵の玉の速さ
 		enemyAgility: 4, // 敵の速さ
 		itemAgility:4, // アイテムの流れる速さ
@@ -291,25 +291,58 @@
 					Aircraft.call(this, 32, 32, uuid);
 					// ポジションと画像とフレームの切り替え
 					this.setPosition(x, y);
-					this.setImage('chara1.png');
+					return this;
+				}
+			});
+
+			// ###########################
+			//    雑魚的クラス
+			// ###########################
+			var ZakoEnemy = Class.create(Enemy, {
+				initialize: function(x, y, uuid) {
+					Enemy.call(this, x, y, uuid);
 					this.setFrame([1]);
-					// 出現処理
+					this.setImage('chara1.png');
 					this.addInstance(this);
+					// 敵の玉の発射処理
 					this.addEventListener('enterframe', function(e){
 						// 敵の動きの処理
 						this.move();
 						// 敵の玉の発射処理
 						if (game.frame  % 50 == 0) {
-							console.log('敵の玉の発射');
+							console.log('雑魚敵の玉の発射');
 							new EnemyBullet(this.x - this.width, this.y);
 						}
 					});
-					return this;
 				},
+				// 敵の動きを再現する
 				move: function() {
 					// 敵の玉の発射処理
 					this.x -= setting.enemyAgility;
  					this.y = Math.cos ( this.x * 2 * Math.PI / 180 ) * 220 + 300;
+				}
+			});
+
+			// ###########################
+			//    BOSS敵のクラス
+			// ###########################
+			var BossEnemy = Class.create(Enemy, {
+				initialize: function(x, y, uuid) {
+					Enemy.call(this, x, y, uuid);
+					this.setFram([1]);
+					this.setImage('chara1.png');
+					this.addInstance(this);
+					this.addEventListener('enterframe', function(e) {
+						this.move();
+						if (game.frame % 30 == 0) {
+							console.log('ボス敵の発射処理');
+							//new BossEnemyBullet();
+						}
+					});
+				},
+				// ボス敵の動きを再現する
+				move: function(){
+					
 				}
 			});
 
@@ -358,7 +391,6 @@
 						}
 					}
 				}
-
 			});
 
 			// ###########################
@@ -421,7 +453,7 @@
 			});
 
 			// ###########################
-			//   アイテムクラス
+			//   　　アイテムクラス
 			// ###########################
 			var Item = Class.create(Things, {
 				// コンストラクタ
@@ -470,7 +502,7 @@
 			});
 
 			// ###########################
-			//   回復アイテム
+			//   速度アイテム
 			// ###########################
 			var SpeedItem = Class.create(Item, {
 				// コンストラクタ
@@ -694,31 +726,41 @@
 
  			// ゲームが始まったら始めるタイマー処理
 			playGame.addEventListener('enterframe', function() {
+				// 現在時刻を保存
+				var currentTime = (game.frame / game.fps).toFixed(2);
+				
+				// 一分以内ならファーストフェイズの処理をする
+				if (currentTime < 60) {
 
-				// ifぶんでタイマー処理（フェーズわけ）
-				if (game.frame % 50 == 0) {
-					//　敵の出現処理
-					new Enemy(
-						setting.gameWidth-30,
-						Math.floor(Math.random()*(setting.gameHeight-0)+0),
-						game.frame // UUID
-					).saveStore(enemyArr); // 敵の保存処理
+					// 敵を出現させる
+					if (game.frame % 50 == 0) {
+						new ZakoEnemy(
+							setting.gameWidth-30,
+							Math.floor(Math.random()*(setting.gameHeight-0)+0),
+							game.frame //UUID
+						).saveStore(enemyArr); // 敵の保存処理
+					}
 
-				}
-				if (game.frame % 100 == 0) {
-					// 回復アイテムの出現
-					new RecoveryItem(
-						setting.gameWidth-30,
-						Math.floor(Math.random()*(setting.gameHeight-0)+0)
-					);
-				}
+					// 回復アイテムを出現
+					if (game.frame % 100 == 0) {
+						// 回復アイテムの出現
+						new RecoveryItem(
+							setting.gameWidth-30,
+							Math.floor(Math.random()*(setting.gameHeight-0)+0)
+						);
+					}
 
-				if (game.frame % 120 == 0) {
-					// 速度アップアイテム
-					new SpeedItem(
-						setting.gameWidth-30,
-						Math.floor(Math.random()*(setting.gameHeight-0)+0)
-					);
+					// 速度アップアイテムを出現させる
+					if (game.frame % 120 == 0) {
+						// 速度アップアイテム
+						new SpeedItem(
+							setting.gameWidth-30,
+							Math.floor(Math.random()*(setting.gameHeight-0)+0)
+						);
+					}
+
+				} else {
+
 				}
 
 			});
