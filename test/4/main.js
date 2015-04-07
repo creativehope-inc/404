@@ -1,5 +1,8 @@
 (function() {
 
+	// 選択肢
+	var options;
+
 	// ゲーム設定用のオブジェクト
 	var setting = {
 		debug: true,
@@ -150,7 +153,7 @@
 				initialize: function(x, y){
 					//console.log('スーパークラスの継承');
 					Sprite.call(this, x, y);
-					return this;
+					return this;  
 				},
 				// 機体の追加処理
 				addInstance: function(self) {
@@ -200,7 +203,7 @@
 					}
 				},
 				// ストアでオブジェクトを破壊するためにUUIDを保存しておく
-				_setUUID: function(uuid) {
+				setUUID: function(uuid) {
 					console.log(uuid);
 					this.uuid = uuid;
 					return this;
@@ -244,11 +247,12 @@
 			var Enemy = Class.create(Aircraft, {
 				initialize: function(x, y, uuid) {
 					Aircraft.call(this, 32, 32);
+					// ポジションと画像とフレームの切り替え
 					this.setPosition(x, y);
 					this.setImage('chara1.png');
 					this.setFrame([1]);
 					// UUIDの保存
-					this._setUUID(uuid);
+					this.setUUID(uuid);
 					// 出現処理
 					this.addInstance(this);
 					this.addEventListener('enterframe', function(e){
@@ -369,10 +373,31 @@
 							console.log( !!(delete enemyArr[this.uuid]) );
 							this.removeInstance(this);
 						}
-						
 					});
 					return this;
 				}
+			});
+
+			// ###########################
+			//    爆発クラス
+			// ###########################
+			var Explosion = Class.create(SuperSprite, {
+				// コンストラクタ
+				initialize: function(x, y){
+					SuperSprite.call(this, x, y);
+					return this;
+				},
+			});
+
+			// ###########################
+			//   アイテムクラス
+			// ###########################
+			var Item = Class.create(SuperSprite, {
+				// コンストラクタ
+				initialize: function(x, y){
+					SuperSprite.call(this, x, y);
+					return this;
+				},
 			});
 
 			// ###########################
@@ -381,15 +406,18 @@
 			/// 味方の出現
 			var player = new Player(0, setting.gameHeight/2);
 			player.circle();
-
+ 
 			playGame.addEventListener('enterframe', function() {
 
 				// 適当なタイミングでキャラクターの挿入
 				if (game.frame % 100 == 0) {
 					//　敵の出現処理
-					var uuid = game.frame;
-					var rand = Math.floor(Math.random(10) - 1);
-					var enemy = new Enemy(rand,rand, uuid);
+					var enemy = new Enemy(
+						Math.floor(Math.random()*(setting.gameWidth-0)+0),
+						Math.floor(Math.random()*(setting.gameHeight-0)+0),
+						game.frame // UUID
+					);
+					// 敵を配列に保存
 					enemy.saveStore(enemyArr);
 				}
 
