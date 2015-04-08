@@ -29,7 +29,7 @@
 		bullet: 'icon0.png',
 		boss: 'bigmonster1.gif',
 		title: 'title.jpg',
-		battle: 'battle.jpg',
+		battle: 'logo.jpg',
 		explosion: 'effect0.png',
 		cure: 'heal_eff_thumb.png'
 	};
@@ -342,7 +342,7 @@
 				},
 				// ボス敵の動きを再現する
 				move: function(){
-					
+
 				}
 			});
 
