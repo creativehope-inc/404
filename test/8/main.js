@@ -34,16 +34,17 @@
 		Explosion = window.sub.Explosion,
 		Cure = window.sub.Cure;
 
-	// ゲーム読み込み時
-	game.onload = function() {
 
-		// #######################################################################
-		//                        メイン処理
-		// #######################################################################
-		
-		// #####################
-		//      ラベル(文字)のインスタンス
-		// ####################
+	// ####################
+	//   ゲームの開始
+	// ####################
+	game.onload = main;
+	game.start();
+
+	// ####################
+	//   メイン関数
+	// ####################
+	function main() {
 
 		var welcomeMessage = new SuperLabel (
 			250,
@@ -144,6 +145,7 @@
 		game.rootScene.addChild(titleBackground); // <=========================
 		game.rootScene.addChild(welcomeMessage); // 最初の文字列をつかする
 
+
 		// ###################
 		//   playGameシーン
 		// ###################
@@ -165,7 +167,8 @@
 				0,
 				setting.gameHeight/2,
 				game.frame,
-				playGame // game context
+				playGame, // game context
+				gameOver
 			);
 			player.saveStore(playerArr); // 出現データの保存
 
@@ -180,7 +183,7 @@
 						new ZakoEnemy(
 							setting.gameWidth - Math.floor(Math.random() * (30-20) + 20),
 							Math.floor(Math.random()*(setting.gameHeight-0)+0),
-							game.frame, //UUID
+							game.frame + Math.floor(Math.random()*(10000-0)+0), //UUID
 							playGame
 						).saveStore(enemyArr); // 敵の保存処理
 					}
@@ -189,7 +192,7 @@
 						new ZakoEnemy2(
 							setting.gameWidth - Math.floor(Math.random() * (30-20) + 20),
 							Math.floor(Math.random()*(setting.gameHeight-0)+0),
-							game.frame, //UUID
+							game.frame + Math.floor(Math.random()*(10000-0)+0), //UUID
 							playGame
 						).saveStore(enemyArr); // 敵の保存処理
 					}
@@ -232,6 +235,7 @@
 		// ###################
 		//var gameOverFn = function() {
 			var gameOver = new Scene();
+
 			gameOver.backgroundColor = 'black';
 			gameOver.addChild(gameOverMessage);
 			gameOver.addEventListener('touchstart', function() {
@@ -241,9 +245,7 @@
 			});
 			return gameOver;
 		//}
-
 	};
-	game.start();
 
 	/*
 		参考文献

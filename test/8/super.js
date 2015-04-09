@@ -1,6 +1,5 @@
  $(document).ready(function(){
 
-
 	// #####################################
 	//        　    インポート
 	// #####################################
@@ -35,76 +34,76 @@
 		}
 	});
 
-		// ###########################
-		//    スーパースプライトクラス
-		// ###########################
-		var SuperSprite = Class.create(Sprite, {
-			// コンストラクタ
-			initialize: function(x, y, me){
-				//console.log('スーパークラスの継承');
-				Sprite.call(this, x, y);
-				this.game = me;
-				return this;  
-			},
-			// 機体の追加処理
-			addInstance: function(self) {
-				//console.log('インスタンスの追加');
-				this.game.addChild(self);
-				return this;
-			},
-			// 機体の削除処理
-			removeInstance: function(self) {
-				//console.log('インスタンスの削除')
-				this.game.removeChild(self);
-				// 配列のdelete処理
-				return this;
-			},
-			// ###############
-			//   ラッパーメソッド
-			// ###############
-			// キャラクターポジション
-			setPosition: function(x, y) {
-				//console.log('キャラクターの位置替え');
-				this.x = x;
-				this.y = y;
-				return this;
-			},
-			// フレーム(アニメ)のセット
-			setFrame: function(arr) {
-				//console.log('フレームのセット');
-				this.frame = arr;
-				return this;
-			},
-			// 画像のセット
-			setImage: function(imgSrc) {
-				//console.log('画像切り替え');
-				this.image = game.assets[imgSrc];
-				return this;
-			},
-			// 画面外に出たら削除するメソッド(ストアの配列とインスタンスの削除)
-			// プレイヤーバレットの時は、arrなし
-			getOut: function(self, arr) {
-				if (self.x > setting.gameWidth ||
-					self.x < 0) { // エンティティの位置がgameの幅を超えたら
-					if (this._isArray(arr)) { // 配列の確認、プレイヤーは配列がないため
-						self.removeInstance(self);
-						console.log('自機か敵機かアイテムが画面外に出ました');
-						console.log ( !!(　delete arr[self.uuid]) );
-					} else {
-						console.log('球が外に出ました');
-						self.removeInstance(self);
-					}
+	// ###########################
+	//    スーパースプライトクラス
+	// ###########################
+	var SuperSprite = Class.create(Sprite, {
+		// コンストラクタ
+		initialize: function(x, y, me){ // meはPlayGameインスタンスを指す
+			//console.log('スーパークラスの継承');
+			Sprite.call(this, x, y);
+			this.game = me;
+			return this;  
+		},
+		// 機体の追加処理
+		addInstance: function(self) {
+			//console.log('インスタンスの追加');
+			this.game.addChild(self);
+			return this;
+		},
+		// 機体の削除処理
+		removeInstance: function(self) {
+			//console.log('インスタンスの削除')
+			this.game.removeChild(self);
+			// 配列のdelete処理
+			return this;
+		},
+		// ###############
+		//   ラッパーメソッド
+		// ###############
+		// キャラクターポジション
+		setPosition: function(x, y) {
+			//console.log('キャラクターの位置替え');
+			this.x = x;
+			this.y = y;
+			return this;
+		},
+		// フレーム(アニメ)のセット
+		setFrame: function(arr) {
+			//console.log('フレームのセット');
+			this.frame = arr;
+			return this;
+		},
+		// 画像のセット
+		setImage: function(imgSrc) {
+			//console.log('画像切り替え');
+			this.image = game.assets[imgSrc];
+			return this;
+		},
+		// 画面外に出たら削除するメソッド(ストアの配列とインスタンスの削除)
+		// プレイヤーバレットの時は、arrなし
+		getOut: function(self, arr) {
+			if (self.x > setting.gameWidth ||
+				self.x < 0) { // エンティティの位置がgameの幅を超えたら
+				if (this._isArray(arr)) { // 配列の確認、プレイヤーは配列がないため
+					self.removeInstance(self);
+					console.log('自機か敵機かアイテムが画面外に出ました');
+					console.log ( !!(　delete arr[self.uuid]) );
+				} else {
+					console.log('球が外に出ました');
+					self.removeInstance(self);
 				}
-			},
-			// 配列か確認プライベートメソッド
-			_isArray: function(value) {
-				return value &&                             
-					typeof value === 'object' &&
-					typeof value.length === 'number' &&
-					typeof value.splice === 'function' &&
-					!(value.propertyIsEnumerable('length'));
 			}
-		});
+		},
+		// 配列か確認プライベートメソッド
+		_isArray: function(value) {
+			return value &&                             
+				typeof value === 'object' &&
+				typeof value.length === 'number' &&
+				typeof value.splice === 'function' &&
+				!(value.propertyIsEnumerable('length'));
+		}
+	});
 
 	// エクスポート
 	window.super = {
