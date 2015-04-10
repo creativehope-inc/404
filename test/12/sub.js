@@ -499,25 +499,23 @@
 		}
 	});
 
-
 	// エクスポート
 	window.sub = {
 		Aircraft: Aircraft,
 		Player: Player,
 		Enemy: Enemy,
 		ZakoEnemy: ZakoEnemy,
-		//ZakoEnemy2: ZakoEnemy2,
+		ZakoEnemy2: ZakoEnemy2,
 		Things: Things,
 		Bullet: Bullet,
 		PlayerBullet: PlayerBullet,
 		EnemyBullet: EnemyBullet,
-		//EnemyBullet2: EnemyBullet2,
+		EnemyBullet2: EnemyBullet2,
 		Item: Item,
 		RecoveryItem: RecoveryItem,
 		SpeedItem: SpeedItem,
 		Explosion: Explosion,
 		Cure: Cure
 	};
-
 
 });

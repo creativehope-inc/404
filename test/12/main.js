@@ -101,7 +101,7 @@
 		 	setting.labelFontSize,
 		 	null,
 		 	function() {
-				pointCounter.text = 'Point: ' + store.gamePoint;
+				pointCounter.text = 'Score: ' + store.gamePoint;
 		 	}
 		);
 
@@ -164,7 +164,8 @@
 						    if (self.x <= -setting.gameWidth) {
 						        self.x = setting.gameWidth -10; // 間が空くのでちょっと詰める
 						    }
-						}
+						},
+						null
 					),
 					new SuperBackground(
 						setting.gameWidth,
@@ -189,11 +190,10 @@
 				],
 				// フレーム処理
 				function() {
-
 					// 敵小用
 					if (store.gameTime < 60) {
 						// 敵を出現させる(zako敵)
-						if (game.frame % 50 == 0) {
+						if (game.frame % 20 == 0) {
 							new ZakoEnemy(
 								setting.gameWidth - Math.floor(Math.random() * (30-20) + 20),
 								Math.floor(Math.random()*(setting.gameHeight-0)+0),
@@ -224,11 +224,11 @@
 					// 敵中用
 					if (store.gameTime > 20 && store.gameTime < 60) {
 						// 敵を出現させる(zako敵)
-						if (game.frame % 50 == 0) {
+						if (game.frame % 30 == 0) {
 							new ZakoEnemy2(
 								setting.gameWidth - Math.floor(Math.random() * (30-20) + 20),
 								Math.floor(Math.random()*(setting.gameHeight-0)+0),
-								game.frame + Math.floor(Math.random()*(10000-0)+0), //UUID
+								game.frame,
 								playGame
 							).saveStore(enemyArr); // 敵の保存処理
 						}
@@ -302,12 +302,6 @@
 			// プレイゲームインスタンスを返す
 			return playGame;
 		};
-
-
-		var gameOver = function() {
-
-		};
-
 	};
 
 	/*
