@@ -7,7 +7,7 @@
 	// ゲームの設定など
 	var game      = window.game.game,
 		setting   = window.game.setting,
-		image     = window.game.image,
+		files     = window.game.files,
 		store     = window.game.store,
 		playerArr = window.game.playerArr,
 		enemyArr  = window.game.enemyArr,

@@ -38,7 +38,7 @@
 	};
 
 	// ゲームの画像用ストア
-	var image = {
+	var files = {
 		background: 'background1.png',
 		test: 'chara1.png',
 		player: 'chara2.png',
@@ -86,7 +86,7 @@
 	game.keybind(32, 'space');
 
 	// プリリロード
-	with　(image) {
+	with　(files) {
 		game.preload(
 			background,
 			test,
@@ -108,7 +108,7 @@
 	window.game = {
 		game: game,
 		setting: setting,
-		image: image,
+		files: files,
 		store: store,
 		playerArr: playerArr,
 		enemyArr: enemyArr,
