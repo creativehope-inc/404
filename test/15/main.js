@@ -1,4 +1,4 @@
- $(document).ready(function(){
+$(document).ready(function(){
 
 	// #################################################
 	//                     インポート
@@ -138,6 +138,12 @@
 			store.playerAgility = setting.playerAgility;
 			store.gamePoint = 0;
 			store.gameTime = 0;
+			store.zakoEnemyCounter = 0;
+			store.zakoEnemy2Counter=  0;
+			store.bossHeadCounter= 0;
+			store.bossHeadRibonCounter= 0;
+			store.bossBodyCounter= 0;
+			store.bossBodyRibonCounter= 0;
 
 			// スクリーンの生成
 			var flag = 1; // ボス出現フラグ
@@ -329,8 +335,8 @@
 							'black',
 							[
 								new SuperLabel(
-								 	300,
-								 	250,
+								 	340,
+								 	150,
 								 	null,
 								 	null,
 								 	'white',
@@ -339,8 +345,8 @@
 								 	null
 								),
 								new SuperLabel(
-								 	300,
-								 	350,
+								 	360,
+								 	240,
 								 	300,
 								 	100,
 								 	'white',
@@ -349,7 +355,27 @@
 								 	null,
 								 	null,
 								 	function(self) {
-								 		self.text = 'あなたのスコアは「　' + store.gamePoint + '　」ポイントです';
+								 		self.text = '---------撃破数--------<br>';
+								 		self.text += '雑魚敵１:                      ' + store.zakoEnemyCounter + '体　<br>';
+								 		self.text += '雑魚敵２:                      ' + store.zakoEnemy2Counter + '体 <br>';
+								 		self.text += '敵ボス頭:                      ' + store.bossHeadCounter + '体　<br>';
+								 		self.text += '敵ボス頭のリボン:          ' + store.bossHeadRibonCounter + '体 <br>';
+								 		self.text += '敵ボス体:                      ' + store.bossBodyCounter + '体　<br>';
+								 		self.text += '敵ボスの体のリボン:       ' + store.bossBodyRibonCounter + '体 <br>';
+								 	}
+								),
+								new SuperLabel(
+								 	350,
+								 	400,
+								 	300,
+								 	100,
+								 	'white',
+								 	'40px cursive',
+								 	'',
+								 	null,
+								 	null,
+								 	function(self) {
+								 		self.text = 'Score: ' + store.gamePoint + ' pt.';
 								 	}
 								)
 							],

@@ -1,4 +1,4 @@
- $(document).ready(function(){
+$(document).ready(function(){
 
 	// #####################################
 	//        　    インポート
@@ -71,9 +71,7 @@
 						}
 					}
 				}
-				// 敵に衝突したときの処理
-				//this._crashEnemy(this, enemyArr, pg);
-				// コントロール
+				// コントロール処理
 				this._controll(pg);
 			});
 			// 最後に機体の追加
@@ -87,88 +85,79 @@
 		_came: function() {
 			// プレイヤーの初期移動処理
 			this.tl.moveBy(setting.gameWidth/2, 1, 30, enchant.Easing.QUAD_EASEINOUT) // (200,0 )に90フレーデ絶対位置でイージングで移動
-					.and()
-					.rotateTo(360 * 10, 30, enchant.Easing.LINEAR)
-					.and()
-					.scaleTo(3, 3, 30) //
-					.and() 
-					.rotateTo(360 * 10, 30, enchant.Easing.LINEAR)
+					.and().rotateTo(360 * 10, 30, enchant.Easing.LINEAR)
+					.and().scaleTo(3, 3, 30)
+					.and().rotateTo(360 * 10, 30, enchant.Easing.LINEAR)
 					.moveTo(0, setting.gameHeight/2, 30)
-					.and()
-					.scaleTo(1, 1, 30); // 絶対位置に移動
+					.and().scaleTo(1, 1, 30); // 絶対位置に移動
 			// メソッドチェーン
 			return this;
 		},
-		// 敵機との直接衝突処理
+		// 敵機との直接衝突処理（敵機は即削除する）
 		_crashEnemy: function(arr, i, self, pg){
-			//for (var i in arr) {
-			//	if (arr[i].intersect(self)) {
-					// 爆発処理
-					new Explosion(
-						this.x,
-						this.y,
-						pg
-					)
-					// 敵機の削除
-					this.pg.removeChild(arr[i]);
-					// 敵機の要素を削除。（そうしなければ、何度も判定するから）
-					delete arr[i];
-					// 敵機の体力の減算
-					store.playerHitpoint--;
-					// 音鳴らす
-					if (store.music) this.enemyCrashed.play();
-					// 完全にHPが0の時の処理
-					if (store.playerHitpoint == 0) {
-						// 自機の削除処理
-						this.pg.removeChild(this);
-						// ゲームオーバー
-						store.currentScene = 'gameover';
-						// 該当要素を削除する
-						for (key in enemyArr) {
-							delete enemyArr[key];
-						}
-						for (key in playerArr) {
-							delete playerArr[key];
-						}
-					}
-			//	}
-			//}
+			// 爆発処理
+			new Explosion(
+				this.x,
+				this.y,
+				pg
+			)
+			// 敵機の削除
+			this.pg.removeChild(arr[i]);
+			// 敵機を破壊するのでポイントを追加する
+			this._addCounter(arr[i]);
+			// 敵機の要素を削除。（そうしなければ、何度も判定するから）
+			delete arr[i];
+			// 自機の体力の減算
+			store.playerHitpoint--;
+			// 自機のポイント火山
+			store.gamePoint += 3;
+			// 音鳴らす
+			if (store.music) this.enemyCrashed.play();
+			// 完全にHPが0の時の処理
+			if (store.playerHitpoint == 0) {
+				// 自機の削除処理
+				this.pg.removeChild(this);
+				// ゲームオーバー
+				store.currentScene = 'gameover';
+				// 該当要素を削除する
+				for (key in enemyArr) {
+					delete enemyArr[key];
+				}
+				for (key in playerArr) {
+					delete playerArr[key];
+				}
+			}
 		},
 		_crashBoss: function(arr, i, pg, self) {
-			//for (var i in arr) {
-			//	if (arr[i].intersect(self)) {
-					// 爆発処理
-					new Explosion(
-						this.x,
-						this.y,
-						pg
-					)
-					// 敵機の削除
-					//this.pg.removeChild(arr[i]);
-					// 敵機の要素を削除。（そうしなければ、何度も判定するから）
-					//delete arr[i];
-					// 敵機の体力の減算
-					store.playerHitpoint--;
-					// 音鳴らす
-					if (store.music) self.bossCrashed.play();
-					// 完全にHPが0の時の処理
-					if (store.playerHitpoint == 0) {
-						// 自機の削除処理
-						this.pg.removeChild(this);
-						// ゲームオーバー
-						store.currentScene = 'gameover';
-						// 該当要素を削除する
-						for (key in enemyArr) {
-							delete enemyArr[key];
-						}
-						for (key in playerArr) {
-							delete playerArr[key];
-						}
-					}
-			//	}
-			//}
+			new Explosion(
+				this.x,
+				this.y,
+				pg
+			)
+			// 敵機の削除
+			//this.pg.removeChild(arr[i]);
+			// 敵機の要素を削除。（そうしなければ、何度も判定するから）
+			//delete arr[i];
+			// 敵機の体力の減算
+			store.playerHitpoint--;
+			// 音鳴らす
+			if (store.music) self.bossCrashed.play();
+			// 完全にHPが0の時の処理
+			if (store.playerHitpoint == 0) {
+				// 自機の削除処理
+				this.pg.removeChild(this);
+				// ゲームオーバー
+				store.currentScene = 'gameover';
+				// 該当要素を削除する
+				for (key in enemyArr) {
+					delete enemyArr[key];
+				}
+				for (key in playerArr) {
+					delete playerArr[key];
+				}
+			}
 		},
-		// 操作
+		// 操作処理
 		_controll: function(pg) {
 			// フレーム処理
 			// 画像の切り替え			  	
@@ -197,6 +186,29 @@
 				new PlayerBullet(this.x, this.y, pg);
 				// 音鳴らす
 				if (store.music) this.fired.play();
+			}
+		},
+		// 要素のカウント時の処理
+		_addCounter: function(element) {
+			switch(element.type) {
+				case setting.enemyTypeOne:
+					store.zakoEnemyCounter++;
+					break;
+				case setting.enemyTypeOne:
+					store.zakoEnemy2Counter++;
+					break;
+				case setting.enemyTypeThreeHead:
+					store.bossHeadCounter++;
+					break;
+				case setting.enemyTypeThreeHeadRibon:
+					store.bossHeadRibonCounter++;
+					break;
+				case setting.enemyTypeThreeBody:
+					store.bossBodyCounter++;
+					break;
+				case setting.enemyTypeThreeBodyRibon:
+					store.bossBodyRibonCounter++;
+					break;
 			}
 		}
 	});
@@ -272,7 +284,6 @@
 		move: function() {
 			// 敵の玉の発射処理
 			this.x -= setting.enemyAgility;
-			//this.y = Math.cos ( this.x * Math.PI / 180 ) * 220 + 300;
 		}
 	});
 
@@ -444,7 +455,6 @@
 			var self = this;
 			// アクション
 			this.action();
-
 			this.addEventListener('enterframe', function() {
 				this.move();
 			});
@@ -535,6 +545,9 @@
 			arr[i].hitpoint--;
 			// もしリボンのHPがゼロなら削除
 			if (arr[i].hitpoint == 0) {
+
+				// ポイントの切り替え
+				this._addCounter(arr[i]);
 				// 速度オプションの変更(上限を超えない範囲で)
 				store.gamePoint += 3;
 				// 敵の画像を削除する
@@ -547,7 +560,7 @@
 		},
 		// ボスに当たった時の処理
 		_hitBoss: function(arr, i, self, pg) {
-			// リボンのはかい型
+			// リボンのはかいフェーズ
 			if (store.flag == false) {
 				if (arr[i].type == setting.enemyTypeThreeHeadRibon) {
 					// 爆発しろ
@@ -562,6 +575,9 @@
 					arr[i].hitpoint--;
 					// もしリボンのHPがゼロなら削除
 					if (arr[i].hitpoint == 0) {
+
+						// ポイントの切り替え
+						self._addCounter(arr[i]);
 						// 速度オプションの変更(上限を超えない範囲で)
 						store.gamePoint += 3;
 						// 敵の画像を削除する
@@ -573,6 +589,7 @@
 						// サウンド再生
 						if (store.music) this.bossCrashed.play();
 					}
+				// 体破壊フェーズ
 				} else {
 					// 別エフェクト
 					new Cure(
@@ -586,9 +603,14 @@
 				arr[i].hitpoint--;
 				// ヒットポイントがゼロなら色を
 				if (arr[i].hitpoint == 0) {
+
+					// ポイントの切り替え
+					self._addCounter(arr[i]);
+					// 要素の削除
 					delete arr[i];
 					// サウンド再生
 					if (store.music) this.bossCrashed.play();
+
 				} else {
 					// 爆発しろ
 					new Explosion(
@@ -605,9 +627,32 @@
 					flag3 = true;
 				}
 				if (!flag3) {
-					console.log('終了！！！！！！！！！！！！！！！！！！！！！！！！！！！');
+					console.log('終了！！！！');
 					store.currentScene = 'gameover';
 				}
+			}
+		},
+		// 要素のカウント時の処理
+		_addCounter: function(element) {
+			switch(element.type) {
+				case setting.enemyTypeOne:
+					store.zakoEnemyCounter += 1;
+					break;
+				case setting.enemyTypeOne:
+					store.zakoEnemy2Counter += 1;
+					break;
+				case setting.enemyTypeThreeHead:
+					store.bossHeadCounter += 1;
+					break;
+				case setting.enemyTypeThreeHeadRibon:
+					store.bossHeadRibonCounter += 1;
+					break;
+				case setting.enemyTypeThreeBody:
+					store.bossBodyCounter += 1;
+					break;
+				case setting.enemyTypeThreeBodyRibon:
+					store.bossBodyRibonCounter += 1;
+					break;
 			}
 		}
 	});

@@ -75,7 +75,13 @@
 		gameTime: '', // ゲームの時間
 		currentScene: '', // ゲームの現在のシーン
 		flag: '', // 最終フラグ
-		music: true
+		music: true,
+		zakoEnemyCounter: 0,
+		zakoEnemy2Counter: 0,
+		bossHeadCounter: 0,
+		bossHeadRibonCounter: 0,
+		bossBodyCounter: 0,
+		bossBodyRibonCounter: 0
 	};
 
 	// ゲームの敵やアイテムのインスタンスの保存庫

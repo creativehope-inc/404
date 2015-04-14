@@ -1,0 +1,139 @@
+github 
+
+
+
+
+
+ Gitというバージョン管理システム（プログラムのソースコードの変更等を監視・記録するもの）と、GitHubというGitを利用したソースコード共有サービスの導入方法・それらを活用した開発の流れについて説明します。 
+1 Git,GitHub周り
+
+1.1 GitHubのアカウントを作成
+https://github.com/ にてユーザー名とメールアドレス、パスワードを入力し「Sign up for free」をクリック。 
+1.2 SSH鍵を登録
+mkdir ~/.ssh
+vi ~/.ssh/config
+#-----以下を記述-----
+Host github.com
+	User git
+	Port 22
+	Hostname github.com
+	IdentityFile ~/.ssh_github/*****.picomon.jp.id_rsa #以下の*****はピコもんのアカウント(メールアドレスの@以前)を記入
+	TCPKeepAlive yes
+	IdentitiesOnly yes
+
+
+#-----ここまで-----
+chmod 600 ~/.ssh/config
+mkdir ~/.ssh_github
+ssh-keygen -t rsa -C "*****@picomon.jp" -f ~/.ssh_github/*****.picomon.jp.id_rsa
+cat ~/.ssh_github/*****.picomon.jp.id_rsa.pub #"ssh-rsa 沢山の文字列 *****@picomon.jp"が出力されるのでコピー
+
+GitHub右上の設定アイコン(Account setings)よりSSH Keys→Add SSH key
+ Title:任意
+Key:先ほどコピーした"ssh-rsa 沢山の文字列 *****@picomon.jp"をペースト
+ でAdd key
+
+2 導入
+
+2.1 環境変数の設定
+vi .bash_progile
+#-----以下を記述-----
+#PATH=PATH$HOME/binの後ろに:/opt/node/binを追加
+export NODE_ENV=development
+export NODE_PORT=30**
+export NODE_PORT_SSL=30**
+export NODE_DOMAIN=battamon.net
+#-----ここまで-----
+source ~/.bash_profile
+
+
+2.2 GitHubからダウンロード
+git clone git@github.com:ymon/picomon
+cd picomon
+node-dev app
+
+
+3 Gitを用いた開発手順
+
+3.1 originからclone
+git clone git@github.com:foo/bar.git bar
+cd bar
+
+
+3.2 dev.branchを作成
+git branch dev
+git checkout dev
+
+
+3.3 改修・コミット・プッシュ
+git commit -a -m 'コメント'
+git checkout master
+git pull
+git checkout dev
+git merge master #コンフリクトが発生していたら修正
+
+git push -f origin dev
+
+(注:ここは利便性を考えて git rebase master dev
+ではなくfetchとmergeを用いたが、2ヶ月後再考する[2013/04/19]) 
+3.4 Github上で差分ソースレビュー
+
+#Github上でPull Requestを行う
+#GitHub→Pull Request
+ #base branch: master←head branch:dev
+ #コメントを入力し送信
+
+#GitHub→Pull Requestsで各リクエストの確認・レビューが行える。
+
+レビューが通らなければ→3.3と3.4を繰り返す
+ レビューが通ったら→3.5へ
+
+
+3.5 origin.branch から origin.master にマージ
+
+#Github上でPull Requestを反映させる
+#GitHub→Pull Requests→Merge pull request 
+
+3.6 originの変更を取り込む(Pull Requestからのマージ後などに)
+git checkout master
+git fetch
+git merge origin/master
+
+
+3.7 dev.branchの削除 !注意!
+git branch -d dev #ローカルから削除
+git push origin :dev #リモートから削除
+
+git branch | grep \ \  | xargs git branch -d #master以外を一気に削除
+
+終わったら3.2へ #以下TIPS的なもの 
+
+3.x コミットを取り消す(もとに戻す)
+git log #commit 長い文字列が出力されるので長い文字列をコピー
+git revert コミットID(上でコピーした文字列)
+
+
+3.x Pull Requestからマージしたコミットを取り消す
+git log #commit 長い文字列が出力されるので長い文字列をコピー
+git revert -m 1 コミットID(上でコピーした文字列)
+
+
+3.x マージをしたけどそれを取り消す
+git reset --hard ORIG_HEAD
+
+
+3.x コミットをまとめる
+git rebase -i HEAD~3
+#以下エディタで開くのでこのように修正する
+pick j46freq1 add some feature
+pick g522gdf typo
+pick f4a70bd fixed some bugs
+
+
+↓
+pick j46freq1 (ここにコミットメッセージ)
+squash g522gdf typo
+squash f4a70bd fixed some bugs
+
+
+ 
