@@ -63,6 +63,9 @@ $(document).ready(function(){
 		soundButton: 'sound.png',
 		bossEnter: '../sound/mp3/404game_boss_enter.mp3',
 		bossCrashed: '../sound/mp3/404game_boss_crash.mp3',
+		twitter: 'Twitter.png',
+		facebook: 'Facebook.png',
+		ranking: 'Ranking.png',
 	};
 
 	//　各種ポイントの保存庫
@@ -75,7 +78,7 @@ $(document).ready(function(){
 		gameTime: '', // ゲームの時間
 		currentScene: '', // ゲームの現在のシーン
 		MajiFlag: false, // 最終フラグ(ボスのリボン)
-		music: true,
+		music: false, // ミュージックフラグ
 		zakoEnemyCounter: 0,
 		zakoEnemy2Counter: 0,
 		bossHeadCounter: 0,
@@ -128,7 +131,10 @@ $(document).ready(function(){
 			startButton,
 			soundButton,
 			bossEnter,
-			bossCrashed
+			bossCrashed,
+			twitter,
+			facebook,
+			ranking
 		);
 	}
 

@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <title>得点一覧</title>
+    <script src="../base64/base64.min.js"></script>
+    <script src="../jquery/jquery-1.11.2.js"></script>
+
+    <script>
+
+        window._picomon_savedScore = function ( data ) {
+            console.log(data);
+        };
+        var js = document.createElement( 'script' );
+        js.src = 'https://www.picomon.jp/game/get_solt.js';
+        var fjs = document.getElementsByTagName( 'script' )[ 0 ];
+        fjs.parentNode.insertBefore( js, fjs );
+
+        js.onload = function() {
+            __404_picomon_solt__();
+
+                                           var results;
+                                            window.callbacker  = function(data) {results = data;}
+                                            var solt = ( typeof window.__404_picomon_solt__ === 'function' ) ? __404_picomon_solt__() : '';
+                                            var js2 = document.createElement( 'script' );
+                                            js2.src = 'https://www.picomon.jp/game/set_score?data=' + Base64.encodeURI( solt + Base64.encodeURI( JSON.stringify( {
+                                                callback: 'callbacker',
+                                                type:      'shooting_code_404',
+                                                score:    1, // <--- 0ポイントだとエラーなのでバリでする
+                                                nickname: encodeURIComponent( 'test' )
+                                            } ) ) );
+                                            var fjs2 = document.getElementsByTagName( 'script' )[ 0 ];
+                                            fjs2.parentNode.insertBefore( js2, fjs2 );
+
+                                            // 送信確認処理
+                                            var self = this;
+                                            js2.onload = function () {
+                                                fjs2.parentNode.removeChild( js2 );
+                                                console.log(results);
+                                                displayTable(results);
+                                            };
+
+
+        // テーブルを表示するよ
+        function displayTable(results) {
+            var arr = results.ranking;
+            var text = "<table border='1'>";
+            for (key in arr) {
+                console.log(arr[key]);
+                var gai = JSON.parse(arr[key]);
+                var score = gai.score;
+                var num = Number(key);
+                var nickname = gai.nickname;
+                text += '<tr>';
+                text += '<td>' + (num+1) +'位</td>';
+                text += '<td>' + score +'点</td>';
+                text += '<td>' + nickname +'さん</td>';
+                text += '<tr>';
+
+            }
+            text += '</table>';
+            $('#main').html(text);
+        }
+
+        };
+    </script>
+
+</head>
+<body>
+<style>
+	body {
+		margin: 0px;
+	}
+</style>
+   <div id='main'>404ゲームの得点です</div>
+   <p>
+   <div id='main'></div>
+
+   </p>
+
+</body>
+</html>

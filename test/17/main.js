@@ -55,7 +55,7 @@ $(document).ready(function(){
 		// 音楽データの保存
 		var sound = game.assets[files.mainSound].clone();
 		sound.src.loop = true;
-		sound.play();
+		if (store.music) sound.play();
 		sound.preMusic = store.music; // 過去のデータを保存する
 
 		// ########################################################
@@ -137,7 +137,7 @@ $(document).ready(function(){
 			store.playerAgility = setting.playerAgility;
 			store.gamePoint = 0;
 			store.gameTime = 0;
-			store.flag = false;
+			store.MajiFlag = false;
 			store.zakoEnemyCounter = 0;
 			store.zakoEnemy2Counter=  0;
 			store.bossHeadCounter= 0;
@@ -145,8 +145,21 @@ $(document).ready(function(){
 			store.bossBodyCounter= 0;
 			store.bossBodyRibonCounter= 0;
 
+			// input　
+  	    	var textBox = new enchant.Entity();
+  	    	textBox.x = 470;
+  	    	textBox.y = 345;
+      		textBox.width = 120; // DOMレンダラが _element.style.width に設定する
+ 	    	textBox.height = 30; 
+		     textBox._element = document.createElement('input'); // input要素を割り当て
+	    	textBox._element.type = 'text'; // <input type="text"></input>
+			textBox._element.name = 'text'; // <input type="text" name="text"></input>
+			textBox._element.id = 'textBox';
+
 			// スクリーンの生成
 			var flag = 1; // ボス出現フラグ
+	 		var submitFlag = false; // 送信フラグ
+
 			var playGame = new SuperScene(
 				setting.gameWidth,
 				setting.gameHeight,
@@ -237,7 +250,7 @@ $(document).ready(function(){
 				// フレーム処理
 				function() {
 					// 敵小用
-					if (store.gameTime < 10) {
+					if (store.gameTime > 1 && store.gameTime < 30) {
 						// 敵を出現させる(zako敵)
 						if (game.frame % 15 == 0) {
 							new ZakoEnemy(
@@ -268,7 +281,7 @@ $(document).ready(function(){
 					}
 
 					// 敵中用
-					if (store.gameTime > 5 && store.gameTime < 10) {
+					if (store.gameTime > 5 && store.gameTime < 30) {
 						// 敵を出現させる(zako敵)
 						if (game.frame % 25 == 0) {
 							new ZakoEnemy2(
@@ -281,7 +294,7 @@ $(document).ready(function(){
 					}
 					
 					// 敵ボス表示
-					if (store.gameTime >= 10 && store.gameTime < 120 && flag == 1) {
+					if (store.gameTime >= 30 && store.gameTime < 120 && flag == 1) {
 						// ボスの体
 						new BossEnemyBody(
 							500,
@@ -326,7 +339,9 @@ $(document).ready(function(){
 						store.bossHeadRibonCounter == 1 &&
 						store.bossBodyCounter == 1 &&
 						store.bossBodyRibonCounter == 1) {
+
 						store.currentScene = 'gameclear';
+
 					}
 
 					// ゲームオーバー処理
@@ -354,7 +369,7 @@ $(document).ready(function(){
 								 	null
 								),
 								new SuperLabel(
-								 	360,
+								 	160,
 								 	240,
 								 	300,
 								 	100,
@@ -374,8 +389,8 @@ $(document).ready(function(){
 								 	}
 								),
 								new SuperLabel(
-								 	350,
-								 	400,
+								 	150,
+								 	430,
 								 	300,
 								 	100,
 								 	(store.currentScene == 'gameover') ? 'white' : 'black',
@@ -386,15 +401,155 @@ $(document).ready(function(){
 								 	function() {
 								 		this.text = 'Score: ' + store.gamePoint + ' pt.';
 								 	}
+								),
+								new SuperLabel(
+								 	460,
+								 	240,
+								 	300,
+								 	100,
+								 	(store.currentScene == 'gameover') ? 'white' : 'black',
+								 	'20px cursive',
+								 	'',
+								 	null,
+								 	null,
+								 	function() {
+								 		this.text = '----------シェア----------<br>';
+								 	}
+								),
+								new SuperLabel(
+								 	460,
+								 	265,
+								 	300,
+								 	100,
+								 	(store.currentScene == 'gameover') ? 'white' : 'black',
+								 	'20px cursive',
+								 	'',
+								 	null,
+								 	null,
+								 	function() {
+								 		this.text = '名前を入力してランキングに登録することができます。';
+								 	}
+								),
+								textBox,
+								new SuperLabel(
+								 	610,
+								 	348,
+								 	300,
+								 	100,
+								 	(store.currentScene == 'gameover') ? 'white' : 'black',
+								 	'20px cursive',
+								 	'[送信する]',
+								 	null,
+								 	function() {
+								 		if (!submitFlag) {
+									 		// 送信処理
+									 		var userName = $('#textBox').val();
+									 		this.text = '送信中です';
+									 		if (!userName) return this.text = '名前を入力してください';
+
+									 		// 返信確認
+									 		var results;
+									 		window.callbacker  = function(data) {results = data;}
+								            var solt = ( typeof window.__404_picomon_solt__ === 'function' ) ? __404_picomon_solt__() : '';
+								            var js2 = document.createElement( 'script' );
+								            js2.src = 'https://www.picomon.jp/game/set_score?data=' + Base64.encodeURI( solt + Base64.encodeURI( JSON.stringify( {
+								                callback: 'callbacker',
+								                type:      'shooting_code_404',
+								                score:    (store.gamePoint == 0) ? 1 : store.gamePoint, // <--- 0ポイントだとエラーなのでバリでする
+								                nickname: encodeURIComponent( userName )
+								            } ) ) );
+								            var fjs2 = document.getElementsByTagName( 'script' )[ 0 ];
+								            fjs2.parentNode.insertBefore( js2, fjs2 );
+
+								            // 送信確認処理
+								            var self = this;
+								            js2.onload = function () {
+								                fjs2.parentNode.removeChild( js2 );
+								                console.log(results);
+								                if (results.error == 0) {
+								                	self.text = '送信が完了しました<br>因みに' + results.rank + '位です。';	
+								             	} else {
+								             		self.text = '送信に失敗しました<br>' + 'Error Code:' + results.err_msg;
+									            }
+								                submitFlag = true;
+								            };
+								        } else {
+									 		this.text = '多重送信は禁止です';
+								        }
+								 	}
+								),
+								new SuperLabel(
+								 	360,
+								 	520,
+								 	300,
+								 	100,
+								 	(store.currentScene == 'gameover') ? 'white' : 'black',
+								 	'40px cursive',
+								 	'Continue?',
+								 	null,
+								 	function() {
+										game.popScene(playGame);
+										game.popScene(gameOver);
+										store.currentScene = '';
+										if (store.music) sound.play();
+								 	}
+								),
+								new SuperImage(
+									32,
+									32,
+									470,
+									410,
+									null,
+									files.twitter,
+									function() {　// タッチ処理
+										// ツイッターのウィンドウを表示
+										window.open('https://twitter.com/intent/tweet?text=' +
+											encodeURIComponent('ぼくの得点は、') + store.gamePoint + encodeURIComponent('点でした。')+ 
+											'&url=' + '&original_referer=' +  
+											'&hashtags=' + encodeURIComponent('404ゲーム') + '&related=code1616',
+											'twitter-share-dialog',
+											'width=626,height=436');
+									},
+									null,
+									null
+								),
+								new SuperImage(
+									32,
+									32,
+									530,
+									410,
+									null,
+									files.facebook,
+									function() {　// タッチ処理
+										// フェイスブックのウィンドウを表示
+								      window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+								      'facebook-share-dialog',
+								      'width=626,height=436');
+									},
+									null,
+									null
+								),
+								new SuperImage(
+									32,
+									32,
+									590,
+									410,
+									null,
+									files.ranking,
+									function() {　// タッチ処理
+										// ランキングのウィンドウを表示
+									 	// 送信処理
+								      window.open('http://battamon.net:8080/kaneko_game/404/test/17/popup.html',
+								      'facebook-share-dialog',
+								      'width=313,height=230');
+									},
+									null,
+									null
 								)
 							],
 							null,
-							function() { // タッチ処理
-								game.popScene(playGame);
-								game.popScene(gameOver);
-								store.currentScene = '';
-								if (store.music) sound.play();
-							}
+							null,
+							null
 						);
 						// ゲームオーバー
 						game.pushScene(gameOver);

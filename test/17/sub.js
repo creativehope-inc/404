@@ -2,14 +2,14 @@ $(document).ready(function(){
 
 	// #####################################
 	//        　    インポート
-	// #####################################
-	var game = window.game.game,
-		setting = window.game.setting,
-		files = window.game.files,
-		store = window.game.store,
-		playerArr = window.game.playerArr,
-		enemyArr = window.game.enemyArr,
-		itemArr = window.game.itemArr;
+		// #####################################
+		var game = window.game.game,
+			setting = window.game.setting,
+			files = window.game.files,
+			store = window.game.store,
+			playerArr = window.game.playerArr,
+			enemyArr = window.game.enemyArr,
+			itemArr = window.game.itemArr;
 
 	// スーパーの設定
 	var SuperLabel = window.super.SuperLabel,
@@ -71,7 +71,7 @@ $(document).ready(function(){
 					}
 				}
 				// ゲームオーバー確認処理
-				this._checkHP();
+				this._checkHP(pg);
 				// コントロール処理
 				this._controll(pg);
 			});
@@ -154,12 +154,24 @@ $(document).ready(function(){
 			}
 		},
 		// プレイヤーのHPの確認処理(０以下だとゲームオーバー)
-		_checkHP: function() {
+		_checkHP: function(pg) {
 			if (store.playerHitpoint <= 0) {
 				// 自機の削除処理
 				this.removeInstance(this);
-				// ゲームオーバー
-				store.currentScene = 'gameover';
+				// ゲームオーバー大爆発処理
+				for (i=-10;i<10;i++) {
+					for (j=-10;j<10;j++) {
+						new Explosion(
+							this.x + j *5,
+							this.y + i *5,
+							pg
+						)
+					}
+				}
+				// ゲームオーバーにする
+				setTimeout(function() {
+					store.currentScene = 'gameover';
+				}, 2000);
 			}			
 		}
 	});
@@ -906,7 +918,7 @@ $(document).ready(function(){
 	//    爆発演出クラス
 	// ###########################
 	var Explosion = Class.create(SuperSprite, {
-		// コンストラクタ
+		// コンストラクタ2
 		initialize: function(x, y, pg){
 			SuperSprite.call(this, 16, 16, pg);
 			this.setPosition(x, y); // ポジションを変える
@@ -920,6 +932,7 @@ $(document).ready(function(){
 					self.removeInstance(self);
 				}
 			});
+
 			return this;
 		}
 	});

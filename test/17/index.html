@@ -4,6 +4,24 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <title>アイテムと爆発のクラスを作成する</title>
+    <script src="../base64/base64.min.js"></script>
+
+    <script>
+    
+        window._picomon_savedScore = function ( data ) {
+            console.log(data);
+        };
+        var js = document.createElement( 'script' );
+        js.src = 'https://www.picomon.jp/game/get_solt.js';
+        var fjs = document.getElementsByTagName( 'script' )[ 0 ];
+        fjs.parentNode.insertBefore( js, fjs );
+
+        js.onload = function() {
+            __404_picomon_solt__();
+        };
+
+    </script>
+
     <script src="../jquery/jquery-1.11.2.js"></script>
     <script src="../underscore/underscore-min.js"></script>
     <script src="../enchant/build/enchant.js"></script>
@@ -11,6 +29,49 @@
     <script src="./super.js"></script>
     <script src="./sub.js"></script>
     <script src="./main.js"></script>
+
+<script type="text/javascript">
+    
+
+(function($) {
+  $.ipop = function() {
+    var wx, wy;    // 繧ｦ繧､繝ｳ繝峨え縺ｮ蟾ｦ荳雁ｺｧ讓
+
+    // 繧ｦ繧､繝ｳ繝峨え縺ｮ蠎ｧ讓吶ｒ逕ｻ髱｢荳ｭ螟ｮ縺ｫ縺吶ｋ縲
+    wx = $(document).scrollLeft() + ($(window).width() - $('#ipop').outerWidth()) / 2;
+    if (wx < 0) wx = 0;
+    wy = $(document).scrollTop() + ($(window).height() - $('#ipop').outerHeight()) / 2;
+    if (wy < 0) wy = 0;
+
+    // 繝昴ャ繝励い繝��繧ｦ繧､繝ｳ繝峨え繧定｡ｨ遉ｺ縺吶ｋ縲
+    $('#ipop').css({top: wy, left: wx}).fadeIn(100);
+
+    // 髢峨§繧九�繧ｿ繝ｳ繧呈款縺励◆縺ｨ縺
+    $('#ipop_close').click(function() {$('#ipop').fadeOut(100);});
+
+    // 繧ｿ繧､繝医Ν繝舌�繧偵ラ繝ｩ繝�げ縺励◆縺ｨ縺
+    $('#ipop_title').mousedown(function(e) {
+      var mx = e.pageX;
+      var my = e.pageY;
+      $(document).on('mousemove.ipop', function(e) {
+        wx += e.pageX - mx;
+        wy += e.pageY - my;
+        $('#ipop').css({top: wy, left: wx});
+        mx = e.pageX;
+        my = e.pageY;
+        return false;
+      }).one('mouseup', function(e) {
+        $(document).off('mousemove.ipop');
+      });
+      return false;
+    });
+  }
+})(jQuery);
+
+
+    
+</script>
+
 </head>
 <body>
 <style>
