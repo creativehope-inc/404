@@ -1,3 +1,0 @@
-URL: battamon.net:8080/kaneko_game/404
-ID:picomon
-PW:YqTM3fd6
