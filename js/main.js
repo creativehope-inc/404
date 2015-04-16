@@ -19,7 +19,8 @@ $(document).ready(function(){
 	              	SuperBackground	= window.super.SuperBackground,
 	              	SuperScene     	= window.super.SuperScene,
 	              	SuperImage     	= window.super.SuperImage,
-	              	SuperEntity    	= window.super.SuperEntity;
+	              	SuperEntity    	= window.super.SuperEntity,
+	              	SuperRootScene 	= window.super.SuperRootScene;
 
 	// サブクラスの設定
 	var Aircraft	= window.sub.Aircraft,
@@ -49,47 +50,26 @@ $(document).ready(function(){
 
 		// 音楽データの保存
 		var sound = game.assets[ files.mainSound ].clone();
-		
 		// Note: 全てのIEでエラーが出るので原因はわからないが終了する
 		//sound.src.loop = true;
-		
 		if ( store.music ) sound.play();
 		sound.preMusic = store.music; // 過去のデータを保存する
-		
 
 		// ########################################################
 		//                シーンの設定
 		// ########################################################
 		// ゲームに関する
-		// 全ての管理処理をルートsceneで行う(シーンに依存しない)	
-		game.rootScene.addEventListener( 'enterframe' , function() {
-
-			// 音楽の切り替え処理
-			if ( sound.preMusic != store.music ) {
-				( store.music ) ? sound.play() : sound.pause();
-				sound.preMusic = store.music;
-			}
-
-			// カレントシーンの判断
-			if ( store.currentScene == 'gamestart' ) {
-				// 開始
-				game.pushScene( playGameFn() );
-			}
-		});
-
-		// 背景画像
-		game.rootScene.addChild(
+		// 全ての管理処理をルートsceneで行う(シーンに依存しない)
+		new SuperRootScene(
+			game,
+			[ // 以下addchild要素
 			new SuperBackground(
 				setting.gameWidth,
 				setting.gameHeight,
 				files.title,
 				null,
 				null
-			)
-		);
-
-		// ゲームスタートボタン
-		game.rootScene.addChild (
+			),
 			new SuperImage(
 				291,
 				55,
@@ -103,11 +83,7 @@ $(document).ready(function(){
 				},
 				null,
 				null
-			)
-		);
-
-		// 音楽ボタン
-		game.rootScene.addChild (
+			),
 			new SuperImage(
 				87,
 				32/2,
@@ -124,12 +100,27 @@ $(document).ready(function(){
 				},
 				null
 			)
+			],
+			// エンターフレーム処理
+			function() {
+				// 音楽の切り替え処理
+				if ( sound.preMusic != store.music ) {
+					( store.music ) ? sound.play() : sound.pause();
+					sound.preMusic = store.music;
+				}
+				// カレントシーンの判断
+				if ( store.currentScene == 'gamestart' ) {
+					// 開始
+					game.pushScene( playGameFn() );
+				}
+			}
 		);
 
 		// ########################################################
 		//            プレイゲーム
 		// ########################################################
 		var playGameFn = function() {
+
 			// 初期化処理
 			store.startTime           	= ( game.frame / game.fps ).toFixed ( 2 ) ;
 			store.playerHitpoint      	= setting.playerHitpoint;
@@ -144,19 +135,8 @@ $(document).ready(function(){
 			store.bossBodyCounter     	= 0;
 			store.bossBodyRibonCounter	= 0;
 
-			// input
-			var textBox          	= new enchant.Entity();
-			textBox.x            	= 470;
-			textBox.y            	= 345;
-			textBox.width        	= 120; // DOMレンダラが _element.style.width に設定する
-			textBox.height       	= 30; 
-			textBox._element     	= document.createElement( 'input' ); // input要素を割り当て
-			textBox._element.type	= 'text'; // <input type="text"></input>
-			textBox._element.name	= 'text'; // <input type="text" name="text"></input>
-			textBox._element.id  	= 'textBox';
-
-			// スクリーンの生成
-			var flag = 1; // ボス出現フラグ
+			// フラグ
+			var bossFlag = 1;s // ボス出現フラグ
 			var submitFlag = false; // 送信フラグ
 
 			var playGame = new SuperScene(
@@ -293,7 +273,7 @@ $(document).ready(function(){
 					}
 					
 					// 敵ボス表示
-					if ( store.gameTime >= 30 && store.gameTime < 120 && flag == 1 ) {
+					if ( store.gameTime >= 30 && store.gameTime < 120 && bossFlag == 1 ) {
 						// ボスの体
 						new BossEnemyBody(
 							500,
@@ -322,7 +302,7 @@ $(document).ready(function(){
 							game.frame + Math.floor( Math.random() * ( 10000 - 0 ) + 0 ),
 							playGame
 						).saveStore( enemyArr ); // 敵の保存処理
-						flag = 0;
+						bossFlag = 0;
 					}
 
 					// 時間アウト
@@ -586,8 +566,6 @@ $(document).ready(function(){
 		};
 
 	};
-
-
 
 	// ####################
 	//   ゲームの開始

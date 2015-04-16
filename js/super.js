@@ -68,8 +68,6 @@
 		// ###############
 		// キャラクターポジション
 		setPosition : function( x, y ) {
-			//var args = Array.call(arguments);
-			//if (args.length === 0) ?  : !!();
 			this.x = x;
 			this.y = y;
 			return this;
@@ -77,7 +75,6 @@
 		// フレーム(アニメ)のセット
 		setFrame: function( arr ) {
 			//var args = Array.slice.apply(arguments);
-			//if (args.length <= 0) ?
 			this.frame = arr;
 			return this;
 		},
@@ -229,17 +226,23 @@
 		}
 	});
 
-/*
-			var textBox          	= new enchant.Entity();
-			textBox.x            	= 470;
-			textBox.y            	= 345;
-			textBox.width        	= 120; // DOMレンダラが _element.style.width に設定する
-			textBox.height       	= 30; 
-			textBox._element     	= document.createElement( 'input' ); // input要素を割り当て
-			textBox._element.type	= 'text'; // <input type="text"></input>
-			textBox._element.name	= 'text'; // <input type="text" name="text"></input>
-			textBox._element.id  	= 'textBox';
-*/
+
+	// ###########################
+	//    スーパールートsceneクラス
+	// ###########################
+	var SuperRootScene = function(game ,arr, efFn) {
+		var rs = game.rootScene;
+		// ちゃいるどの追加
+		for (key in arr) {
+			rs.addChild(arr[key]);
+		}
+		// イベント発火
+		rs.addEventListener('enterframe', function() {
+			if (efFn) efFn();
+		});
+		return rs;
+	}
+
 	// エクスポート
 	window.super = {
 		SuperLabel     	: SuperLabel,
@@ -247,6 +250,7 @@
 		SuperBackground	: SuperBackground,
 		SuperScene     	: SuperScene,
 		SuperImage     	: SuperImage,
-		SuperEntity    	: SuperEntity
+		SuperEntity    	: SuperEntity,
+		SuperRootScene 	: SuperRootScene
 	};
 });
