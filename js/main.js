@@ -1,47 +1,50 @@
-$(document).ready(function(){
-
+$( function(){
+	
+	var gamer		= define();
+	var superClass  = base( gamer );
+	var klass       = sub( gamer, superClass );
 	// #################################################
 	//                     インポート
 	// #################################################
 
 	// ゲームの設定など
-	var game      = window.game.game,
-		setting   = window.game.setting,
-		files     = window.game.files,
-		store     = window.game.store,
-		playerArr = window.game.playerArr,
-		enemyArr  = window.game.enemyArr,
-		itemArr   = window.game.itemArr;
+	var game      = gamer.game,
+		setting   = gamer.setting,
+		files     = gamer.files,
+		store     = gamer.store,
+		playerArr = gamer.playerArr,
+		enemyArr  = gamer.enemyArr,
+		itemArr   = gamer.itemArr;
 
 	// スーパーの設定
-	var SuperLabel		= window.super.SuperLabel,
-	    SuperSprite 	= window.super.SuperSprite,
-		SuperBackground	= window.super.SuperBackground,
-		SuperScene     	= window.super.SuperScene,
-		SuperImage     	= window.super.SuperImage,
-		SuperEntity    	= window.super.SuperEntity,
-		SuperRootScene 	= window.super.SuperRootScene;
+	var SuperLabel 		= superClass.SuperLabel,
+	    SuperSprite		= superClass.SuperSprite,
+		SuperBackground	= superClass.SuperBackground,
+		SuperScene    	= superClass.SuperScene,
+		SuperImage    	= superClass.SuperImage,
+		SuperEntity   	= superClass.SuperEntity,
+		SuperRootScene	= superClass.SuperRootScene;
 
 	// サブクラスの設定
-	var Aircraft			= window.sub.Aircraft,
-	    Player              = window.sub.Player,
-		Enemy	            = window.sub.Enemy,
-		ZakoEnemy           = window.sub.ZakoEnemy,
-		ZakoEnemy2          = window.sub.ZakoEnemy2,
-		BossEnemyHead       = window.sub.BossEnemyHead,
-		BossEnemyBody       = window.sub.BossEnemyBody,
-		BossEnemyHeadRibbon = window.sub.BossEnemyHeadRibbon,
-		BossEnemyBodyRibbon = window.sub.BossEnemyBodyRibbon,
-		Things      		= window.sub.Things,
-		Bullet      		= window.sub.Bullet,
-		PlayerBullet		= window.sub.PlayerBullet,
-		EnemyBullet 		= window.sub.EnemyBullet,
-		EnemyBullet2		= window.sub.EnemyBullet2,
-		Item        		= window.sub.Item,
-		RecoveryItem		= window.sub.RecoveryItem,
-		SpeedItem   		= window.sub.SpeedItem,
-		Explosion   		= window.sub.Explosion,
-		Cure        		= window.sub.Cure;
+	var Aircraft			= klass.Aircraft,
+		Player              = klass.Player,
+		Enemy	            = klass.Enemy,
+		ZakoEnemy           = klass.ZakoEnemy,
+		ZakoEnemy2          = klass.ZakoEnemy2,
+		BossEnemyHead       = klass.BossEnemyHead,
+		BossEnemyBody       = klass.BossEnemyBody,
+		BossEnemyHeadRibbon = klass.BossEnemyHeadRibbon,
+		BossEnemyBodyRibbon = klass.BossEnemyBodyRibbon,
+		Things      		= klass.Things,
+		Bullet      		= klass.Bullet,
+		PlayerBullet		= klass.PlayerBullet,
+		EnemyBullet 		= klass.EnemyBullet,
+		EnemyBullet2		= klass.EnemyBullet2,
+		Item        		= klass.Item,
+		RecoveryItem		= klass.RecoveryItem,
+		SpeedItem   		= klass.SpeedItem,
+		Explosion   		= klass.Explosion,
+		Cure        		= klass.Cure;
 
 	// ####################
 	//   メイン関数
@@ -128,7 +131,7 @@ $(document).ready(function(){
 			store.gamePoint           	= 0;
 			store.gameTime            	= 0;
 			store.MajiFlag            	= false;
-			store.zakoEnemy2Counter   	= 0;
+			store.zakoEnemyCounter    	= 0;
 			store.zakoEnemy2Counter   	= 0;
 			store.bossHeadCounter     	= 0;
 			store.bossHeadRibonCounter	= 0;
@@ -574,4 +577,4 @@ $(document).ready(function(){
 	game.start();
 
 
-});
+} );
