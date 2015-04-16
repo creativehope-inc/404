@@ -226,26 +226,31 @@ var sub = ( function(){
 				switch( element.type ) {
 					case setting.enemyTypeOne:
 						store.zakoEnemyCounter++;
+						store.gamePoint += setting.enemyTypeOne;
 						break;
 					case setting.enemyTypeTwo:
 						store.zakoEnemy2Counter++;
+						store.gamePoint += setting.enemyTypeTwo;
 						break;
 					case setting.enemyTypeThreeHead:
 						store.bossHeadCounter++;
+						store.gamePoint += setting.enemyTypeThreeHead;
 						break;
 					case setting.enemyTypeThreeHeadRibon:
 						store.bossHeadRibonCounter++;
+						store.gamePoint += setting.enemyTypeThreeHeadRibon;
 						break;
 					case setting.enemyTypeThreeBody:
 						store.bossBodyCounter++;
+						store.gamePoint += setting.enemyTypeThreeBody;
 						break;
 					case setting.enemyTypeThreeBodyRibon:
 						store.bossBodyRibonCounter++;
+						store.gamePoint += setting.enemyTypeThreeBodyRibon;
 						break;
 				}
 			},
 		} );
-
 		// #################################################################################
 		//    雑魚ベースクラス
 		// #################################################################################
@@ -254,26 +259,16 @@ var sub = ( function(){
 				Enemy.call( this, 32, 32, x, y, uuid, pg, setting.enemyTypeOne );
 			},
 			// 敵の体力を確認(もし体力が0以下なら、このインスタンスを削除する)
-			_checkHP: function() {
+			_checkHP: function(self) {
 				if ( this.hitpoint <= 0 ) {
 					// 画面から敵要素を削除（見栄え的問題）
 					!!( this.removeInstance( this ) );
 					// 敵リストから敵要素を削除。（そうしなければ、何度も判定するから）
 					!!( delete enemyArr[ this.uuid ]);
-					// ゲームポイントの火山
-					store.gamePoint += 3;
-					// カウント増加
-					/*
-					if ( this.type == 1 ) {
-						store.zakoEnemyCounter++
-					} else {
-						store.zakoEnemy2Counter++
-					}
-					*/
 					// 音を鳴らす
 					if ( store.music ) this.enemyCrashed.play();
 					// 得点を挙げる
-					this.addCounter( this );
+					this.addCounter( self );
 					// インスタンスの削除
 					delete this;
 				}
@@ -296,7 +291,7 @@ var sub = ( function(){
 					// 敵の動きの処理
 					self._move();
 					// 体力チェック
-					self._checkHP();
+					self._checkHP(self);
 					// 敵の玉の発射処理
 					if ( game.frame  % 50 == 0 ) {
 						new EnemyBullet( this.x - this.width, this.y, pg );
@@ -329,7 +324,7 @@ var sub = ( function(){
 					// 敵の動きの処理
 					self._move();
 					// 体力チェック
-					self._checkHP();
+					self._checkHP(self);
 					// 敵の玉の発射処理
 					if ( game.frame  % 50 == 0 ) {
 						new EnemyBullet2(
@@ -448,8 +443,8 @@ var sub = ( function(){
 					this.move();
 					// 体力確認
 					if ( !flag ) flag = self.checkHP( self, function() {
-						store.gamePoint += 3000;
-						store.bossHeadCounter++;
+						// 得点とカウンターを火山
+						self.addCounter(self);
 					} );
 				} );
 			}
@@ -476,8 +471,8 @@ var sub = ( function(){
 					this.move();
 					// 体力チェック処理
 					if ( !flag ) flag = self.checkHP( self, function() {
-						store.gamePoint += 3000;
-						store.bossBodyCounter++;
+						// 得点とカウンターを火山
+						self.addCounter(self);
 					} );
 				} );
 			}
@@ -504,13 +499,13 @@ var sub = ( function(){
 					self.move();
 					// 体力確認
 					if ( !flag ) flag = self.checkHP( self, function() {
-					    	store.gamePoint += 3000;
-					    	store.bossHeadRibonCounter++;
-					    	// フラグを本気モードに
-					    	store.MajiFlag = true;
-					    	// インスタンスの削除
-					    	!!( self.removeInstance( self ) );
-					} );			
+						// 得点とカウンターを火山
+						self.addCounter(self);
+						// フラグを本気モードに
+						store.MajiFlag = true;
+						// インスタンスの削除
+						!!( self.removeInstance( self ) );
+					} );
 				} );
 			}
 		} );
@@ -534,8 +529,8 @@ var sub = ( function(){
 					this.move();
 					// 体力確認
 					if ( !flag ) flag = self.checkHP( self, function() {
-						store.gamePoint += 3000;
-						store.bossBodyRibonCounter++;
+						// 得点とカウンターを火山
+						self.addCounter(self);
 					} );
 				} );
 			}
@@ -654,29 +649,6 @@ var sub = ( function(){
 					arr[ i ].hitpoint--;
 					// サウンド再生
 					if ( store.music ) this.bulletSound.play();
-				}
-			},
-			// 要素のカウント時の処理
-			_addCounter: function( element ) {
-				switch( element.type ) {
-					case setting.enemyTypeOne:
-						store.zakoEnemyCounter++;
-						break;
-					case setting.enemyTypeTwo:
-						store.zakoEnemy2Counter++;
-						break;
-					case setting.enemyTypeThreeHead:
-						store.bossHeadCounter++;
-						break;
-					case setting.enemyTypeThreeHeadRibon:
-						store.bossHeadRibonCounter++;
-						break;
-					case setting.enemyTypeThreeBody:
-						store.bossBodyCounter++;
-						break;
-					case setting.enemyTypeThreeBodyRibon:
-						store.bossBodyRibonCounter++;
-						break;
 				}
 			}
 		} );

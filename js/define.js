@@ -30,12 +30,12 @@ var define = ( function(){
 			labelFontSize                   	: '20px cursive new, arial, sans-serif',
 			playerWidth                     	: 32, // プレイヤーの幅
 			playerHeight                    	: 32, // プレイヤーの高さ
-			enemyTypeOne                    	: 1, // 敵のタイプ
+			enemyTypeOne                    	: 1, // 敵のタイプにして、これをその敵を倒した時のポイントとする。
 			enemyTypeTwo                    	: 2,
-			enemyTypeThreeHead              	: 3,
-			enemyTypeThreeHeadRibon         	: 4,
-			enemyTypeThreeBody              	: 5,
-			enemyTypeThreeBodyRibon         	: 6,
+			enemyTypeThreeHead              	: 30,
+			enemyTypeThreeHeadRibon         	: 40,
+			enemyTypeThreeBody              	: 50,
+			enemyTypeThreeBodyRibon         	: 60,
 			enemyTypeOneHitpoint            	: 3, // 以下がHitpoint
 			enemyTypeTwoHitpoint            	: 5,
 			enemyTypeThreeHeadHitpoint      	: 100,
