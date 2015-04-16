@@ -136,7 +136,7 @@ $(document).ready(function(){
 			store.bossBodyRibonCounter	= 0;
 
 			// フラグ
-			var bossFlag = 1;s // ボス出現フラグ
+			var bossFlag = 1; // ボス出現フラグ
 			var submitFlag = false; // 送信フラグ
 
 			var playGame = new SuperScene(
@@ -180,7 +180,7 @@ $(document).ready(function(){
 						10,
 						null,
 						null,
-						'red',
+						'#e84b5f',
 						setting.labelFontSize,
 						null,
 						function() {
@@ -194,7 +194,7 @@ $(document).ready(function(){
 						10,
 						null,
 						null,
-						'blue',
+						'#ffea00',
 						setting.labelFontSize,
 						null,
 						function() {
@@ -206,7 +206,7 @@ $(document).ready(function(){
 						10,
 						null,
 						null,
-						'green',
+						'#d1e3ff',
 						setting.labelFontSize,
 						null,
 						function() {
@@ -218,7 +218,7 @@ $(document).ready(function(){
 						10,
 						null,
 						null,
-						'orange',
+						'#fff',
 						setting.labelFontSize,
 						null,
 						function() {
@@ -336,12 +336,12 @@ $(document).ready(function(){
 							( store.currentScene == 'gameover' ) ? 'black' : 'white', // 勝った場合は金色
 							[
 								new SuperLabel(
-									340,
+									315,
 									150,
 									null,
 									null,
 									( store.currentScene == 'gameover' ) ? 'white' : 'black',
-									'45px cursive',
+									'45px cursive new',
 									( store.currentScene == 'gameover' ) ? 'GAME OVER': 'GAME CLEAR', // 文言変更
 									null
 								),
@@ -351,7 +351,7 @@ $(document).ready(function(){
 									300,
 									100,
 									( store.currentScene == 'gameover' ) ? 'white' : 'black',
-									'20px cursive',
+									'20px cursive new',
 									'',
 									null,
 									null,
@@ -366,12 +366,12 @@ $(document).ready(function(){
 									}
 								),
 								new SuperLabel(
-									150,
+									170,
 									430,
 									300,
 									100,
 									( store.currentScene == 'gameover' ) ? 'white' : 'black',
-									'35px cursive',
+									'35px cursive new',
 									'',
 									null,
 									null,
@@ -385,7 +385,7 @@ $(document).ready(function(){
 									300,
 									100,
 									( store.currentScene == 'gameover' ) ? 'white' : 'black',
-									'20px cursive',
+									'20px cursive new',
 									'',
 									null,
 									null,
@@ -399,7 +399,7 @@ $(document).ready(function(){
 									300,
 									100,
 									( store.currentScene == 'gameover' ) ? 'white' : 'black',
-									'20px cursive',
+									'20px cursive new',
 									'',
 									null,
 									null,
@@ -425,7 +425,7 @@ $(document).ready(function(){
 									300,
 									100,
 									( store.currentScene == 'gameover' ) ? 'white' : 'black',
-									'20px cursive',
+									'20px cursive new',
 									'[送信する]',
 									null,
 									function() {
@@ -469,7 +469,7 @@ $(document).ready(function(){
 									300,
 									100,
 									( store.currentScene == 'gameover' ) ? 'white' : 'black',
-									'40px cursive',
+									'40px cursive new',
 									'Continue?',
 									null,
 									function() {

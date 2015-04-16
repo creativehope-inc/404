@@ -32,7 +32,7 @@ $( document ).ready( function () {
 		enemyAgility                    	: 4, //	敵の速さ
 		enemyPower                      	: 1, // 雑魚敵の力
 		itemAgility                     	: 4, // アイテムの流れる速さ
-		labelFontSize                   	: '20px cursive, arial, sans-serif',
+		labelFontSize                   	: '20px cursive new, arial, sans-serif',
 		playerWidth                     	: 32, // プレイヤーの幅
 		playerHeight                    	: 32, // プレイヤーの高さ
 		enemyTypeOne                    	: 1, // 敵のタイプ
