@@ -32,7 +32,7 @@ $(document).ready(function(){
 		BossEnemyBody       = window.sub.BossEnemyBody,
 		BossEnemyHeadRibbon = window.sub.BossEnemyHeadRibbon,
 		BossEnemyBodyRibbon = window.sub.BossEnemyBodyRibbon,
-		Things= window.sub.Things,
+		Things      		= window.sub.Things,
 		Bullet      		= window.sub.Bullet,
 		PlayerBullet		= window.sub.PlayerBullet,
 		EnemyBullet 		= window.sub.EnemyBullet,
