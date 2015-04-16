@@ -60,7 +60,7 @@ $( document ).ready( function () {
 		battle       	: 'img/battle.jpg',
 		explosion    	: 'img/effect0.png',
 		cure         	: 'img/heal_eff_thumb.png',
-		shooter      	: 'img/shooter.png',
+		shooter      	: 'img/shooter_06.png',
 		head         	: 'img/mie_1.png',
 		body         	: 'img/body.png',
 		body_r       	: 'img/ribbon_2.png',
