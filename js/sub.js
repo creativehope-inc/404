@@ -1,19 +1,20 @@
-$(document).ready(function(){
+$(function(){
 
 	// #####################################
 	//             インポート
-		// #####################################
-		var game	= window.game.game,
-		        	setting  	= window.game.setting,
-		        	files    	= window.game.files,
-		        	store    	= window.game.store,
-		        	playerArr	= window.game.playerArr,
-		        	enemyArr 	= window.game.enemyArr,
-		        	itemArr  	= window.game.itemArr;
+	// #####################################
+
+		var game     	= window.game.game,
+			setting  	= window.game.setting,
+			files    	= window.game.files,
+			store    	= window.game.store,
+		    playerArr	= window.game.playerArr,
+		    enemyArr 	= window.game.enemyArr,
+		    itemArr  	= window.game.itemArr;
 
 	// スーパーの設定
 	var SuperLabel	= window.super.SuperLabel,
-	              	SuperSprite = window.super.SuperSprite;
+		SuperSprite = window.super.SuperSprite;
 
 	// ###########################
 	//    機体クラス(全てのエンティティを保存する)

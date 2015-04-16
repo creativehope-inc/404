@@ -1,5 +1,6 @@
-$( function () {
+$(function(){
 
+	
 	// おまじない
     window._picomon_savedScore = function ( data ) {
     };

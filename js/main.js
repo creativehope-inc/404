@@ -14,34 +14,34 @@ $(document).ready(function(){
 		itemArr   = window.game.itemArr;
 
 	// スーパーの設定
-	var SuperLabel	               	= window.super.SuperLabel,
-	              	SuperSprite    	= window.super.SuperSprite,
-	              	SuperBackground	= window.super.SuperBackground,
-	              	SuperScene     	= window.super.SuperScene,
-	              	SuperImage     	= window.super.SuperImage,
-	              	SuperEntity    	= window.super.SuperEntity,
-	              	SuperRootScene 	= window.super.SuperRootScene;
+	var SuperLabel		= window.super.SuperLabel,
+	    SuperSprite 	= window.super.SuperSprite,
+		SuperBackground	= window.super.SuperBackground,
+		SuperScene     	= window.super.SuperScene,
+		SuperImage     	= window.super.SuperImage,
+		SuperEntity    	= window.super.SuperEntity,
+		SuperRootScene 	= window.super.SuperRootScene;
 
 	// サブクラスの設定
-	var Aircraft	= window.sub.Aircraft,
-	            	Player              = window.sub.Player,
-	            	Enemy	            = window.sub.Enemy,
-	            	ZakoEnemy           = window.sub.ZakoEnemy,
-	            	ZakoEnemy2          = window.sub.ZakoEnemy2,
-	            	BossEnemyHead       = window.sub.BossEnemyHead,
-	            	BossEnemyBody       = window.sub.BossEnemyBody,
-	            	BossEnemyHeadRibbon = window.sub.BossEnemyHeadRibbon,
-	            	BossEnemyBodyRibbon = window.sub.BossEnemyBodyRibbon,
-	            	Things= window.sub.Things,
-	            	Bullet      	= window.sub.Bullet,
-	            	PlayerBullet	= window.sub.PlayerBullet,
-	            	EnemyBullet 	= window.sub.EnemyBullet,
-	            	EnemyBullet2	= window.sub.EnemyBullet2,
-	            	Item        	= window.sub.Item,
-	            	RecoveryItem	= window.sub.RecoveryItem,
-	            	SpeedItem   	= window.sub.SpeedItem,
-	            	Explosion   	= window.sub.Explosion,
-	            	Cure        	= window.sub.Cure;
+	var Aircraft			= window.sub.Aircraft,
+	    Player              = window.sub.Player,
+		Enemy	            = window.sub.Enemy,
+		ZakoEnemy           = window.sub.ZakoEnemy,
+		ZakoEnemy2          = window.sub.ZakoEnemy2,
+		BossEnemyHead       = window.sub.BossEnemyHead,
+		BossEnemyBody       = window.sub.BossEnemyBody,
+		BossEnemyHeadRibbon = window.sub.BossEnemyHeadRibbon,
+		BossEnemyBodyRibbon = window.sub.BossEnemyBodyRibbon,
+		Things= window.sub.Things,
+		Bullet      		= window.sub.Bullet,
+		PlayerBullet		= window.sub.PlayerBullet,
+		EnemyBullet 		= window.sub.EnemyBullet,
+		EnemyBullet2		= window.sub.EnemyBullet2,
+		Item        		= window.sub.Item,
+		RecoveryItem		= window.sub.RecoveryItem,
+		SpeedItem   		= window.sub.SpeedItem,
+		Explosion   		= window.sub.Explosion,
+		Cure        		= window.sub.Cure;
 
 	// ####################
 	//   メイン関数

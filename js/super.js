@@ -1,15 +1,15 @@
- $(document).ready(function(){
+$(function(){
 
 	// #####################################
 	//             インポート
 	// #####################################
-	var game	= window.game.game,
-	        	setting  	= window.game.setting,
-	        	files    	= window.game.files,
-	        	store    	= window.game.store,
-	        	playerArr	= window.game.playerArr,
-	        	enemyArr 	= window.game.enemyArr,
-	        	itemArr  	= window.game.itemArr;
+	var game     	= window.game.game,
+	    setting  	= window.game.setting,
+	    files    	= window.game.files,
+	    store    	= window.game.store,
+	    playerArr	= window.game.playerArr,
+	    enemyArr 	= window.game.enemyArr,
+	    itemArr  	= window.game.itemArr;
 
 	// #####################################
 	//             ラベル
