@@ -1,4 +1,4 @@
-$( document ).ready( function () {
+$( function () {
 
 	// おまじない
     window._picomon_savedScore = function ( data ) {
@@ -49,35 +49,36 @@ $( document ).ready( function () {
 		enemyTypeThreeBodyRibbonHitpoint	: 50
 	};
 
+	var dif = 'assets/'
 	// ゲームの画像用ストア 
 	var files = {
-		background   	: 'img/background1.png',
-		test         	: 'img/chara1.png',
-		player       	: 'img/chara2.png',
-		bullet       	: 'img/icon0.png',
-		boss         	: 'img/bigmonster1.gif',
-		title        	: 'img/background.png',
-		battle       	: 'img/battle.jpg',
-		explosion    	: 'img/effect0.png',
-		cure         	: 'img/heal_eff_thumb.png',
-		shooter      	: 'img/shooter_06.png',
-		head         	: 'img/mie_1.png',
-		body         	: 'img/body.png',
-		body_r       	: 'img/ribbon_2.png',
-		head_r       	: 'img/ribbon.png',
-		twitter      	: 'img/Twitter.png',
-		facebook     	: 'img/Facebook.png',
-		ranking      	: 'img/Ranking.png',
-		startButton  	: 'img/start.png',
-		soundButton  	: 'img/sound.png',
-		mainSound    	: 'sound/mp3/404game_main.mp3',
-		hittedSound  	: 'sound/mp3/404game_hitted.mp3',
-		fired        	: 'sound/mp3/404game_bullet_fire.mp3',
-		enemyCrashed 	: 'sound/mp3/404game_enemy_crash.mp3',
-		getItem      	: 'sound/mp3/404game_item.mp3',
-		gameOverSound	: 'sound/mp3/404game_gameover.mp3',
-		bossEnter    	: 'sound/mp3/404game_boss_enter.mp3',
-		bossCrashed  	: 'sound/mp3/404game_boss_crash.mp3',
+		background   	: dif + 'img/background1.png',
+		test         	: dif + 'img/chara1.png',
+		player       	: dif + 'img/chara2.png',
+		bullet       	: dif + 'img/icon0.png',
+		boss         	: dif + 'img/bigmonster1.gif',
+		title        	: dif + 'img/background.png',
+		battle       	: dif + 'img/battle.jpg',
+		explosion    	: dif + 'img/effect0.png',
+		cure         	: dif + 'img/heal_eff_thumb.png',
+		shooter      	: dif + 'img/shooter_06.png',
+		head         	: dif + 'img/mie_1.png',
+		body         	: dif + 'img/body.png',
+		body_r       	: dif + 'img/ribbon_2.png',
+		head_r       	: dif + 'img/ribbon.png',
+		twitter      	: dif + 'img/Twitter.png',
+		facebook     	: dif + 'img/Facebook.png',
+		ranking      	: dif + 'img/Ranking.png',
+		startButton  	: dif + 'img/start.png',
+		soundButton  	: dif + 'img/sound.png',
+		mainSound    	: dif + 'sound/mp3/404game_main.mp3',
+		hittedSound  	: dif + 'sound/mp3/404game_hitted.mp3',
+		fired        	: dif + 'sound/mp3/404game_bullet_fire.mp3',
+		enemyCrashed 	: dif + 'sound/mp3/404game_enemy_crash.mp3',
+		getItem      	: dif + 'sound/mp3/404game_item.mp3',
+		gameOverSound	: dif + 'sound/mp3/404game_gameover.mp3',
+		bossEnter    	: dif + 'sound/mp3/404game_boss_enter.mp3',
+		bossCrashed  	: dif + 'sound/mp3/404game_boss_crash.mp3',
 	};
 
 	// 各種ポイントの保存庫

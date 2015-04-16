@@ -25,7 +25,7 @@ $(document).ready(function(){
 	// サブクラスの設定
 	var Aircraft	= window.sub.Aircraft,
 	            	Player              = window.sub.Player,
-	            	Enemy               = window.sub.Enemy,
+	            	Enemy	            = window.sub.Enemy,
 	            	ZakoEnemy           = window.sub.ZakoEnemy,
 	            	ZakoEnemy2          = window.sub.ZakoEnemy2,
 	            	BossEnemyHead       = window.sub.BossEnemyHead,
@@ -524,7 +524,7 @@ $(document).ready(function(){
 									function() { // タッチ処理
 										// ランキングのウィンドウを表示
 										// 送信処理
-										window.open( 'http://battamon.net:8080/kaneko_game/404/test/17/popup.html' ,
+										window.open( 'http://battamon.net:8080/kaneko_game/404/popup.html' ,
 										'facebook-share-dialog',
 										'width=313,height=230' );
 									},
