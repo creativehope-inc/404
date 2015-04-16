@@ -525,7 +525,7 @@ $(document).ready(function(){
 										// ランキングのウィンドウを表示
 										// 送信処理
 										window.open( 'http://battamon.net:8080/kaneko_game/404/popup.html' ,
-										'facebook-share-dialog',
+										'ranking-dialog',
 										'width=313,height=230' );
 									},
 									null,
