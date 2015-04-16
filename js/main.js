@@ -341,7 +341,7 @@ $(document).ready(function(){
 									null,
 									null,
 									( store.currentScene == 'gameover' ) ? 'white' : 'black',
-									'45px cursive new',
+									'40px cursive new',
 									( store.currentScene == 'gameover' ) ? 'GAME OVER': 'GAME CLEAR', // 文言変更
 									null
 								),

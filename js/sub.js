@@ -121,7 +121,7 @@ $(function(){
 			// 敵の体力の削減
 			arr[ i ].hitpoint -= 3;
 			// 音鳴らす
-			if ( tore.music ) self.bossCrashed.play();
+			if ( store.music ) self.bossCrashed.play();
 		},
 		// 操作処理
 		_controll: function( pg ) {
@@ -314,7 +314,7 @@ $(function(){
 	var ZakoEnemy2 = Class.create(ZakoBase, {
 		initialize: function( x, y, uuid, pg ) {
 			Enemy.call( this, 32, 32, x, y, uuid, pg, setting.enemyTypeTwo );
-			this.setFrame( [ 4, 5 ] );
+			this.setFrame( [ 6, 7 ] );
 			this.setImage( files.shooter );
 			this.addInstance( this );
 			this.enemyCrashed = game.assets[ files.enemyCrashed ].clone();
