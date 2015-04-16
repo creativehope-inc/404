@@ -104,7 +104,7 @@ $(function(){
 				pg
 			)
 			// 自機の体力の減算
-			store.playerHitpoint -= setting.enemyPower;
+			if ( !( store.playerHitpoint <= 0 ) ) store.playerHitpoint -= setting.enemyPower;
 			// 敵の体力の削減
 			arr[i].hitpoint -= 3;
 			// 音鳴らす
@@ -117,7 +117,7 @@ $(function(){
 				pg
 			)
 			// 敵機の体力の減算
-			store.playerHitpoint -= setting.enemyPower;
+			if ( !( store.playerHitpoint <= 0 ) ) store.playerHitpoint -= setting.enemyPower;
 			// 敵の体力の削減
 			arr[ i ].hitpoint -= 3;
 			// 音鳴らす
@@ -701,7 +701,7 @@ $(function(){
 						pg
 					);
 					// 体力減算
-					store.playerHitpoint -= setting.enemyPower;
+					if ( !( store.playerHitpoint <= 0 ) ) store.playerHitpoint -= setting.enemyPower;
 					// 音楽
 					if ( store.music ) self.hitSound.play();
 				});
@@ -737,7 +737,7 @@ $(function(){
 						pg
 					);
 					// 体力減算
-					store.playerHitpoint -= setting.enemyPower;
+					if ( !( store.playerHitpoint <= 0 ) ) store.playerHitpoint -= setting.enemyPower;
 				});
 				// 画面外に出る処理
 				self.getOut( self, null );
@@ -773,7 +773,7 @@ $(function(){
 					// 音楽
 					if ( store.music ) self.hitSound.play();
 					// 体力減算
-					store.playerHitpoint -= setting.enemyPower;
+					if ( !( store.playerHitpoint <= 0 ) ) store.playerHitpoint -= setting.enemyPower;
 				});
 				// 画面外に出る処理
 				self.getOut( self, null );
@@ -810,7 +810,7 @@ $(function(){
 					// 音楽
 					if ( store.music ) self.hitSound.play();
 					// 体力減算
-					store.playerHitpoint -= setting.enemyPower;
+					if ( !( store.playerHitpoint <= 0 ) ) store.playerHitpoint -= setting.enemyPower;
 				});
 				// 画面外に出る処理
 				self.getOut( self, null );
