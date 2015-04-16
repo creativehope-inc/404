@@ -1,7 +1,7 @@
  $(document).ready(function(){
 
 	// #####################################
-	//        　    インポート
+	//             インポート
 	// #####################################
 	var game	= window.game.game,
 	        	setting  	= window.game.setting,
@@ -12,7 +12,7 @@
 	        	itemArr  	= window.game.itemArr;
 
 	// #####################################
-	//        　   　ラベル
+	//             ラベル
 	// #####################################
 	var SuperLabel = Class.create( Label, {
 		// コンストラクタ
@@ -29,13 +29,13 @@
 			this.text 	= text || ''; // エラーが出る可能性があるので空文字を入れておく
 			var self  	= this;
 		
-			$(　this　).on(　'enterframe'　, function() {
+			$( this ).on( 'enterframe' , function() {
 				// イベントリスナーの処理はcallbackに保存する
-				if (　efFn　) efFn.call(　self　);
+				if ( efFn ) efFn.call( self );
 			});
-			$(　this　).on(　'touchstart'　, function() {
+			$( this ).on( 'touchstart' , function() {
 				// イベントリスナーの処理はcallbackに保存する
-				if (　toFn　) toFn.call(　self　);
+				if ( toFn ) toFn.call( self );
 			});
 			// ワンタイム処理
 			if ( otFn ) otFn.call( self );
@@ -208,6 +208,45 @@
 			return this;
 		}
 	});
+
+	// ###########################
+	//    エンティティクラス
+	// ###########################
+	var SuperEntity = Class.create( Entity, {
+		// コンストラクタ
+		initialize: function(width, height, x, y, element, elementType, elementName, elementId,){ // meはPlayGameインスタンスを指す
+			// スーパークラスの継承
+			Entity.call( this );
+			this.width	= width;
+			this.height = height;
+			this.backgroundColor = backgroundColor;
+			// 背景画像などの追加処理
+			for ( key in addArr )  {
+				this.addChild( addArr[ key ] );
+			}
+			// フレームのイベント
+			$( this ).on( 'enterframe' , function() {
+				if ( efFn ) efFn();
+			});
+			// フレームのイベント
+			$( this ).on( 'touchstart' , function() {
+				if ( tsFn ) tsFn();
+			});
+
+			return this;
+		}
+	});
+
+
+			var textBox          	= new enchant.Entity();
+			textBox.x            	= 470;
+			textBox.y            	= 345;
+			textBox.width        	= 120; // DOMレンダラが _element.style.width に設定する
+			textBox.height       	= 30; 
+			textBox._element     	= document.createElement( 'input' ); // input要素を割り当て
+			textBox._element.type	= 'text'; // <input type="text"></input>
+			textBox._element.name	= 'text'; // <input type="text" name="text"></input>
+			textBox._element.id  	= 'textBox';
 
 	// エクスポート
 	window.super = {

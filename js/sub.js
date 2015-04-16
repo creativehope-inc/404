@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
 	// #####################################
-	//        　    インポート
+	//             インポート
 		// #####################################
 		var game	= window.game.game,
 		        	setting  	= window.game.setting,
@@ -40,7 +40,7 @@ $(document).ready(function(){
 	});
 
 	// #################################################################################
-	//    プレイヤー クラス　
+	//    プレイヤー クラス
 	// #################################################################################
 	var Player = Class.create( Aircraft, {
 		initialize: function( x, y, uuid, pg, go ) {
@@ -48,9 +48,9 @@ $(document).ready(function(){
 			Aircraft.call( this, 32, 32, uuid, pg );
 			this.setPosition( x, y );
 			this.setImage( files.shooter );
-			this.fired = game.assets[ files.fired ].clone(); //　音楽用
-			this.enemyCrashed = game.assets[ files.enemyCrashed ].clone(); //　音楽用	
-			this.bossCrashed = game.assets[ files.bossCrashed ].clone(); //　音楽用  	
+			this.fired = game.assets[ files.fired ].clone(); // 音楽用
+			this.enemyCrashed = game.assets[ files.enemyCrashed ].clone(); // 音楽用	
+			this.bossCrashed = game.assets[ files.bossCrashed ].clone(); // 音楽用  	
 
 			// フレーム処理
 			var self = this;
@@ -267,7 +267,7 @@ $(document).ready(function(){
 				}
 				// 音を鳴らす
 				if ( store.music ) this.enemyCrashed.play();
-				//　得点を挙げる
+				// 得点を挙げる
 				this.addCounter( this );
 				// インスタンスの削除
 				delete this;
@@ -355,7 +355,7 @@ $(document).ready(function(){
 			this.bossCrashed = game.assets[ files.bossCrashed ].clone();
 			var self = this;
 			this.addEventListener( 'enterframe', function() {
-				//　ふつうモード
+				// ふつうモード
 				if ( store.MajiFlag == false ) {
 					if ( game.frame % 10 == 0 ) {
 						var angle = Math.floor( Math.random() * ( 5 + 0 ) + 0 );
@@ -746,7 +746,7 @@ $(document).ready(function(){
 	});
 
 	// ###########################
-	//   　　ボスバレット1
+	//    ボスバレット1
 	// ###########################
 	var BossBullet1 = Class.create( Bullet, {
 		initialize: function( x, y, pg, angle ) {
@@ -782,7 +782,7 @@ $(document).ready(function(){
 	});
 
 	// ###########################
-	//   　　ボスバレット2
+	//     ボスバレット2
 	// ###########################
 	var BossBullet2 = Class.create( Bullet, {
 		initialize: function( x, y, pg, xangle, yangle ) {
@@ -819,7 +819,7 @@ $(document).ready(function(){
 	});
 
 	// #################################################################################
-	//   　　アイテムクラス
+	//     アイテムクラス
 	// #################################################################################
 	var Item = Class.create( Things, {
 		// コンストラクタ

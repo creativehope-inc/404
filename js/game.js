@@ -35,7 +35,7 @@ $( document ).ready( function () {
 		labelFontSize                   	: '20px cursive, arial, sans-serif',
 		playerWidth                     	: 32, // プレイヤーの幅
 		playerHeight                    	: 32, // プレイヤーの高さ
-		enemyOfTypeOne                  	: 1, // 敵のタイプ
+		enemyTypeOne                    	: 1, // 敵のタイプ
 		enemyTypeTwo                    	: 2,
 		enemyTypeThreeHead              	: 3,
 		enemyTypeThreeHeadRibon         	: 4,
@@ -80,7 +80,7 @@ $( document ).ready( function () {
 		bossCrashed  	: 'sound/mp3/404game_boss_crash.mp3',
 	};
 
-	//　各種ポイントの保存庫
+	// 各種ポイントの保存庫
 	var store = {
 		playerHitpoint      	: '', // プレイヤーのヒットポイント
 		playerAgility       	: '', // プレイヤーの速さ
