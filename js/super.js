@@ -214,30 +214,22 @@
 	// ###########################
 	var SuperEntity = Class.create( Entity, {
 		// コンストラクタ
-		initialize: function(width, height, x, y, element, elementType, elementName, elementId,){ // meはPlayGameインスタンスを指す
-			// スーパークラスの継承
+		initialize: function(width, height, x, y, element, elementType, elementName, elementId){
+			// とにかく入れまくり
 			Entity.call( this );
 			this.width	= width;
 			this.height = height;
-			this.backgroundColor = backgroundColor;
-			// 背景画像などの追加処理
-			for ( key in addArr )  {
-				this.addChild( addArr[ key ] );
-			}
-			// フレームのイベント
-			$( this ).on( 'enterframe' , function() {
-				if ( efFn ) efFn();
-			});
-			// フレームのイベント
-			$( this ).on( 'touchstart' , function() {
-				if ( tsFn ) tsFn();
-			});
-
+			this.x = x;
+			this.y = y;
+			this._element = element;
+			this._element.type = elementType;
+			this._element.name = elementName;
+			this._element.id = elementId;
 			return this;
 		}
 	});
 
-
+/*
 			var textBox          	= new enchant.Entity();
 			textBox.x            	= 470;
 			textBox.y            	= 345;
@@ -247,13 +239,14 @@
 			textBox._element.type	= 'text'; // <input type="text"></input>
 			textBox._element.name	= 'text'; // <input type="text" name="text"></input>
 			textBox._element.id  	= 'textBox';
-
+*/
 	// エクスポート
 	window.super = {
 		SuperLabel     	: SuperLabel,
 		SuperSprite    	: SuperSprite,
 		SuperBackground	: SuperBackground,
 		SuperScene     	: SuperScene,
-		SuperImage     	: SuperImage
+		SuperImage     	: SuperImage,
+		SuperEntity    	: SuperEntity
 	};
 });

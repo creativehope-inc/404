@@ -18,7 +18,8 @@ $(document).ready(function(){
 	              	SuperSprite    	= window.super.SuperSprite,
 	              	SuperBackground	= window.super.SuperBackground,
 	              	SuperScene     	= window.super.SuperScene,
-	              	SuperImage     	= window.super.SuperImage;
+	              	SuperImage     	= window.super.SuperImage,
+	              	SuperEntity    	= window.super.SuperEntity;
 
 	// サブクラスの設定
 	var Aircraft	= window.sub.Aircraft,
@@ -426,7 +427,18 @@ $(document).ready(function(){
 										this.text = '名前を入力してランキングに登録することができます。';
 									}
 								),
-								textBox,
+								//textBox,
+								// テキストボックスのインスタンス
+								new SuperEntity (
+									120,
+									30,
+									470,
+									345,
+									document.createElement( 'input' ),
+									'text',
+									'text',
+									'textBox'
+								),
 								new SuperLabel(
 									610,
 									348,
