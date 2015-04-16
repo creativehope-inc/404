@@ -49,6 +49,7 @@ $(document).ready(function(){
 		// 音楽データの保存
 		var sound = game.assets[ files.mainSound ].clone();
 		
+		// Note: 全てのIEでエラーが出るので原因はわからないが終了する
 		//sound.src.loop = true;
 		
 		if ( store.music ) sound.play();
@@ -327,7 +328,6 @@ $(document).ready(function(){
 					// 時間アウト
 					if (　store.gameTime > 120　) {
 						// ゲームオーバーscenes
-						console.log(　'時間が過ぎましたゲームオーバー'　);
 						store.currentScene = 'gameover';
 					}
 
@@ -573,8 +573,6 @@ $(document).ready(function(){
 			// プレイゲームインスタンスを返す
 			return playGame;
 		};
-
-	
 
 	};
 

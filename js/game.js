@@ -2,7 +2,6 @@ $( document ).ready( function () {
 
 	// おまじない
     window._picomon_savedScore = function ( data ) {
-        console.log( data );
     };
     var js = document.createElement( 'script' );
     js.src = 'https://www.picomon.jp/game/get_solt.js';
@@ -52,33 +51,33 @@ $( document ).ready( function () {
 
 	// ゲームの画像用ストア 
 	var files = {
-		background   	: 'js/image/background1.png',
-		test         	: 'js/image/chara1.png',
-		player       	: 'js/image/chara2.png',
-		bullet       	: 'js/image/icon0.png',
-		boss         	: 'js/image/bigmonster1.gif',
-		title        	: 'js/image/background.png',
-		battle       	: 'js/image/battle.jpg',
-		explosion    	: 'js/image/effect0.png',
-		cure         	: 'js/image/heal_eff_thumb.png',
-		shooter      	: 'js/image/shooter.png',
-		head         	: 'js/image/mie_1.png',
-		body         	: 'js/image/body.png',
-		body_r       	: 'js/image/ribbon_2.png',
-		head_r       	: 'js/image/ribbon.png',
-		twitter      	: 'js/image/Twitter.png',
-		facebook     	: 'js/image/Facebook.png',
-		ranking      	: 'js/image/Ranking.png',
-		mainSound    	: 'js/sound/mp3/404game_main.mp3',
-		hittedSound  	: 'js/sound/mp3/404game_hitted.mp3',
-		fired        	: 'js/sound/mp3/404game_bullet_fire.mp3',
-		enemyCrashed 	: 'js/sound/mp3/404game_enemy_crash.mp3',
-		getItem      	: 'js/sound/mp3/404game_item.mp3',
-		gameOverSound	: 'js/sound/mp3/404game_gameover.mp3',
-		startButton  	: 'js/image/start.png',
-		soundButton  	: 'js/image/sound.png',
-		bossEnter    	: 'js/sound/mp3/404game_boss_enter.mp3',
-		bossCrashed  	: 'js/sound/mp3/404game_boss_crash.mp3',
+		background   	: 'img/background1.png',
+		test         	: 'img/chara1.png',
+		player       	: 'img/chara2.png',
+		bullet       	: 'img/icon0.png',
+		boss         	: 'img/bigmonster1.gif',
+		title        	: 'img/background.png',
+		battle       	: 'img/battle.jpg',
+		explosion    	: 'img/effect0.png',
+		cure         	: 'img/heal_eff_thumb.png',
+		shooter      	: 'img/shooter.png',
+		head         	: 'img/mie_1.png',
+		body         	: 'img/body.png',
+		body_r       	: 'img/ribbon_2.png',
+		head_r       	: 'img/ribbon.png',
+		twitter      	: 'img/Twitter.png',
+		facebook     	: 'img/Facebook.png',
+		ranking      	: 'img/Ranking.png',
+		startButton  	: 'img/start.png',
+		soundButton  	: 'img/sound.png',
+		mainSound    	: 'sound/mp3/404game_main.mp3',
+		hittedSound  	: 'sound/mp3/404game_hitted.mp3',
+		fired        	: 'sound/mp3/404game_bullet_fire.mp3',
+		enemyCrashed 	: 'sound/mp3/404game_enemy_crash.mp3',
+		getItem      	: 'sound/mp3/404game_item.mp3',
+		gameOverSound	: 'sound/mp3/404game_gameover.mp3',
+		bossEnter    	: 'sound/mp3/404game_boss_enter.mp3',
+		bossCrashed  	: 'sound/mp3/404game_boss_crash.mp3',
 	};
 
 	//　各種ポイントの保存庫
@@ -120,6 +119,7 @@ $( document ).ready( function () {
 	game.keybind( 32, 'space' );
 
 	// プリリロード
+	// TODO: プロパティ名に予約語が入っている
 	game.preload(
 		files.background,
 		files.test,
@@ -149,8 +149,6 @@ $( document ).ready( function () {
 		files.ranking	
 	);
 	
-
-
 	// エクスポート
 	window.game = {
 		game : game,

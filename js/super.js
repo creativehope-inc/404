@@ -135,7 +135,7 @@
 	var SuperScene = Class.create( Scene, {
 		// コンストラクタ
 		initialize : function( width, height, backgroundColor, addArr, efFn, tsFn ){ // meはPlayGameインスタンスを指す
-			//console.log('スーパークラスの継承');
+			// スーパークラスの継承
 			Scene.call( this );
 			this.width = width;
 			this.height = height;
@@ -160,7 +160,7 @@
 	var SuperSound = Class.create( Scene, {
 		// コンストラクタ
 		initialize: function( width, height, backgroundColor, addArr, efFn, tsFn ){ // meはPlayGameインスタンスを指す
-			//console.log('スーパークラスの継承');
+			// スーパークラスの継承
 			Scene.call( this );
 			this.width	= width;
 			this.height = height;
