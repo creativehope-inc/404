@@ -1,5 +1,5 @@
 $( function(){
-	
+
 	var gamer		= define();
 	var superClass  = base( gamer );
 	var klass       = sub( gamer, superClass );
@@ -492,7 +492,7 @@ $( function(){
 									function() { // タッチ処理
 										// ツイッターのウィンドウを表示
 										window.open( 'https://twitter.com/intent/tweet?text=' +
-											encodeURIComponent( 'ぼくの得点は、' ) + store.gamePoint + encodeURIComponent( '点でした。' ) + 
+											encodeURIComponent( 'ピコもん 404ゲームで' ) + store.gamePoint + encodeURIComponent( 'スコアを獲得した！ ' ) + (location.href) +
 											'&url=' + '&original_referer=' +  
 											'&hashtags=' + encodeURIComponent( '404ゲーム' ) + '&related=code1616',
 											'twitter-share-dialog',
