@@ -55,7 +55,8 @@ $( function(){
 		var sound = game.assets[ files.mainSound ].clone();
 		// Note: 全てのIEでエラーが出るので原因はわからないが終了する
 		//sound.src.loop = true;
-		if ( store.music )  sound.play();
+		//console.log(store.music);
+		//if ( store.music )  sound.play();
 		sound.preMusic = store.music; // 過去のデータを保存する
 
 		// ########################################################
@@ -92,14 +93,14 @@ $( function(){
 					32/2,
 					830,
 					10,
-					( store.music ) ? this.frame = [1] : this.frame = [2],
+					( store.music ) ? this.frame = [2] : this.frame = [1],
 					files.soundButton,
 					function() { // タッチ処理
 						( store.music ) ? store.music = false : store.music = true;
 					},
 					function() { // フレーム処理
 						// 音楽の切り替え
-						( store.music ) ? this.frame = [1] : this.frame = [2];
+						( store.music ) ? this.frame = [2] : this.frame = [1];
 					},
 					null
 				)
@@ -233,14 +234,14 @@ $( function(){
 						32/2,
 						830,
 						10,
-						( store.music ) ? this.frame = [1] : this.frame = [2],
+						( store.music ) ? this.frame = [2] : this.frame = [1],
 						files.soundButton,
 						function() { // タッチ処理
 							( store.music ) ? store.music = false : store.music = true;
 						},
 						function() { // フレーム処理
 							// 音楽の切り替え
-							( store.music ) ? this.frame = [1] : this.frame = [2];
+							( store.music ) ? this.frame = [2] : this.frame = [1];
 						},
 						null
 					)
@@ -355,6 +356,7 @@ $( function(){
 						if ( store.music ) sound.stop();
 						var gameOverSound = game.assets[ files.gameOverSound ].clone();
 						if ( store.music ) gameOverSound.play();
+
 						// ゲームオーバーscene
 						var gameOver = new SuperScene(
 							setting.gameWidth,
@@ -562,23 +564,24 @@ $( function(){
 									32/2,
 									830,
 									10,
-									( store.music ) ? this.frame = [1] : this.frame = [2],
+									( store.music ) ? this.frame = [2] : this.frame = [1],
 									files.soundButton,
 									function() { // タッチ処理
 										( store.music ) ? store.music = false : store.music = true;
 									},
 									function() { // フレーム処理
 										// 音楽の切り替え
-										( store.music ) ? this.frame = [1] : this.frame = [2];
+										( store.music ) ? this.frame = [2] : this.frame = [1];
 									},
 									null
 								)
 							],
-							function() { // フレーム処理
-								console.log('ゲームオーバー処理');
-							},
+							null, // フレーム処理
 							null,
-							null
+							function() {
+								// TODO: SuperSceneクラスについかする
+								this._element.style.opacity = 0.9;
+							}
 						);
 						// ゲームオーバー
 						game.pushScene( gameOver );

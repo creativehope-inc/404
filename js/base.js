@@ -131,7 +131,7 @@ var base = ( function () {
 		// ###########################
 		var SuperScene = Class.create( Scene, {
 			// コンストラクタ
-			initialize : function( width, height, backgroundColor, addArr, efFn, tsFn ){ // meはPlayGameインスタンスを指す
+			initialize : function( width, height, backgroundColor, addArr, efFn, tsFn, otFn ){ // meはPlayGameインスタンスを指す
 				// スーパークラスの継承
 				Scene.call( this );
 				this.width = width;
@@ -147,6 +147,8 @@ var base = ( function () {
 				$( this ).on( 'touchstart' , function() {
 					if ( tsFn ) tsFn();
 				} );
+				// ワンタイム処理
+				if ( otFn ) otFn.call(this);
 				return this;
 			}
 		} );
@@ -197,7 +199,7 @@ var base = ( function () {
 					if ( toFn ) toFn.call( self );
 				} );
 				// フレーム処理
-				$( this ).on( 'touchstart' , function() {
+				$( this ).on( 'enterframe' , function() {
 					if ( efFn ) efFn.call( self );
 				} );
 				// ワンタイム関数
