@@ -55,8 +55,6 @@ $( function(){
 		var sound = game.assets[ files.mainSound ].clone();
 		// Note: 全てのIEでエラーが出るので原因はわからないが終了する
 		//sound.src.loop = true;
-		//console.log(store.music);
-		//if ( store.music )  sound.play();
 		sound.preMusic = store.music; // 過去のデータを保存する
 
 		// ########################################################
@@ -364,33 +362,98 @@ $( function(){
 							( store.currentScene == 'gameover' ) ? 'black' : 'white', // 勝った場合は金色
 							[
 								new SuperLabel(
-									315,
-									150,
-									null,
-									null,
+									360,
+									100,
+									500,
+									500,
 									( store.currentScene == 'gameover' ) ? 'white' : 'black',
 									'40px cursive new',
 									( store.currentScene == 'gameover' ) ? 'GAME OVER': 'GAME CLEAR', // 文言変更
 									null
 								),
+								// 撃破数
 								new SuperLabel(
-									160,
-									240,
+									185,
+									200,
 									300,
 									100,
 									( store.currentScene == 'gameover' ) ? 'white' : 'black',
-									'20px cursive new',
+									'25px cursive new',
 									'',
 									null,
 									null,
 									function() {
-										this.text = '-----------撃破数----------<br>';
-										this.text += '雑魚敵１:                      ' + store.zakoEnemyCounter + '体 <br>';
-										this.text += '雑魚敵２:                      ' + store.zakoEnemy2Counter + '体 <br>';
-										this.text += '敵ボス頭:                      ' + store.bossHeadCounter + '体 <br>';
-										this.text += '敵ボス頭のリボン:          ' + store.bossHeadRibonCounter + '体 <br>';
-										this.text += '敵ボス体:                      ' + store.bossBodyCounter + '体 <br>';
-										this.text += '敵ボスの体のリボン:       ' + store.bossBodyRibonCounter + '体 <br>';
+										this.text += store.zakoEnemyCounter + '体';
+									}
+								),
+								new SuperLabel(
+									185,
+									250,
+									300,
+									100,
+									( store.currentScene == 'gameover' ) ? 'white' : 'black',
+									'25px cursive new',
+									'',
+									null,
+									null,
+									function() {
+										this.text += store.zakoEnemy2Counter + '体';
+									}
+								),
+								new SuperLabel(
+									185,
+									300,
+									300,
+									100,
+									( store.currentScene == 'gameover' ) ? 'white' : 'black',
+									'25px cursive new',
+									'',
+									null,
+									null,
+									function() {
+										this.text += store.bossHeadRibonCounter + '体 <br>';
+									}
+								),
+								new SuperLabel(
+									185,
+									350,
+									300,
+									100,
+									( store.currentScene == 'gameover' ) ? 'white' : 'black',
+									'25px cursive new',
+									'',
+									null,
+									null,
+									function() {
+										this.text += store.bossBodyRibonCounter + '体';
+									}
+								),
+								new SuperLabel(
+									355,
+									200,
+									300,
+									100,
+									( store.currentScene == 'gameover' ) ? 'white' : 'black',
+									'25px cursive new',
+									'',
+									null,
+									null,
+									function() {
+										this.text += store.bossBodyCounter + '体<br>';
+									}
+								),
+								new SuperLabel(
+									355,
+									250,
+									300,
+									100,
+									( store.currentScene == 'gameover' ) ? 'white' : 'black',
+									'25px cursive new',
+									'',
+									null,
+									null,
+									function() {
+										this.text += store.bossHeadCounter + '体<br>';
 									}
 								),
 								new SuperLabel(
@@ -435,7 +498,6 @@ $( function(){
 										this.text = '名前を入力してランキングに登録することができます。';
 									}
 								),
-								//textBox,
 								// テキストボックスのインスタンス
 								new SuperEntity (
 									120,
@@ -574,13 +636,94 @@ $( function(){
 										( store.music ) ? this.frame = [2] : this.frame = [1];
 									},
 									null
+								),
+								// シューター1
+								new SuperImage(
+									32,
+									32,
+									140,
+									200,
+									[4],
+									files.shooter,
+									null,
+									null,
+									null
+								),
+								// シューター2
+								new SuperImage(
+									32,
+									32,
+									140,
+									250,
+									[6],
+									files.shooter,
+									null,
+									null,
+									null
+								),
+								// 頭リボン
+								new SuperImage(
+									78,
+									56,
+									120,
+									290
+									,
+									null,
+									files.head_r,
+									null,
+									null,
+									function() { // ワンタイム処理
+										this.scale(0.5, 0.5);
+									}
+								),
+								// 体リボン
+								new SuperImage(
+									40,
+									31,
+									140,
+									355,
+									null,
+									files.body_r,
+									null,
+									null,
+									function() { // ワンタイム処理
+										this.scale(0.5, 0.5);
+									}
+								),
+								// 体
+								new SuperImage(
+									194,
+									246,
+									205,
+									185,
+									null,
+									files.body,
+									null,
+									null,
+									function() { // ワンタイム処理
+										this.scale(0.5, 0.5);
+									}
+								),
+								// 頭
+								new SuperImage(
+									144,
+									166,
+									225,
+									160,
+									null,
+									files.head,
+									null,
+									null,
+									function() { // ワンタイム処理
+										this.scale(0.5, 0.5);
+									}
 								)
 							],
 							null, // フレーム処理
 							null,
 							function() {
 								// TODO: SuperSceneクラスについかする
-								this._element.style.opacity = 0.9;
+								this._element.style.opacity = 0.8;
 							}
 						);
 						// ゲームオーバー
