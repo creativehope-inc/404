@@ -222,7 +222,6 @@ var sub = ( function(){
 			},
 			// 要素のカウント時の処理(敵のタイプによって敵のカウンターを追加する)
 			addCounter: function( element ) {
-				console.log('敵!!!院栗');
 				switch( element.type ) {
 					case setting.enemyTypeOne:
 						store.zakoEnemyCounter++;

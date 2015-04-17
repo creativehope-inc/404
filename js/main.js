@@ -115,6 +115,11 @@ $( function(){
 					// 開始
 					game.pushScene( playGameFn() );
 				}
+				// スペースでリトライ機能
+				if ( game.input.space ) {
+					console.log('ゲーム押されました');
+					store.currentScene = 'gamestart'
+				}
 			}
 		);
 
@@ -745,7 +750,15 @@ $( function(){
 									}
 								)
 							],
-							null, // フレーム処理
+							function() { // フレーム処理
+								// スペースでリトライ機能
+								if ( game.input.space ) {
+									game.popScene( playGame );
+									game.popScene( gameOver );
+									store.currentScene = '';
+									if ( store.music ) sound.play();
+								}
+							},
 							null,
 							function() {
 								// TODO: SuperSceneクラスについかする
