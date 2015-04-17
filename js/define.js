@@ -74,6 +74,7 @@ var define = ( function(){
 			gameOverSound	: dir + 'sound/mp3/404game_gameover.mp3',
 			bossEnter    	: dir + 'sound/mp3/404game_boss_enter.mp3',
 			bossCrashed  	: dir + 'sound/mp3/404game_boss_crash.mp3',
+			submitButton 	: dir + 'img/submit_button.png'
 		};
 
 		// 各種ポイントの保存庫
@@ -142,7 +143,8 @@ var define = ( function(){
 			files.bossCrashed,
 			files.twitter,
 			files.facebook,
-			files.ranking	
+			files.ranking,
+			files.submitButton
 		);
 		
 		// エクスポート

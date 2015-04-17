@@ -139,7 +139,10 @@ $( function(){
 
 			// フラグ
 			var bossFlag = 1; // ボス出現フラグ
-			var submitFlag = false; // 送信フラグ
+			var submit = {
+				flag : false, // 送信フラグ
+				results: false
+			}
 
 			var playGame = new SuperScene(
 				setting.gameWidth,
@@ -439,12 +442,12 @@ $( function(){
 									null,
 									null,
 									function() {
-										this.text += store.bossBodyCounter + '体<br>';
+										this.text += store.bossHeadCounter + '体<br>';
 									}
 								),
 								new SuperLabel(
 									355,
-									250,
+									270,
 									300,
 									100,
 									( store.currentScene == 'gameover' ) ? 'white' : 'black',
@@ -453,7 +456,7 @@ $( function(){
 									null,
 									null,
 									function() {
-										this.text += store.bossHeadCounter + '体<br>';
+										this.text += store.bossBodyCounter + '体<br>';
 									}
 								),
 								new SuperLabel(
@@ -470,51 +473,27 @@ $( function(){
 										this.text = 'Score: ' + store.gamePoint + ' pt.';
 									}
 								),
-								new SuperLabel(
-									500,
-									185,
-									300,
-									100,
-									( store.currentScene == 'gameover' ) ? 'white' : 'black',
-									'18px cursive new',
-									'',
+								// 送信ボタン
+								new SuperImage(
+									98,
+									32,
+									650,
+									310,
 									null,
-									null,
-									function() {
-										this.text = '名前を入力して送信ボタンを押すと<br>';
-										this.text += 'ランキングに登録することができます。';
-									}
-								),
-								// テキストボックスのインスタンス
-								new SuperEntity (
-									120,
-									30,
-									470,
-									345,
-									document.createElement( 'input' ),
-									'text',
-									'text',
-									'textBox'
-								),
-								new SuperLabel(
-									610,
-									348,
-									300,
-									100,
-									( store.currentScene == 'gameover' ) ? 'white' : 'black',
-									'20px cursive new',
-									'[送信する]',
-									null,
-									function() {
-										if ( !submitFlag ) {
+									files.submitButton,
+									function() { // タッチ処理
+
+										if ( !submit.flag ) {
 											// 送信処理
 											var userName = $( '#textBox' ).val();
 											this.text = '送信中です';
 											if ( !userName ) return this.text = '名前を入力してください';
 
 											// 返信確認
-											var results;
-											window.callbacker  = function( data ) { results = data; }
+											window.callbacker  = function( data ) {
+												submit.results = data;
+												submit.flag = true;
+											}
 											var solt = ( typeof window.__404_picomon_solt__ === 'function' ) ? __404_picomon_solt__() : '';
 											var js2 = document.createElement( 'script' );
 											js2.src = 'https://www.picomon.jp/game/set_score?data=' + Base64.encodeURI( solt + Base64.encodeURI( JSON.stringify( {
@@ -530,19 +509,75 @@ $( function(){
 											var self = this;
 											js2.onload = function () {
 											fjs2.parentNode.removeChild( js2 );
-											if ( results.error == 0 ) {
-													self.text = '送信が完了しました<br>因みに' + results.rank + '位です。';	
+											if ( submit.results.error == 0 ) {
+													self.text = '送信が完了しました<br>因みに' + submit.results.rank + '位です。';	
 												} else {
-													self.text = '送信に失敗しました<br>' + 'Error Code:' + results.err_msg;
+													self.text = '送信に失敗しました<br>' + 'Error Code:' + submit.results.err_msg;
 												}
-												submitFlag = true;
+												submit.flag = true;
 											};
 										}
 									},
-									function(self) {
-										//self._element.style.background = 'red';
+									function() {
+										// 送信ボタンが押されたら削除
+										if (submit.flag) gameOver.removeChild(this);
+									},
+									null
+								),
+								// 説明文字
+								new SuperLabel(
+									500,
+									210,
+									300,
+									100,
+									( store.currentScene == 'gameover' ) ? 'white' : 'black',
+									'18px cursive new',
+									'',
+									null,
+									null,
+									function() {
+										this.text = '名前を入力して送信ボタンを押すと<br>';
+										this.text += 'ランキングに登録することができます';
 									}
 								),
+								// テキストボックス後の通知のインスタンス
+								new SuperLabel(
+									550,
+									300,
+									300,
+									100,
+									( store.currentScene == 'gameover' ) ? 'white' : 'black',
+									'18px cursive new',
+									' ',
+									function() {
+										// 送信ボタンが押されたら削除
+										if ( submit.flag ) {
+											if ( submit.results.error == 0 ) {
+													this.text = '送信が完了しました<br>因みに' + submit.results.rank + '位です。';
+											} else {
+												this.text = '送信に失敗しました<br>' + 'Error Code:' + submit.results.err_msg;
+											}
+										}
+									},
+									null,
+									null
+								),
+								// テキストボックスのインスタンス
+								new SuperEntity (
+									120,
+									30,
+									500,
+									305,
+									document.createElement( 'input' ),
+									'text',
+									'text',
+									'textBox',
+									function() {
+										// 送信ボタンが押されたら削除
+										if (submit.flag) gameOver.removeChild(this);
+									}
+								),
+								//　継続ボタン
 								new SuperLabel(
 									360,
 									520,
@@ -559,11 +594,12 @@ $( function(){
 										if ( store.music ) sound.play();
 									}
 								),
+								// SNSボタン
 								new SuperImage(
 									32,
 									32,
-									470,
-									410,
+									540,
+									400,
 									null,
 									files.twitter,
 									function() { // タッチ処理
@@ -581,8 +617,8 @@ $( function(){
 								new SuperImage(
 									32,
 									32,
-									530,
-									410,
+									600,
+									400,
 									null,
 									files.facebook,
 									function() { // タッチ処理
@@ -597,8 +633,8 @@ $( function(){
 								new SuperImage(
 									32,
 									32,
-									590,
-									410,
+									660,
+									400,
 									null,
 									files.ranking,
 									function() { // タッチ処理

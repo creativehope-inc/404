@@ -213,7 +213,7 @@ var base = ( function () {
 		// ###########################
 		var SuperEntity = Class.create( Entity, {
 			// コンストラクタ
-			initialize: function(width, height, x, y, element, elementType, elementName, elementId){
+			initialize: function(width, height, x, y, element, elementType, elementName, elementId, efFn){
 				// とにかく入れまくり
 				Entity.call( this );
 				this.width	= width;
@@ -224,6 +224,10 @@ var base = ( function () {
 				this._element.type = elementType;
 				this._element.name = elementName;
 				this._element.id = elementId;
+				var self = this;
+				this.addEventListener( 'enterframe' , function() {
+					if ( efFn ) efFn.call(self);
+				} );
 				return this;
 			}
 		} );
