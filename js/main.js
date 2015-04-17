@@ -376,7 +376,7 @@ $( function(){
 								),
 								// 撃破数
 								new SuperLabel(
-									185,
+									215,
 									200,
 									300,
 									100,
@@ -390,7 +390,7 @@ $( function(){
 									}
 								),
 								new SuperLabel(
-									185,
+									215,
 									250,
 									300,
 									100,
@@ -404,7 +404,7 @@ $( function(){
 									}
 								),
 								new SuperLabel(
-									185,
+									215,
 									300,
 									300,
 									100,
@@ -418,7 +418,7 @@ $( function(){
 									}
 								),
 								new SuperLabel(
-									185,
+									215,
 									350,
 									300,
 									100,
@@ -432,7 +432,7 @@ $( function(){
 									}
 								),
 								new SuperLabel(
-									355,
+									385,
 									200,
 									300,
 									100,
@@ -446,7 +446,7 @@ $( function(){
 									}
 								),
 								new SuperLabel(
-									355,
+									385,
 									270,
 									300,
 									100,
@@ -460,7 +460,7 @@ $( function(){
 									}
 								),
 								new SuperLabel(
-									170,
+									200,
 									430,
 									300,
 									100,
@@ -477,8 +477,8 @@ $( function(){
 								new SuperImage(
 									98,
 									32,
-									650,
-									310,
+									680,
+									305,
 									null,
 									files.submitButton,
 									function() { // タッチ処理
@@ -526,7 +526,7 @@ $( function(){
 								),
 								// 説明文字
 								new SuperLabel(
-									500,
+									530,
 									210,
 									300,
 									100,
@@ -542,7 +542,7 @@ $( function(){
 								),
 								// テキストボックス後の通知のインスタンス
 								new SuperLabel(
-									550,
+									580,
 									300,
 									300,
 									100,
@@ -566,7 +566,7 @@ $( function(){
 								new SuperEntity (
 									120,
 									30,
-									500,
+									530,
 									305,
 									document.createElement( 'input' ),
 									'text',
@@ -579,7 +579,7 @@ $( function(){
 								),
 								//　継続ボタン
 								new SuperLabel(
-									360,
+									390,
 									520,
 									300,
 									100,
@@ -598,7 +598,7 @@ $( function(){
 								new SuperImage(
 									32,
 									32,
-									540,
+									570,
 									400,
 									null,
 									files.twitter,
@@ -617,7 +617,7 @@ $( function(){
 								new SuperImage(
 									32,
 									32,
-									600,
+									630,
 									400,
 									null,
 									files.facebook,
@@ -633,7 +633,7 @@ $( function(){
 								new SuperImage(
 									32,
 									32,
-									660,
+									690,
 									400,
 									null,
 									files.ranking,
@@ -642,7 +642,7 @@ $( function(){
 										// 送信処理
 										window.open( 'http://battamon.net:8080/kaneko_game/404/popup.html' ,
 										'ranking-dialog',
-										'width=313,height=230' );
+										'width=313,height=400' );
 									},
 									null,
 									null
@@ -667,7 +667,7 @@ $( function(){
 								new SuperImage(
 									32,
 									32,
-									140,
+									170,
 									200,
 									[4],
 									files.shooter,
@@ -679,7 +679,7 @@ $( function(){
 								new SuperImage(
 									32,
 									32,
-									140,
+									170,
 									250,
 									[6],
 									files.shooter,
@@ -691,7 +691,7 @@ $( function(){
 								new SuperImage(
 									78,
 									56,
-									120,
+									150,
 									290
 									,
 									null,
@@ -706,7 +706,7 @@ $( function(){
 								new SuperImage(
 									40,
 									31,
-									140,
+									170,
 									355,
 									null,
 									files.body_r,
@@ -720,7 +720,7 @@ $( function(){
 								new SuperImage(
 									194,
 									246,
-									205,
+									235,
 									185,
 									null,
 									files.body,
@@ -734,7 +734,7 @@ $( function(){
 								new SuperImage(
 									144,
 									166,
-									225,
+									255,
 									160,
 									null,
 									files.head,
