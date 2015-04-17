@@ -471,31 +471,18 @@ $( function(){
 									}
 								),
 								new SuperLabel(
-									460,
-									240,
+									500,
+									185,
 									300,
 									100,
 									( store.currentScene == 'gameover' ) ? 'white' : 'black',
-									'20px cursive new',
+									'18px cursive new',
 									'',
 									null,
 									null,
 									function() {
-										this.text = '----------シェア----------<br>';
-									}
-								),
-								new SuperLabel(
-									460,
-									265,
-									300,
-									100,
-									( store.currentScene == 'gameover' ) ? 'white' : 'black',
-									'20px cursive new',
-									'',
-									null,
-									null,
-									function() {
-										this.text = '名前を入力してランキングに登録することができます。';
+										this.text = '名前を入力して送信ボタンを押すと<br>';
+										this.text += 'ランキングに登録することができます。';
 									}
 								),
 								// テキストボックスのインスタンス
@@ -551,6 +538,9 @@ $( function(){
 												submitFlag = true;
 											};
 										}
+									},
+									function(self) {
+										//self._element.style.background = 'red';
 									}
 								),
 								new SuperLabel(

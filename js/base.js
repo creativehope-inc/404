@@ -28,7 +28,7 @@ var base = ( function () {
 				this.font 	= font;
 				this.text 	= text || ''; // エラーが出る可能性があるので空文字を入れておく
 				var self  	= this;
-			
+				
 				$( this ).on( 'enterframe' , function() {
 					// イベントリスナーの処理はcallbackに保存する
 					if ( efFn ) efFn.call( self );
@@ -38,7 +38,7 @@ var base = ( function () {
 					if ( toFn ) toFn.call( self );
 				} );
 				// ワンタイム処理
-				if ( otFn ) otFn.call( self );
+				if ( otFn ) otFn.call( self, self );
 			}
 		} );
 
