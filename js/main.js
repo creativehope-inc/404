@@ -55,7 +55,7 @@ $( function(){
 		var sound = game.assets[ files.mainSound ].clone();
 		// Note: 全てのIEでエラーが出るので原因はわからないが終了する
 		//sound.src.loop = true;
-		if ( store.music ) sound.play();
+		if ( store.music )  sound.play();
 		sound.preMusic = store.music; // 過去のデータを保存する
 
 		// ########################################################
@@ -66,43 +66,43 @@ $( function(){
 		new SuperRootScene(
 			game,
 			[ // 以下addchild要素
-			new SuperBackground(
-				setting.gameWidth,
-				setting.gameHeight,
-				files.title,
-				null,
-				null
-			),
-			new SuperImage(
-				291,
-				55,
-				340,
-				420,
-				null,
-				files.startButton,
-				function() { // タッチ処理
-					// ゲームスタート
-					store.currentScene = 'gamestart';
-				},
-				null,
-				null
-			),
-			new SuperImage(
-				87,
-				32/2,
-				830,
-				10,
-				[2],
-				files.soundButton,
-				function() { // タッチ処理
-					( store.music ) ? store.music = false : store.music = true;
-				},
-				function() { // フレーム処理
-					// 音楽の切り替え
-					( store.music ) ? this.frame = [1] : this.frame = [2];
-				},
-				null
-			)
+				new SuperBackground(
+					setting.gameWidth,
+					setting.gameHeight,
+					files.title,
+					null,
+					null
+				),
+				new SuperImage(
+					291,
+					55,
+					340,
+					420,
+					null,
+					files.startButton,
+					function() { // タッチ処理
+						// ゲームスタート
+						store.currentScene = 'gamestart';
+					},
+					null,
+					null
+				),
+				new SuperImage(
+					87,
+					32/2,
+					830,
+					10,
+					( store.music ) ? this.frame = [1] : this.frame = [2],
+					files.soundButton,
+					function() { // タッチ処理
+						( store.music ) ? store.music = false : store.music = true;
+					},
+					function() { // フレーム処理
+						// 音楽の切り替え
+						( store.music ) ? this.frame = [1] : this.frame = [2];
+					},
+					null
+				)
 			],
 			// エンターフレーム処理
 			function() {
@@ -227,10 +227,33 @@ $( function(){
 						function() {
 							this.text = 'Score: ' + store.gamePoint;
 						}
+					),
+					new SuperImage(
+						87,
+						32/2,
+						830,
+						10,
+						( store.music ) ? this.frame = [1] : this.frame = [2],
+						files.soundButton,
+						function() { // タッチ処理
+							( store.music ) ? store.music = false : store.music = true;
+						},
+						function() { // フレーム処理
+							// 音楽の切り替え
+							( store.music ) ? this.frame = [1] : this.frame = [2];
+						},
+						null
 					)
 				],
 				// フレーム処理
 				function() {
+
+					// 割り込みBGM専用処理
+					if ( sound.preMusic != store.music ) {
+						( store.music ) ? sound.play() : sound.pause();
+						sound.preMusic = store.music;
+					}
+
 					// 敵小用
 					if ( store.gameTime > 1 && store.gameTime < 30 ) {
 						// 敵を出現させる(zako敵)
@@ -533,9 +556,27 @@ $( function(){
 									},
 									null,
 									null
+								),
+								new SuperImage(
+									87,
+									32/2,
+									830,
+									10,
+									( store.music ) ? this.frame = [1] : this.frame = [2],
+									files.soundButton,
+									function() { // タッチ処理
+										( store.music ) ? store.music = false : store.music = true;
+									},
+									function() { // フレーム処理
+										// 音楽の切り替え
+										( store.music ) ? this.frame = [1] : this.frame = [2];
+									},
+									null
 								)
 							],
-							null,
+							function() { // フレーム処理
+								console.log('ゲームオーバー処理');
+							},
 							null,
 							null
 						);
