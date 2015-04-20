@@ -17,13 +17,13 @@ $( function(){
 		itemArr   = gamer.itemArr;
 
 	// スーパーの設定
-	var SuperLabel 	               	= superClass.SuperLabel,
-	    SuperSprite	               	= superClass.SuperSprite,
-	               	SuperBackground	= superClass.SuperBackground,
-	               	SuperScene     	= superClass.SuperScene,
-	               	SuperImage     	= superClass.SuperImage,
-	               	SuperEntity    	= superClass.SuperEntity,
-	               	SuperRootScene 	= superClass.SuperRootScene;
+	var SuperLabel 		= superClass.SuperLabel,
+	    SuperSprite		= superClass.SuperSprite,
+		SuperBackground	= superClass.SuperBackground,
+		SuperScene    	= superClass.SuperScene,
+		SuperImage    	= superClass.SuperImage,
+		SuperEntity   	= superClass.SuperEntity,
+		SuperRootScene	= superClass.SuperRootScene;
 
 	// サブクラスの設定
 	var Aircraft			= klass.Aircraft,
@@ -807,40 +807,40 @@ $( function(){
 	var userAgent = window.navigator.userAgent.toLowerCase();
 	var appVersion = window.navigator.appVersion.toLowerCase();
 
-	var ua = (function() {
-		if (userAgent.indexOf('opr') != -1) {
+	var ua = ( function() {
+		if ( userAgent.indexOf( 'opr' ) != - 1 ) {
 		  return 'opera';
-		} else if (userAgent.indexOf('msie') != -1) {
+		} else if ( userAgent.indexOf( 'msie' ) != -1 ) {
 			// IEの場合は判定
-			if (appVersion.indexOf("msie 6.") != -1) {
+			if ( appVersion.indexOf( 'msie 6.' ) != -1 ) {
 				return 'ie6';
-			} else if (appVersion.indexOf("msie 7.") != -1) {
+			} else if ( appVersion.indexOf( 'msie 7.' ) != -1 ) {
 				return 'ie7';
-			} else if (appVersion.indexOf("msie 8.") != -1) {
+			} else if ( appVersion.indexOf( 'msie 8.' ) != -1 ) {
 				return 'ie8';
-			} else if (appVersion.indexOf("msie 9.") != -1) {
+			} else if ( appVersion.indexOf( 'msie 9.' ) != -1 ) {
 				return 'ie9';
 			} else {
 				return 'ie';
 			}
-		} else if (userAgent.indexOf('chrome') != -1) {
+		} else if ( userAgent.indexOf( 'chrome' ) != - 1 ) {
 			return 'chrome';
-		} else if (userAgent.indexOf('safari') != -1) {
+		} else if ( userAgent.indexOf( 'safari' ) != - 1 ) {
 			return 'safari';
-		} else if (userAgent.indexOf('gecko') != -1) {
+		} else if ( userAgent.indexOf( 'gecko' ) != -1 ) {
 			return 'gecko';
 		} else {
 			return false;
 		}
-	}());
+	} () );
 
 	// 要素の削除
-	if (ua =='ie7' || ua == 'ie6' || ua == 'ie8' || ua == 'opera') {
+	if ( ua =='ie7' || ua == 'ie6' || ua == 'ie8' || ua == 'opera' ) {
 		game.stop();
-		$(function(){
-			$("#enchant-stage").remove();
-			$('.ie_alert').show().css("text-aline", 'center');
-		});
+		$( function(){
+			$( '#enchant-stage' ).remove();
+			$('.ie_alert' ).show().css( 'text-aline', 'center' );
+		} );
 	}
 
 

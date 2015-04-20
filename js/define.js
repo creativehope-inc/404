@@ -3,8 +3,6 @@ var define = ( function(){
 	return function () {
 
 		// おまじない
-		window._picomon_savedScore = function ( data ) {
-		};
 		var js = document.createElement( 'script' );
 		js.src = 'https://www.picomon.jp/game/get_solt.js';
 		var fjs = document.getElementsByTagName( 'script' )[ 0 ];

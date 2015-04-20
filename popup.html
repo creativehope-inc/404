@@ -8,105 +8,99 @@
 <script src="js/libs/jquery-1.11.2.min.js"></script>
 <style>
 
-    body {
-        margin: 0px;
-        background-color: #ffffd5;
-        font-family: 'Lucida Grande', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
-        line-height: 20px;
-    }
-    
-    #wrapper {
-        padding: 5px;
-        padding-bottom: 20px
-    }
-    
-    #top_logo {
-        display: block;
-        text-align: center;
-        margin: 0 auto;;
-    }
-    
-    table {
-        margin-left: auto;
-        margin-right: auto;
-    }
+	body {
+		margin: 0px;
+		background-color: #ffffd5;
+		font-family: 'Lucida Grande', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+		line-height: 20px;
+	}
+	
+	#wrapper {
+		padding: 5px;
+		padding-bottom: 20px
+	}
+	
+	#top_logo {
+		display: block;
+		text-align: center;
+		margin: 0 auto;;
+	}
+	
+	table {
+		margin-left: auto;
+		margin-right: auto;
+	}
 
-    table tr:first-child td:first-child {
-        background: url('./assets/img/img_gold.png');
-        background-repeat: no-repeat;
-        text-indent:-9999px;
-        background-position: 4px 4px;
-        background-size: 40%;
-    }
+	table tr:first-child td:first-child {
+		background: url('./assets/img/img_gold.png');
+		background-repeat: no-repeat;
+		text-indent:-9999px;
+		background-position: 4px 4px;
+		background-size: 40%;
+	}
 
-    table tr:nth-child(2) td:first-child {
-        background: url('./assets/img/img_silver.png');
-        background-repeat: no-repeat;
-        text-indent:-9999px;
-        background-position: 4px 4px;
-        background-size: 40%;
-    }
+	table tr:nth-child(2) td:first-child {
+		background: url('./assets/img/img_silver.png');
+		background-repeat: no-repeat;
+		text-indent:-9999px;
+		background-position: 4px 4px;
+		background-size: 40%;
+	}
 
-    table tr:nth-child(3) td:first-child {
-        background: url('./assets/img/img_copper.png');
-        background-repeat: no-repeat;
-        text-indent:-9999px;
-        background-position: 4px 4px;
-        background-size: 40%;
-    }
+	table tr:nth-child(3) td:first-child {
+		background: url('./assets/img/img_copper.png');
+		background-repeat: no-repeat;
+		text-indent:-9999px;
+		background-position: 4px 4px;
+		background-size: 40%;
+	}
 
 </style>
 <script>
-    var js = document.createElement( 'script' );
-    js.src = 'https://www.picomon.jp/game/get_solt.js';
-    var fjs = document.getElementsByTagName( 'script' )[ 0 ];
-    fjs.parentNode.insertBefore( js, fjs );
+	var js = document.createElement( 'script' );
+	js.src = 'https://www.picomon.jp/game/get_solt.js';
+	var fjs = document.getElementsByTagName( 'script' )[ 0 ];
+	fjs.parentNode.insertBefore( js, fjs );
+	js.onload = function() {
+		var solt = ( typeof window.__404_picomon_solt__ === 'function' ) ? __404_picomon_solt__() : '';
+		var js2 = document.createElement( 'script' );
+		js2.src = 'https://www.picomon.jp/game/get_score?type=shooting_code_404&callback=callbacker';
+		var fjs2 = document.getElementsByTagName( 'script' )[ 0 ];
+		fjs2.parentNode.insertBefore( js2, fjs2 );
 
-    js.onload = function() {
-    __404_picomon_solt__();
-    var results;
-    window.callbacker  = function( data ) { results = data; }
-    var solt = ( typeof window.__404_picomon_solt__ === 'function' ) ? __404_picomon_solt__() : '';
-        var js2 = document.createElement( 'script' );
-        js2.src = 'https://www.picomon.jp/game/get_score?type=shooting_code_404&callback=callbacker';
-        var fjs2 = document.getElementsByTagName( 'script' )[ 0 ];
-        fjs2.parentNode.insertBefore( js2, fjs2 );
+		window.callbacker  = function( data ) {
+			fjs2.parentNode.removeChild( js2 );
+			displayTable( data );
+		};
 
-        // 送信確認処理
-        var self = this;
-        js2.onload = function () {
-            fjs2.parentNode.removeChild( js2 );
-            displayTable( results );
-        };
-
-        // テーブルを表示する
-        function displayTable( results ) {
-            var arr = results.ranking;
-            var text = "<table>";
-            for ( key in arr ) {
-                var gai = JSON.parse( arr[ key ] );
-                var score = gai.score;
-                var num = parseInt( key );
-                var nickname = gai.nickname;
-                text += '<tr>';
-                text += '<td>' + ( num + 1 ) + '位</td>';
-                text += '<td>' + score + '点</td>';
-                text += '<td>' + nickname + 'さん</td>';
-                text += '</tr>';
-            }
-            text += '</table>';
-            $( '#main' ).html( text );
-        }
-    };
+		// テーブルを表示する
+		function displayTable( data ) {
+			var arr = data.ranking;
+			var text = '<table>';
+			for ( key in arr ) {
+				var gai = JSON.parse( arr[ key ] );
+				var score = gai.score;
+				var num = parseInt( key );
+				var nickname = gai.nickname;
+				text += '<tr>';
+				text += '<td>' + ( num + 1 ) + '位</td>';
+				text += '<td>' + score + '点</td>';
+				text += '<td>' + nickname + 'さん</td>';
+				text += '</tr>';
+			}
+			text += '</table>';
+			$( '#main' ).html( text );
+		}
+	};
 </script>
 
 </head>
 <body>
-    <div id='wrapper'>
-        <p>
-            <img src='./assets/img/img_ranking.png' id='top_logo' width='211px' height='48px'>
-        </p>
-       <div id='main'></div>
-    </div>
+	<div id="wrapper">
+		<p>
+			<img src="./assets/img/img_ranking.png" id="top_logo" width="211px" height="48px">
+		</p>
+		<div id="main"></div>
+	</div>
 </body>
 </html>
