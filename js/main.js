@@ -839,7 +839,7 @@ $( function(){
 		game.stop();
 		$( function(){
 			$( '#enchant-stage' ).remove();
-			$('.ie_alert' ).show().css( 'text-aline', 'center' );
+			$( '.ie_alert' ).show().css( 'text-aline', 'center' );
 		} );
 	}
 
