@@ -53,9 +53,8 @@ $( function(){
 
 		// 音楽データの保存
 		var sound = game.assets[ files.mainSound ].clone();
-		// Note: 全てのIEでエラーが出るので原因はわからないが終了する
-		//sound.src.loop = true;
 		sound.preMusic = store.music; // 過去のデータを保存する
+		domSoundFlag = !!(sound.src); // WebAudioSound Flag （IE用に設置）
 
 		// ########################################################
 		//                シーンの設定
@@ -105,11 +104,29 @@ $( function(){
 			],
 			// エンターフレーム処理
 			function() {
-				// 音楽の切り替え処理
-				if ( sound.preMusic != store.music ) {
-					( store.music ) ? sound.play() : sound.pause();
-					sound.preMusic = store.music;
+
+				// ミュージック
+				if ( domSoundFlag ) {
+					if ( sound.preMusic != store.music ) {
+						if ( store.music ) {
+							sound.play();
+							sound.src.loop = true;
+						} else {
+							sound.pause();
+							sound.src.loop = false;
+						}
+						sound.preMusic = store.music;
+					}
+				} else { // IE(WebAudioSound用)
+					if ( store.music ) {
+						if ( !sound.src ) {
+							sound.play();
+						}
+					} else {
+						sound.pause();
+					}
 				}
+
 				// カレントシーンの判断
 				if ( store.currentScene == 'gamestart' ) {
 					// 開始
@@ -146,7 +163,7 @@ $( function(){
 			var submit = {
 				flag : false, // 送信フラグ
 				results: false
-			}
+			};
 
 			var playGame = new SuperScene(
 				setting.gameWidth,
@@ -255,9 +272,25 @@ $( function(){
 				function() {
 
 					// 割り込みBGM専用処理
-					if ( sound.preMusic != store.music ) {
-						( store.music ) ? sound.play() : sound.pause();
-						sound.preMusic = store.music;
+					if ( domSoundFlag ) {
+						if ( sound.preMusic != store.music ) {
+							if ( store.music ) {
+								sound.play();
+								sound.src.loop = true;
+							} else {
+								sound.pause();
+								sound.src.loop = false;
+							}
+							sound.preMusic = store.music;
+						}
+					} else { // IE(WebAudioSound用)
+						if ( store.music ) {
+							if ( !sound.src ) {
+								sound.play();
+							}
+						} else {
+							sound.pause();
+						}
 					}
 
 					// 敵小用
@@ -497,7 +530,7 @@ $( function(){
 											window.callbacker  = function( data ) {
 												submit.results = data;
 												submit.flag = true;
-											}
+											};
 											var solt = ( typeof window.__404_picomon_solt__ === 'function' ) ? __404_picomon_solt__() : '';
 											var js2 = document.createElement( 'script' );
 											js2.src = 'https://www.picomon.jp/game/set_score?data=' + Base64.encodeURI( solt + Base64.encodeURI( JSON.stringify( {
@@ -595,7 +628,28 @@ $( function(){
 										game.popScene( playGame );
 										game.popScene( gameOver );
 										store.currentScene = '';
-										if ( store.music ) sound.play();
+										// 割り込み様
+										// ミュージック
+										if ( domSoundFlag ) {
+											if ( sound.preMusic != store.music ) {
+												if ( store.music ) {
+													sound.play();
+													sound.src.loop = true;
+												} else {
+													sound.pause();
+													sound.src.loop = false;
+												}
+												sound.preMusic = store.music;
+											}
+										} else { // IE(WebAudioSound用)
+											if ( store.music ) {
+												if ( !sound.src ) {
+													sound.play();
+												}
+											} else {
+												sound.pause();
+											}
+										}
 									}
 								),
 								// SNSボタン
@@ -644,7 +698,7 @@ $( function(){
 									function() { // タッチ処理
 										// ランキングのウィンドウを表示
 										// 送信処理
-										window.open( 'http://battamon.net:8080/kaneko_game/404/popup.html' ,
+										window.open( location.origin + location.pathname.split("/").reverse().slice(1).reverse().join("/") + '/popup.html' ,
 										'ranking-dialog',
 										'width=313,height=400' );
 									},
@@ -751,12 +805,14 @@ $( function(){
 							],
 							function() { // フレーム処理
 								// スペースでリトライ機能
+								/*
 								if ( game.input.space ) {
 									game.popScene( playGame );
 									game.popScene( gameOver );
 									store.currentScene = '';
 									if ( store.music ) sound.play();
 								}
+								*/
 							},
 							null,
 							function() {

@@ -42,7 +42,7 @@ var define = ( function(){
 			enemyTypeThreeBodyRibbonHitpoint	: 50
 		};
 
-		var dir = 'assets/'
+		var dir = 'assets/';
 		// ゲームの画像用ストア 
 		var files = {
 			background   	: dir + 'img/background1.png',
