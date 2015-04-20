@@ -59,7 +59,9 @@ var base = ( function () {
 			},
 			// 機体の削除処理
 			removeInstance : function( self ) {
-				this.pg.removeChild( self );
+				// 登録イベントの削除
+				self.clearEventListener('enterframe');
+				self.pg.removeChild( self );
 				// 配列のdelete処理
 				return this;
 			},
@@ -94,6 +96,8 @@ var base = ( function () {
 					} else {
 						self.removeInstance( self );
 					}
+					// 登録イベントの削除
+					self.clearEventListener('enterframe');
 				}
 			},
 			// 配列か確認プライベートメソッド

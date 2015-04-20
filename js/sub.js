@@ -366,7 +366,7 @@ var sub = ( function(){
 						if ( game.frame % 100 == 0 ) {
 							// 弾幕処理
 							for ( var i = 0; i < 5; i++ ) {
-								for ( var j = -5; j < 5; j++ ) {
+								for ( var j = - 5; j < 5; j++ ) {
 									if ( i != 0 && j != 0 ) {
 										// 発射処理
 										new BossBullet2(
@@ -966,4 +966,5 @@ var sub = ( function(){
 			Cure               	: Cure
 		};
 	};
+
 } )();
