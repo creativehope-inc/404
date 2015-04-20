@@ -4,8 +4,7 @@ var base = ( function () {
 		//             インポート
 		// #####################################
 		var game     	= gamer.game,
-			setting   	= gamer.setting,
-			files    	= gamer.files,
+			setting   	= gamer.settin			files    	= gamer.files,
 			store    	= gamer.store,
 			playerArr	= gamer.playerArr,
 			enemyArr 	= gamer.enemyArr,

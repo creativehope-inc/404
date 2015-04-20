@@ -65,43 +65,37 @@
     js.onload = function() {
     __404_picomon_solt__();
     var results;
-    window.callbacker  = function(　data　) {　results = data;　}
+    window.callbacker  = function( data ) { results = data; }
     var solt = ( typeof window.__404_picomon_solt__ === 'function' ) ? __404_picomon_solt__() : '';
         var js2 = document.createElement( 'script' );
-        js2.src = 'https://www.picomon.jp/game/set_score?data=' + Base64.encodeURI( solt + Base64.encodeURI( JSON.stringify( {
-            callback: 'callbacker',
-            type:      'shooting_code_404',
-            score:    1, // <--- 0ポイントだとエラーなのでバリでする
-            nickname: encodeURIComponent( 'test' )
-        } ) ) );
+        js2.src = 'https://www.picomon.jp/game/get_score?type=shooting_code_404&callback=callbacker';
         var fjs2 = document.getElementsByTagName( 'script' )[ 0 ];
         fjs2.parentNode.insertBefore( js2, fjs2 );
 
         // 送信確認処理
         var self = this;
-　       js2.onload = function () {
- 　          fjs2.parentNode.removeChild( js2 );
-            displayTable(　results　);
+        js2.onload = function () {
+            fjs2.parentNode.removeChild( js2 );
+            displayTable( results );
         };
 
-        // テーブルを表示するよ
-        function displayTable(　results　) {
+        // テーブルを表示する
+        function displayTable( results ) {
             var arr = results.ranking;
             var text = "<table>";
-            for (　key in arr　) {
-                var gai = JSON.parse(　arr[　key　]　);
-                console.log(key,gai);
+            for ( key in arr ) {
+                var gai = JSON.parse( arr[ key ] );
                 var score = gai.score;
-                var num = Number(　key　);
+                var num = parseInt( key );
                 var nickname = gai.nickname;
                 text += '<tr>';
-                text += '<td>' + (　num　+　1　) +　'位</td>';
-                text += '<td>' + score +　'点</td>';
-                text += '<td>' + nickname +　'さん</td>';
+                text += '<td>' + ( num + 1 ) + '位</td>';
+                text += '<td>' + score + '点</td>';
+                text += '<td>' + nickname + 'さん</td>';
                 text += '</tr>';
             }
             text += '</table>';
-            $(　'#main'　).html(　text　);
+            $( '#main' ).html( text );
         }
     };
 </script>

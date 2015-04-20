@@ -17,13 +17,13 @@ $( function(){
 		itemArr   = gamer.itemArr;
 
 	// スーパーの設定
-	var SuperLabel 		= superClass.SuperLabel,
-	    SuperSprite		= superClass.SuperSprite,
-		SuperBackground	= superClass.SuperBackground,
-		SuperScene    	= superClass.SuperScene,
-		SuperImage    	= superClass.SuperImage,
-		SuperEntity   	= superClass.SuperEntity,
-		SuperRootScene	= superClass.SuperRootScene;
+	var SuperLabel 	               	= superClass.SuperLabel,
+	    SuperSprite	               	= superClass.SuperSprite,
+	               	SuperBackground	= superClass.SuperBackground,
+	               	SuperScene     	= superClass.SuperScene,
+	               	SuperImage     	= superClass.SuperImage,
+	               	SuperEntity    	= superClass.SuperEntity,
+	               	SuperRootScene 	= superClass.SuperRootScene;
 
 	// サブクラスの設定
 	var Aircraft			= klass.Aircraft,
@@ -581,7 +581,7 @@ $( function(){
 										if (submit.flag) gameOver.removeChild(this);
 									}
 								),
-								//　継続ボタン
+								// 継続ボタン
 								new SuperLabel(
 									390,
 									520,
@@ -838,7 +838,6 @@ $( function(){
 	if (ua =='ie7' || ua == 'ie6' || ua == 'ie8' || ua == 'opera') {
 		game.stop();
 		$(function(){
-			console.log('GWEgew');
 			$("#enchant-stage").remove();
 			$('.ie_alert').show().css("text-aline", 'center');
 		});
