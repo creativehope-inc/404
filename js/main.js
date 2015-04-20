@@ -163,7 +163,7 @@ $( function(){
 			var submit = {
 				flag : false, // 送信フラグ
 				results: false
-			}
+			};
 
 			var playGame = new SuperScene(
 				setting.gameWidth,
@@ -530,7 +530,7 @@ $( function(){
 											window.callbacker  = function( data ) {
 												submit.results = data;
 												submit.flag = true;
-											}
+											};
 											var solt = ( typeof window.__404_picomon_solt__ === 'function' ) ? __404_picomon_solt__() : '';
 											var js2 = document.createElement( 'script' );
 											js2.src = 'https://www.picomon.jp/game/set_score?data=' + Base64.encodeURI( solt + Base64.encodeURI( JSON.stringify( {

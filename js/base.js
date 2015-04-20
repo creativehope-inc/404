@@ -117,7 +117,7 @@ var base = ( function () {
 			// コンストラクタ
 			initialize: function(x, y, imgSrc, efFn, otFn){ // meはPlayGameインスタンスを指す
 				Sprite.call(this, x, y);
-				this.image = game.assets[imgSrc]
+				this.image = game.assets[imgSrc];
 				// エンターフレーの処理
 				var self = this;
 				// フレーム処理
@@ -142,7 +142,7 @@ var base = ( function () {
 				this.height = height;
 				this.backgroundColor = backgroundColor;
 				// 背景画像などの追加処理
-				for ( key in addArr )  {
+				for (var key in addArr )  {
 					this.addChild( addArr[ key ] );
 				}
 				$( this ).on( 'enterframe' , function() {
@@ -169,7 +169,7 @@ var base = ( function () {
 				this.height = height;
 				this.backgroundColor = backgroundColor;
 				// 背景画像などの追加処理
-				for ( key in addArr )  {
+				for (var key in addArr )  {
 					this.addChild( addArr[ key ] );
 				}
 				// フレームのイベント
@@ -242,7 +242,7 @@ var base = ( function () {
 		var SuperRootScene = function(game ,arr, efFn) {
 			var rs = game.rootScene;
 			// ちゃいるどの追加
-			for (key in arr) {
+			for (var key in arr) {
 				rs.addChild(arr[key]);
 			}
 			// イベント発火
@@ -250,7 +250,7 @@ var base = ( function () {
 				if (efFn) efFn();
 			} );
 			return rs;
-		}
+		};
 
 		// エクスポート
 		return {
