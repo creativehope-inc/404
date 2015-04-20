@@ -96,8 +96,8 @@ var define = ( function(){
 
 		// ゲームの敵やアイテムのインスタンスの保存庫
 		var playerArr	= [],
-		enemyArr     	= [],
-		itemArr      	= [];
+			enemyArr     	= [],
+			itemArr      	= [];
 
 		// おまじない
 		enchant();
@@ -147,7 +147,7 @@ var define = ( function(){
 		
 		// エクスポート
 		return {
-			game : game,
+			game     	: game,
 			setting  	: setting,
 			files    	: files,
 			store    	: store,
