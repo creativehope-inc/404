@@ -365,8 +365,8 @@ var sub = ( function(){
 					} else {
 						if ( game.frame % 100 == 0 ) {
 							// 弾幕処理
-							for ( var i = -4; i < 4; i++ ) {
-								for ( var j = -4; j < 4; j++ ) {
+							for ( var i = 0; i < 5; i++ ) {
+								for ( var j = -5; j < 5; j++ ) {
 									if ( i != 0 && j != 0 ) {
 										// 発射処理
 										new BossBullet2(
@@ -437,7 +437,21 @@ var sub = ( function(){
 				this.action();
 				// イベントリスナー
 				var flag = false;
+				var naki = false; // 泣き顔フラグ
 				this.addEventListener( 'enterframe', function() {
+					// 顔の変化を表現
+					if ( !store.MajiFlag ) {
+						if ( game.frame % 10 == 0 ) {
+							( this.frame == 1 ) ? this.setFrame( [ 2 ] ) : this.setFrame( [ 1 ] );
+						}
+					} else {
+						if ( !naki ) {
+							// 泣き顔に変化
+							self.setImage( files.head_2 );
+							self.setFrame( [ 1 ] );
+							naki = true;
+						}
+					}
 					// 動き
 					this.move();
 					// 体力確認
