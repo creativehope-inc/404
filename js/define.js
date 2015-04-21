@@ -95,7 +95,7 @@ var define = ( function(){
 		};
 
 		// ゲームの敵やアイテムのインスタンスの保存庫
-		var playerArr	= [],
+		var playerArr		= [],
 			enemyArr     	= [],
 			itemArr      	= [];
 
@@ -112,6 +112,7 @@ var define = ( function(){
 		var game = new Core( setting.gameWidth, setting.gameHeight );
 		game.fps = 30;
 		game.keybind( 32, 'space' );
+		game.keybind( 16, 'shift' ); // シフトイン
 
 		// プリリロード
 		// TODO: プロパティ名に予約語が入っている
