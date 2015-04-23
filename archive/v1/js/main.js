@@ -463,7 +463,7 @@
 				u = z.userId;
 			} catch ( e ) {}
 
-			window._picomon_savedScore  = function( data ) {
+			window._picomon_savedScore = function( data ) {
 				innerRankingElm.style.display  = 'block';
 				sendScoreFormElm.style.display = 'none';
 				scoreTextElm.style.display     = 'none';
