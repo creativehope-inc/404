@@ -463,7 +463,7 @@
 				u = z.userId;
 			} catch ( e ) {}
 
-			window._picomon_savedScore = function( data ) {
+			window._picomon_savedScore = function ( data ) {
 				innerRankingElm.style.display  = 'block';
 				sendScoreFormElm.style.display = 'none';
 				scoreTextElm.style.display     = 'none';
@@ -486,7 +486,7 @@
 			};
 			var solt = ( typeof window.__404_picomon_solt__ === 'function' ) ? __404_picomon_solt__() : '';
 			var js2 = document.createElement( 'script' );
-			var sc  = Number( scoreField.text );
+			var sc  = parseInt( scoreField.text, 10 );
 			js2.src = 'https://www.picomon.jp/game/set_score?data=' + Base64.encodeURI( solt + Base64.encodeURI( JSON.stringify( {
 				callback: '_picomon_savedScore',
 				type:     'first404',
