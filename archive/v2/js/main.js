@@ -11,6 +11,11 @@
 
 (function( window ){
 
+	var js = document.createElement( 'script' );
+	js.src = 'https://www.picomon.jp/game/get_solt.js';
+	var fjs = document.getElementsByTagName( 'script' )[ 0 ];
+	fjs.parentNode.insertBefore( js, fjs );
+
 	var gameTimeLimit;
 
 	var KEYCODE_ENTER;
@@ -457,14 +462,6 @@
 		});
 
 		sendScoreButtonElm.click( function ( event ) {
-			var u = '';
-			try {
-				if ( !window.localStorage ) throw 0;
-				var z = window.localStorage.getItem( '__pcmnz' );
-				z = JSON.parse( z );
-				u = z.userId;
-			} catch ( e ) {}
-
 			window._picomon_savedScore = function ( data ) {
 				innerRankingElm.css( "display", "block" );
 				sendScoreFormElm.css( "display", "none" );
@@ -486,21 +483,20 @@
 					}
 				}
 			};
-			var encodeUrlBase64 = function ( str ) {
-				return;
-			};
-			var js = document.createElement( 'script' );
-			js.src = 'http://picomon.jp/404score.js?data=' + Base64.encodeURI( JSON.stringify( {
-				callback: ' _picomon_savedScore',
-				type:     'escape',
-				score:    document.getElementById( 'scoreInput' ).value,
-				nickname: encodeURIComponent( nickNameInputElm.val() ),
-				pcu:      u
-			} ) );
-			var fjs = document.getElementsByTagName( 'script' )[ 0 ];
-			fjs.parentNode.insertBefore( js, fjs );
-			js.onload = function () {
-				fjs.parentNode.removeChild( js );
+
+			var solt = ( typeof window.__404_picomon_solt__ === 'function' ) ? __404_picomon_solt__() : '';
+			var js2 = document.createElement( 'script' );
+			var sc  = parseInt( document.getElementById( 'scoreInput' ).value, 10 );
+			js2.src = 'https://www.picomon.jp/game/set_score?data=' + Base64.encodeURI( solt + Base64.encodeURI( JSON.stringify( {
+				callback: '_picomon_savedScore',
+				type:     'escape404',
+				score:    ( sc === 0 ) ? 1 : sc, // <--- 0ポイントだとエラーなのでバリでする
+				nickname: encodeURIComponent( nickNameInputElm.val() )
+			} ) ) );
+			var fjs2 = document.getElementsByTagName( 'script' )[ 0 ];
+			fjs2.parentNode.insertBefore( js2, fjs2 );
+			js2.onload = function () {
+				fjs2.parentNode.removeChild( js2 );
 			};
 		});
 

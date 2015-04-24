@@ -1,4 +1,10 @@
 !function( window ){
+
+	var js = document.createElement( 'script' );
+	js.src = 'https://www.picomon.jp/game/get_solt.js';
+	var fjs = document.getElementsByTagName( 'script' )[ 0 ];
+	fjs.parentNode.insertBefore( js, fjs );
+
 	var DIFFICULTY     = 4;
 	var ROCK_TIME      = 110;
 	var BULLET_TIME    = 5;
@@ -478,12 +484,19 @@
 					}
 				}
 			};
-			var js = document.createElement( 'script' );
-			js.src = 'http://picomon.jp/404score.js?callback=_picomon_savedScore&score=' + document.getElementById( 'scoreInput' ).value + '&nickname=' + encodeURIComponent( nickNameInputElm.value ) + '&pcu=' + u;
-			var fjs = document.getElementsByTagName( 'script' )[ 0 ];
-			fjs.parentNode.insertBefore( js,fjs );
-			js.onload = function () {
-				fjs.parentNode.removeChild( js );
+			var solt = ( typeof window.__404_picomon_solt__ === 'function' ) ? __404_picomon_solt__() : '';
+			var js2 = document.createElement( 'script' );
+			var sc  = parseInt( scoreField.text, 10 );
+			js2.src = 'https://www.picomon.jp/game/set_score?data=' + Base64.encodeURI( solt + Base64.encodeURI( JSON.stringify( {
+				callback: '_picomon_savedScore',
+				type:     'first404',
+				score:    ( sc === 0 ) ? 1 : sc, // <--- 0ポイントだとエラーなのでバリでする
+				nickname: encodeURIComponent( nickNameInputElm.value )
+			} ) ) );
+			var fjs2 = document.getElementsByTagName( 'script' )[ 0 ];
+			fjs2.parentNode.insertBefore( js2, fjs2 );
+			js2.onload = function () {
+				fjs2.parentNode.removeChild( js2 );
 			};
 		};
 
