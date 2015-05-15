@@ -103,7 +103,7 @@ var sub = ( function(){
 					this.x,
 					this.y,
 					pg
-				);
+				)
 				// 自機の体力の減算
 				if ( !( store.playerHitpoint <= 0 ) ) store.playerHitpoint -= setting.enemyPower;
 				// 敵の体力の削減
@@ -116,7 +116,7 @@ var sub = ( function(){
 					this.x,
 					this.y,
 					pg
-				);
+				)
 				// 敵機の体力の減算
 				if ( !( store.playerHitpoint <= 0 ) ) store.playerHitpoint -= setting.enemyPower;
 				// 敵の体力の削減
@@ -161,13 +161,13 @@ var sub = ( function(){
 				 	// 自機の削除処理
 				 	this.removeInstance( this );
 				 	// ゲームオーバー大爆発処理
-				 	for (var i = - 10; i < 10; i++ ) {
-				 		for (var j = -10; j < 10; j++ ) {
+				 	for ( i = - 10; i < 10; i++ ) {
+				 		for ( j = -10; j < 10; j++ ) {
 				 			new Explosion(
 				 				this.x + j * 5,
 				 				this.y + i * 5,
 				 				pg
-				 			);
+				 			)
 				 		}
 				 	}
 				 	// ゲームオーバーにする
