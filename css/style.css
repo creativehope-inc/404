@@ -524,6 +524,7 @@ button.close {
 #enchant-stage {
 	width: 960px;
 	height: 640px;
+	margin: 0 auto;
 }
 .local_header {
 	border-bottom: 1px dotted #c7c7c7;

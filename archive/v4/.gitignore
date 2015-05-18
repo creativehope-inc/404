@@ -1,0 +1,6 @@
+jsdoc-toolkit
+.svn
+.DS_Store
+node_modules
+.project
+Thumbs.db
