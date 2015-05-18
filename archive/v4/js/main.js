@@ -53,10 +53,9 @@ $( function(){
 
 		// 音楽データの保存
 		var sound = game.assets[ files.mainSound ].clone();
-		// Note: 全てのIEでエラーが出るので原因はわからないが終了する
-		//sound.src.loop = true;
+		var gameOverSound = game.assets[ files.gameOverSound ].clone();
 		sound.preMusic = store.music; // 過去のデータを保存する
-
+		domSoundFlag = !!( sound.src ); // WebAudioSound Flag （IE用に設置）
 		// ########################################################
 		//                シーンの設定
 		// ########################################################
@@ -105,18 +104,16 @@ $( function(){
 			],
 			// エンターフレーム処理
 			function() {
-				// 音楽の切り替え処理
-				if ( sound.preMusic != store.music ) {
-					( store.music ) ? sound.play() : sound.pause();
-					sound.preMusic = store.music;
-				}
+				// ミュージック
+				playMusic(domSoundFlag, sound.preMusic, store.music, sound, true);
+
 				// カレントシーンの判断
 				if ( store.currentScene == 'gamestart' ) {
 					// 開始
 					game.pushScene( playGameFn() );
 				}
 				// スペースでリトライ機能
-				if ( game.input.space ) {
+				if ( game.input.space && game.input.shift ) {
 					store.currentScene = 'gamestart';
 				}
 			}
@@ -146,7 +143,7 @@ $( function(){
 			var submit = {
 				flag : false, // 送信フラグ
 				results: false
-			}
+			};
 
 			var playGame = new SuperScene(
 				setting.gameWidth,
@@ -254,11 +251,8 @@ $( function(){
 				// フレーム処理
 				function() {
 
-					// 割り込みBGM専用処理
-					if ( sound.preMusic != store.music ) {
-						( store.music ) ? sound.play() : sound.pause();
-						sound.preMusic = store.music;
-					}
+					// ミュージック
+					playMusic( domSoundFlag, sound.preMusic, store.music, sound, true );
 
 					// 敵小用
 					if ( store.gameTime > 1 && store.gameTime < 30 ) {
@@ -358,9 +352,10 @@ $( function(){
 						store.currentScene == 'gameclear' ) {
 
 						// ゲームオーバーscene
-						if ( store.music ) sound.stop();
-						var gameOverSound = game.assets[ files.gameOverSound ].clone();
-						if ( store.music ) gameOverSound.play();
+						if ( store.music ) {
+							sound.stop();
+							gameOverSound.play();
+						}
 
 						// ゲームオーバーscene
 						var gameOver = new SuperScene(
@@ -497,7 +492,7 @@ $( function(){
 											window.callbacker  = function( data ) {
 												submit.results = data;
 												submit.flag = true;
-											}
+											};
 											var solt = ( typeof window.__404_picomon_solt__ === 'function' ) ? __404_picomon_solt__() : '';
 											var js2 = document.createElement( 'script' );
 											js2.src = 'https://www.picomon.jp/game/set_score?data=' + Base64.encodeURI( solt + Base64.encodeURI( JSON.stringify( {
@@ -524,7 +519,7 @@ $( function(){
 									},
 									function() {
 										// 送信ボタンが押されたら削除
-										if (submit.flag) gameOver.removeChild(this);
+										if ( submit.flag ) gameOver.removeChild( this );
 									},
 									null
 								),
@@ -578,7 +573,7 @@ $( function(){
 									'textBox',
 									function() {
 										// 送信ボタンが押されたら削除
-										if (submit.flag) gameOver.removeChild(this);
+										if ( submit.flag ) gameOver.removeChild( this );
 									}
 								),
 								// 継続ボタン
@@ -591,11 +586,13 @@ $( function(){
 									'40px cursive new',
 									'Continue?',
 									null,
-									function() {
+									function() { // タッチ処理
+										// ゲームシーンの切り替え
 										game.popScene( playGame );
 										game.popScene( gameOver );
 										store.currentScene = '';
-										if ( store.music ) sound.play();
+										// Note: 以下の処理でメイン音楽の処理をtrueにする
+										sound.preMusic = false;
 									}
 								),
 								// SNSボタン
@@ -609,7 +606,7 @@ $( function(){
 									function() { // タッチ処理
 										// ツイッターのウィンドウを表示
 										window.open( 'https://twitter.com/intent/tweet?text=' +
-											encodeURIComponent( 'ピコもん 404ゲームで' ) + store.gamePoint + encodeURIComponent( 'スコアを獲得した！ ' ) + (location.href) +
+											encodeURIComponent( 'ピコもん 404ゲームで' ) + store.gamePoint + encodeURIComponent( 'スコアを獲得した！ ' ) + ( location.href ) +
 											'&url=' + '&original_referer=' +  
 											'&hashtags=' + encodeURIComponent( '404ゲーム' ) + '&related=code1616',
 											'twitter-share-dialog',
@@ -644,7 +641,7 @@ $( function(){
 									function() { // タッチ処理
 										// ランキングのウィンドウを表示
 										// 送信処理
-										window.open( 'http://battamon.net:8080/kaneko_game/404/popup.html' ,
+										window.open( location.origin + location.pathname.split("/").reverse().slice(1).reverse().join("/") + '/popup.html' ,
 										'ranking-dialog',
 										'width=313,height=400' );
 									},
@@ -656,14 +653,14 @@ $( function(){
 									32/2,
 									830,
 									10,
-									( store.music ) ? this.frame = [2] : this.frame = [1],
+									( store.music ) ? this.frame = [ 2 ] : this.frame = [ 1 ],
 									files.soundButton,
 									function() { // タッチ処理
 										( store.music ) ? store.music = false : store.music = true;
 									},
 									function() { // フレーム処理
 										// 音楽の切り替え
-										( store.music ) ? this.frame = [2] : this.frame = [1];
+										( store.music ) ? this.frame = [ 2 ] : this.frame = [ 1 ];
 									},
 									null
 								),
@@ -673,7 +670,7 @@ $( function(){
 									32,
 									170,
 									200,
-									[4],
+									[ 4 ],
 									files.shooter,
 									null,
 									null,
@@ -685,7 +682,7 @@ $( function(){
 									32,
 									170,
 									250,
-									[6],
+									[ 6 ],
 									files.shooter,
 									null,
 									null,
@@ -703,7 +700,7 @@ $( function(){
 									null,
 									null,
 									function() { // ワンタイム処理
-										this.scale(0.5, 0.5);
+										this.scale( 0.5, 0.5 );
 									}
 								),
 								// 体リボン
@@ -717,7 +714,7 @@ $( function(){
 									null,
 									null,
 									function() { // ワンタイム処理
-										this.scale(0.5, 0.5);
+										this.scale( 0.5, 0.5 );
 									}
 								),
 								// 体
@@ -731,7 +728,7 @@ $( function(){
 									null,
 									null,
 									function() { // ワンタイム処理
-										this.scale(0.5, 0.5);
+										this.scale( 0.5, 0.5 );
 									}
 								),
 								// 頭
@@ -745,17 +742,20 @@ $( function(){
 									null,
 									null,
 									function() { // ワンタイム処理
-										this.scale(0.5, 0.5);
+										this.scale( 0.5, 0.5 );
 									}
 								)
 							],
 							function() { // フレーム処理
+
 								// スペースでリトライ機能
-								if ( game.input.space ) {
+								if ( game.input.space && game.input.shift ) {
+									// Note: 以下の処理でメイン音楽の処理をtrueにする
+									sound.preMusic = false;
+									// ゲームのプッシュ
 									game.popScene( playGame );
 									game.popScene( gameOver );
 									store.currentScene = '';
-									if ( store.music ) sound.play();
 								}
 							},
 							null,
@@ -766,6 +766,7 @@ $( function(){
 						);
 						// ゲームオーバー
 						game.pushScene( gameOver );
+
 						// 色々初期化しよう
 						for ( key in enemyArr ) {
 							delete enemyArr[ key ];
@@ -843,5 +844,32 @@ $( function(){
 		} );
 	}
 
+	// 一元化
+	function playMusic ( flag, pre, now, sound, loop ) {
+		// ミュージック
+		if ( flag ) {
+			if ( pre != now ) {
+				if ( now ) {
+					// 再生中
+					sound.play();
+					if ( loop ) sound.src.loop = true;
+				} else {
+					// 停止中
+					sound.pause();
+					if ( loop ) sound.src.loop = false;
+				}
+				// グローバル変数のフラグの変更
+				sound.preMusic = now;
+			}
+		} else { // IE(WebAudioSound用)
+			if ( now ) {
+				if ( !sound.src ) {
+					sound.play();
+				}
+			} else {
+				sound.pause();
+			}
+		}
+	}
 
 } );
