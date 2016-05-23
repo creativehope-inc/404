@@ -33,10 +33,6 @@ module.exports = {
 	upTapHeld      : function() {
 		this.isTapHeld   = false;
 		this.isPlay      = false;
-	},
-
-	globalAccess   : function() {
-		console.log(stage);
-	},
-}
+	}
+};
 	
