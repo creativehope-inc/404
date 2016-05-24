@@ -18,7 +18,7 @@ var StaticBitmap  = require( './static_bitmap' ),
 	var fjs = document.getElementsByTagName( 'script' )[ 0 ];
 	fjs.parentNode.insertBefore( js, fjs );
 	
-	var userData,
+	var userData = new User(),
 		KEYCODE_SPACE      = 32,
 		GAMEFRAME          = 60, //フレームレート
 		ONE_FRAMERATE_TIME = 1 / GAMEFRAME * 1000, //1フレームの時間
