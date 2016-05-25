@@ -2,6 +2,7 @@ var easeljs       = require( 'easeljs' ),
 	tweenjs       = require( 'tweenjs' ),
 	soundjs       = require( 'soundjs' ),
 	preloadjs     = require( 'preloadjs' ),
+	fastclick     = require( 'fastclick' ),
 	$             = require( 'jquery' );
 
 var StaticBitmap  = require( './static_bitmap' ),
@@ -48,11 +49,11 @@ var StaticBitmap  = require( './static_bitmap' ),
 		},
 		messageField,			//loading中のメッセージオブジェクト(createjs.Text)
 		scoreMessageField,		//ユーザーの得点表示オブジェクト(createjs.Text)
-		judgeMessageField,		//ユーザーのメッセージオブジェクト(createjs.Text)
+		judgeMessageField,      //ユーザーのメッセージオブジェクト(createjs.Text)
 		comboMessageField,
 		bgmInstance,			//プレイ中のbgmのオブジェクト(createjs.Sound)
-		canvas,					//canvasのDOMエレメント
-		stage,					//createjsのstageオブジェクト
+		canvas,                 //canvasのDOMエレメント
+		stage,                  //createjsのstageオブジェクト
 		sushiArea,
 		bitmapPlayingLines,
 		bitmapPlayingJudgeArea,
@@ -62,8 +63,10 @@ var StaticBitmap  = require( './static_bitmap' ),
 		sushiNeta = 'sushi_1',
 		bitmapResultRegistButton,
 		rankedUserData = [],
+		isSP = userData.getUA() == 'sp' || userData.getUA() == 'tab',
 		preload;
 
+	//初期化
 	function init() {
 		userData       = new User();
 		rankedUserData = [];
@@ -76,6 +79,8 @@ var StaticBitmap  = require( './static_bitmap' ),
 		stage.enableMouseOver();
 		stage.width = canvas.width;
 		createjs.Touch.enable( stage );
+
+		if( isSP ) fastclick(document.body);
 
 		messageField = new createjs.Text( 'Not found game loading', 'bold 24px Arial', '#666666' );
 		messageField.maxWidth  = 1000;
@@ -135,6 +140,21 @@ var StaticBitmap  = require( './static_bitmap' ),
 		setupSound();
 
 	} //END OF init()
+
+	//音量のON OFF
+	function setupSound() {
+		var $sound       = $( '#sound' );
+		var $switchSound = $( '#switchSound' );
+
+		$switchSound.on( 'change', function() {
+			var isChecked   = $switchSound.is( ':checked' ),
+				soundStatus = isChecked ? 'on' : 'off';
+
+			createjs.Sound.setMute( isChecked );
+			$sound.attr( 'data-status', soundStatus );
+			return false;
+		});
+	}
 
 	//loading中
 	function updateLoading () {
@@ -297,20 +317,7 @@ var StaticBitmap  = require( './static_bitmap' ),
 	}
 
 
-	//音量のON OFF
-	function setupSound() {
-		var $sound       = $( '#sound' );
-		var $switchSound = $( '#switchSound' );
 
-		$switchSound.on( 'change', function() {
-			var isChecked   = $switchSound.is( ':checked' ),
-				soundStatus = isChecked ? 'on' : 'off';
-
-			createjs.Sound.setMute( isChecked );
-			$sound.attr( 'data-status', soundStatus );
-			return false;
-		});
-	}
 
 	function tick ( event ) {
 		// update graphic
@@ -323,11 +330,11 @@ var StaticBitmap  = require( './static_bitmap' ),
 		// コンベアの移動
 		moveBelt();
 
-		// 寿司の判定状態
-		judge( userKeyStatus.isPlay );
-
 		// チック時間の取得と音楽の現在の再生時間の取得
 		var currentTime = bgmInstance.getPosition();
+
+		// 寿司の判定状態
+		judge( userKeyStatus.isPlay, currentTime );
 
 		// 寿司の描画と移動
 		if( musicNotes.notes[0] - ONE_MEASURE_TIME <= currentTime ) drawSushi();
@@ -335,6 +342,22 @@ var StaticBitmap  = require( './static_bitmap' ),
 
 		// 判定エリアの透過
 		judgeAreaChangeColor( userKeyStatus.isSpaceHeld || userKeyStatus.isTapHeld || userKeyStatus.isClickHeld ); //後に他のキーも追加
+	}
+
+	function showCurrentScore( currentScore ) {
+		scoreMessageField.text = 'スコア ' + currentScore;
+	}
+
+	function showCombo( currentCombo ) {
+		comboMessageField.text = 'コンボ ' + currentCombo + '皿';
+	}
+
+	//ベルトをひたすら流す
+	function moveBelt(){
+		bitmapPlayingLines.x -= SUSHI_SPEED ;
+		if (bitmapPlayingLines.x < - bitmapPlayingLines.width + stage.width ) {
+			bitmapPlayingLines.x = 0;
+		}
 	}
 
 	function drawSushi() {
@@ -421,28 +444,18 @@ var StaticBitmap  = require( './static_bitmap' ),
 		}
 	}
 
-	//ベルトをひたすら流す
-	function moveBelt(){
-		bitmapPlayingLines.x -= SUSHI_SPEED ;
-		if (bitmapPlayingLines.x < - bitmapPlayingLines.width + stage.width ) {
-			bitmapPlayingLines.x = 0;
-		}
-	}
-
-
-	function judge(isPlay) {
+	function judge( isPlay,currentTime ) {
 		var length = waitingSushi.length;
 
 		if(length) {
 
-			var currentTime = bgmInstance.getPosition ();
-			var relativeTime = Math.abs(currentTime - waitingSushi[ 0 ].timing);
+			var relativeTime = Math.abs( currentTime - waitingSushi[ 0 ].timing );
 			checkIsAbleJudge( currentTime, isPlay, waitingSushi[ 0 ].isAbleJudge );
 			if(isPlay && waitingSushi[ 0 ].isAbleJudge) {
-				var judgeStatus = checkJudge(relativeTime);
-				if( judgeStatus ) effectSushi(judgeStatus); //ジャッジステータスが返されたらエフェクトをかける。
-				checkSuccessPlay(judgeStatus);
-				if(judgeStatus) userData.incrementScore (judgeStatus);
+				var judgeStatus = checkJudge( relativeTime );
+				if( judgeStatus ) effectSushi( judgeStatus ); //ジャッジステータスが返されたらエフェクトをかける。
+				checkSuccessPlay( judgeStatus );
+				if( judgeStatus ) userData.incrementScore ( judgeStatus );
 			}
 
 			//ボタンを押さずにスルーした時の処理
@@ -469,14 +482,6 @@ var StaticBitmap  = require( './static_bitmap' ),
 		//寿司がジャッジ可能ではなく、かつボタンも押しっぱなしではなく、かつ現在の時間が寿司の判定時間の内側にいるとき
 		var isChangeAble = !waitingSushi[0].isAbleJudge && !isPlay &&  currentTime <= waitingSushi[0].timing + JUDGE_AREA_FRAME.MISS.OUTSIDE * ONE_FRAMERATE_TIME;
 		if( isChangeAble ) waitingSushi[0].isAbleJudge = true;
-	}
-
-	function showCurrentScore( currentScore ) {
-		scoreMessageField.text = 'スコア ' + currentScore;
-	}
-
-	function showCombo( currentCombo ) {
-		comboMessageField.text = 'コンボ ' + currentCombo + '皿';
 	}
 
 	function checkJudge( relativeTime ) {
@@ -528,7 +533,6 @@ var StaticBitmap  = require( './static_bitmap' ),
 		var preLoadedResultRegistButton      = preload.getResult( 'result_regist_button' );
 		bitmapResultRegistButton         = new StaticBitmap( preLoadedResultRegistButton );
 
-		var isSP = userData.getUA() == 'sp' || userData.getUA() == 'tab';
 		bitmapResultRegistButton.setCordinate( { x : 565 , y : 300 } );
 		if(isSP) bitmapResultRegistButton.setCordinate( { x : 324 , y : 450 } );
 		stage.addChild( bitmapResultRegistButton );
@@ -593,7 +597,8 @@ var StaticBitmap  = require( './static_bitmap' ),
 		} );
 		stage.addChild( bitmapResultOneMoreButton );
 		stage.update();
-	}
+	} //END OF ShowResult
+
 	function ranking_comu ( score, name, callback ){
 
 		if( name == '' ) {
@@ -621,21 +626,6 @@ var StaticBitmap  = require( './static_bitmap' ),
 
 	function restart(  ) {
 		location.reload();
-	}
-
-	function shareFacebook() {
-		window.open(
-			'https://www.facebook.com/sharer.php?src=bm&v=4&i=1374645413&u='+
-			encodeURIComponent( location.href )+
-			'&t=' + encodeURIComponent( 'ピコもん 404ゲームで' + userData.getUserScore() + '円分の寿司を食べた！！' ),
-			'sharer',
-			'toolbar=0,status=0,resizable=1,width=626,height=436'
-		);
-	}
-
-	function shareTwitter() {
-		var postMessage = encodeURIComponent( 'ピコもん 404ゲームで' + userData.getUserScore() + '円分の寿司を食べた！！' );
-		window.open( 'https://twitter.com/intent/tweet?hashtags=picomon&original_referer=http%3A%2F%2F404.picomon.jp%2F&text=' + postMessage + '&tw_p=tweetbutton&url=http%3A%2F%2F404.picomon.jp%2F&related=picomon_jp', null, 'width=400,height=300' );
 	}
 
 	function showRanking ( data ) {
@@ -677,6 +667,21 @@ var StaticBitmap  = require( './static_bitmap' ),
 			});
 		stage.addChild( rankingArea );
 		stage.update();
+	}
+
+	function shareFacebook() {
+		window.open(
+			'https://www.facebook.com/sharer.php?src=bm&v=4&i=1374645413&u='+
+			encodeURIComponent( location.href )+
+			'&t=' + encodeURIComponent( 'ピコもん 404ゲームで' + userData.getUserScore() + '円分の寿司を食べた！！' ),
+			'sharer',
+			'toolbar=0,status=0,resizable=1,width=626,height=436'
+		);
+	}
+
+	function shareTwitter() {
+		var postMessage = encodeURIComponent( 'ピコもん 404ゲームで' + userData.getUserScore() + '円分の寿司を食べた！！' );
+		window.open( 'https://twitter.com/intent/tweet?hashtags=picomon&original_referer=http%3A%2F%2F404.picomon.jp%2F&text=' + postMessage + '&tw_p=tweetbutton&url=http%3A%2F%2F404.picomon.jp%2F&related=picomon_jp', null, 'width=400,height=300' );
 	}
 
 

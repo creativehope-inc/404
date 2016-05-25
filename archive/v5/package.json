@@ -6,6 +6,7 @@
   "dependencies": {
     "createjs": "0.0.0",
     "express": "^4.13.4",
+    "fastclick": "^1.0.6",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
@@ -19,7 +20,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "watchify ./app/main.js -o ./public/js/app.min.js -v & ./node_modules/uglify-js/bin/uglifyjs -c -o ./public/js/app.min.js ./public/js/app.min.js",
     "start": "npm run watch & nodemon",
-    "build": "browserify ./app/** -o ./public/js/app.min.js"
+    "build": "browserify ./app/** -o ./public/js/app.min.js & ./node_modules/uglify-js/bin/uglifyjs -c -o ./public/js/app.min.js ./public/js/app.min.js"
   },
   "browserify": {
     "transform": [
