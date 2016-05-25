@@ -4,3 +4,4 @@ jsdoc-toolkit
 node_modules
 .project
 Thumbs.db
+npm-debug.log
