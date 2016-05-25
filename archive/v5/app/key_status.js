@@ -1,13 +1,13 @@
 module.exports = {
 	//変更される値
-	isSpaceHeld : false ,
-	isClickHeld : false ,
-	isTapHeld   : false ,
-	isPlay    : false ,
+	isSpaceHeld: false ,
+	isClickHeld: false ,
+	isTapHeld: false ,
+	isPlay: false ,
 	
 	pressSpaceHeld : function() {
 		this.isSpaceHeld = true;
-		this.isPlay    = true;
+		this.isPlay      = true;
 	},
 	
 	upSpaceHeld    : function() {
@@ -17,7 +17,7 @@ module.exports = {
 
 	pressClickHeld : function() {
 		this.isClickHeld = true;
-		this.isPlay    = true;
+		this.isPlay      = true;
 	},
 
 	upClickHeld    : function() {
@@ -26,13 +26,12 @@ module.exports = {
 	},
 	
 	pressTapHeld   : function() {
-		this.isTapHeld   = true;
+		this.isTapHeld = true;
 		this.isPlay    = true;
 	},
 
 	upTapHeld      : function() {
-		this.isTapHeld   = false;
-		this.isPlay      = false;
+		this.isTapHeld = false;
+		this.isPlay    = false;
 	}
 };
-	

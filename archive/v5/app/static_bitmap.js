@@ -7,7 +7,7 @@ var easeljs       = require( 'easeljs' ),
 var StaticBitmap  = function () {
 	createjs.Bitmap.prototype.constructor.apply( this , arguments );
 };
-createjs.extend(StaticBitmap, createjs.Bitmap);
+createjs.extend( StaticBitmap, createjs.Bitmap );
 StaticBitmap.prototype.setCordinate = function( cordinate ) {
 	this.x = cordinate.x;
 	this.y = cordinate.y;
