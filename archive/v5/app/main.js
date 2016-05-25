@@ -108,6 +108,7 @@ var StaticBitmap  = require( './static_bitmap' ),
 			{ id: 'playing_mie_normal_1', src:'./img/playing_mie_nomarl_1.png'},
 			{ id: 'playing_judge_area', src:'./img/playing_judge_area.png'},
 			{ id: 'playing_num', src:'./img/playing_num.png'},
+			{ id: 'playing_score_back', src:'./img/playing_score_back.png'},
 			{ id: 'sushi_1', src:'./img/sushi_1.png'},
 			{ id: 'sushi_2', src:'./img/sushi_2.png'},
 			{ id: 'sushi_3', src:'./img/sushi_3.png'},
@@ -152,114 +153,118 @@ var StaticBitmap  = require( './static_bitmap' ),
 	function doneLoading() {
 		clearInterval( loadingInterval );		
 		stage.removeChild( messageField );
-		var preLoadedStartBackground = preload.getResult('start_background');
-		var preLoadedStartMie        = preload.getResult('start_mie');
-		var preLoadedStartTitle      = preload.getResult('start_title');
-		var preLoadedStartButton     = preload.getResult('start_button');
+		var preLoadedStartBackground = preload.getResult( 'start_background' );
+		var preLoadedStartMie        = preload.getResult( 'start_mie' );
+		var preLoadedStartTitle      = preload.getResult( 'start_title' );
+		var preLoadedStartButton     = preload.getResult( 'start_button' );
 
-		createjs.Sound.play( 'start_bgm' , { loop : -1 } );
+		createjs.Sound.play( 'start_bgm' , { loop: -1 } );
 		var bitmapStartBackground    = new StaticBitmap(preLoadedStartBackground);
-		var bitmapStartMie    = new StaticBitmap(preLoadedStartMie);
-		var bitmapStartTitle  = new StaticBitmap(preLoadedStartTitle);
-		var bitmapStartButton = new DynamicBitmap(preLoadedStartButton);
+		var bitmapStartMie    = new StaticBitmap( preLoadedStartMie );
+		var bitmapStartTitle  = new StaticBitmap( preLoadedStartTitle );
+		var bitmapStartButton = new DynamicBitmap( preLoadedStartButton );
 		bitmapStartMie.setCordinate( { x : 50 , y : 47 } );
 		bitmapStartTitle.setCordinate( { x : 186 , y : 122 } );
 		bitmapStartButton.setCordinate( { x : 250 , y : 444 } );
 		bitmapStartButton.cursor = 'pointer';
 
-		stage.addChild(bitmapStartBackground);
-		stage.addChild(bitmapStartMie);
-		stage.addChild(bitmapStartTitle);
-		stage.addChild(bitmapStartButton);
+		stage.addChild( bitmapStartBackground );
+		stage.addChild( bitmapStartMie );
+		stage.addChild( bitmapStartTitle );
+		stage.addChild( bitmapStartButton );
 		stage.update();
-		stage.addEventListener('click', gamePlay);
+		stage.addEventListener( 'click', gamePlay );
 	
 	}
 
 
 	//プレイ画面を表示
 	function gamePlay() {
-		stage.removeEventListener('click', gamePlay); //クリックしたらgamePlayを起動するを外す
+		stage.removeEventListener( 'click', gamePlay ); //クリックしたらgamePlayを起動するを外す
 		stage.removeAllChildren();
 		createjs.Ticker.init();
-		createjs.Ticker.setFPS(GAMEFRAME); //tickerのフレームレートの設定
+		createjs.Ticker.setFPS( GAMEFRAME ); //tickerのフレームレートの設定
 		createjs.Ticker.timingMode = createjs.Ticker.RAF;
 		createjs.Sound.removeSound( 'start_bgm' );
 
 
 		
-		var preLoadedPlayingBackground = preload.getResult('playing_background'),
-			bitmapPlayingBackground    = new StaticBitmap(preLoadedPlayingBackground);
+		var preLoadedPlayingBackground = preload.getResult( 'playing_background' ),
+			bitmapPlayingBackground    = new StaticBitmap( preLoadedPlayingBackground );
 
-		var preLoadedPlayingMieNormal  = preload.getResult('playing_mie_normal_1'),
+		var preLoadedPlayingMieNormal  = preload.getResult( 'playing_mie_normal_1' ),
 			bitmapPlayingMieNormal     = new DynamicBitmap( preLoadedPlayingMieNormal );
 		
 		bitmapPlayingMieNormal.setCordinate( { x : 23 , y : 220 } );
 		
-		var preLoadedPlayingTable      = preload.getResult('playing_table'),
+		var preLoadedPlayingTable      = preload.getResult( 'playing_table' ),
 			bitmapPlayingTable         = new StaticBitmap( preLoadedPlayingTable );
-		
 		bitmapPlayingTable.setCordinate( { x : 0 , y : 436 } );
+
+		var preLoadedPlayingScoreBack      = preload.getResult( 'playing_score_back' ),
+			bitmapPlayingScoreBack         = new StaticBitmap( preLoadedPlayingScoreBack );
+		bitmapPlayingScoreBack.setCordinate( { x : 723 , y : 594 } );
 
 		sushiArea = new createjs.Container();
 		sushiArea.x = 0;
 		sushiArea.y = 476;
 
-		var preLoadedPlayingLines      = preload.getResult('playing_lines');
+		var preLoadedPlayingLines      = preload.getResult( 'playing_lines' );
 		bitmapPlayingLines        = new DynamicBitmap( preLoadedPlayingLines );
 		bitmapPlayingLines.width = bitmapPlayingLines.getBounds().width;
 		
-		var preLoadedPlayingJudgeArea      = preload.getResult('playing_judge_area');
+		var preLoadedPlayingJudgeArea      = preload.getResult( 'playing_judge_area' );
 		bitmapPlayingJudgeArea         = new StaticBitmap( preLoadedPlayingJudgeArea );
 		bitmapPlayingJudgeArea.setCordinate( { x : 59 , y : 479 } );
 
-		var preLoadedPlayingCover      = preload.getResult('playing_cover'),
+		var preLoadedPlayingCover      = preload.getResult( 'playing_cover' ),
 			bitmapPlayingCover         = new StaticBitmap( preLoadedPlayingCover );
 		bitmapPlayingCover.setCordinate( { x : 578 , y : 452.5 } );
 		
 		//プレイ画面の準備
-		stage.addChild(bitmapPlayingBackground);
-		stage.addChild(bitmapPlayingMieNormal);
-		stage.addChild(bitmapPlayingTable);
-		stage.addChild(sushiArea);
-		sushiArea.addChild(bitmapPlayingLines);
-		stage.addChild(bitmapPlayingJudgeArea);
-		stage.addChild(bitmapPlayingCover);
+		stage.addChild( bitmapPlayingBackground );
+		stage.addChild( bitmapPlayingMieNormal );
+		stage.addChild( bitmapPlayingTable );
+		stage.addChild( bitmapPlayingScoreBack );
+		stage.addChild( sushiArea );
+		sushiArea.addChild( bitmapPlayingLines );
+		stage.addChild( bitmapPlayingJudgeArea );
+		stage.addChild( bitmapPlayingCover );
 		
 		//判定のテキスト表示
-		judgeMessageField = new createjs.Text( 'コンボ 0皿', 'bold 32px Arial', '#FFF' );
+		judgeMessageField           = new createjs.Text( '', 'bold 32px Arial', '#FFF' );
 		judgeMessageField.textAlign = 'left';
-		stage.addChild(judgeMessageField);
+		stage.addChild( judgeMessageField );
 
 		//現在スコアのテキスト表示
-		scoreMessageField = new createjs.Text( '0', 'bold 32px Arial', '#FFF' );
-		scoreMessageField.width  = 376;
+		scoreMessageField           = new createjs.Text( '0', 'bold 32px Arial', '#FFF' );
+		scoreMessageField.width     = 376;
 		scoreMessageField.textAlign = 'right';
-		scoreMessageField.x = 569;
-		scoreMessageField.y = 580;
-		stage.addChild(scoreMessageField);
+		scoreMessageField.x         = 920;
+		scoreMessageField.y         = 580;
+		stage.addChild( scoreMessageField );
 
 		//コンボ数のテキスト表示
-		comboMessageField = new createjs.Text( '0皿', 'bold 32px Arial', '#CE2939' );
-		comboMessageField.width  = 376;
+		comboMessageField           = new createjs.Text( '0皿', 'bold 32px Arial', '#CE2939' );
+		comboMessageField.width     = 376;
 		comboMessageField.textAlign = 'left';
-		comboMessageField.x = 60;
-		comboMessageField.y = 580;
-		stage.addChild(comboMessageField);
+		comboMessageField.x         = 80;
+		comboMessageField.y         = 585;
+		stage.addChild( comboMessageField );
 
 		bgmInstance = new createjs.Sound.createInstance( 'playing_bgm' );
-		bgmInstance.addEventListener('complete', showResult );//曲が終わったらtickを終了
+		bgmInstance.addEventListener( 'complete', showResult );//曲が終わったらtickを終了
 		
-		document.addEventListener('keydown', handleKeyDown, false);
-		document.addEventListener('keyup', handleKeyUp, false);
+		document.addEventListener( 'keydown', handleKeyDown, false );
+		document.addEventListener( 'keyup', handleKeyUp, false );
 		
 		//スペースキーを押した際のスクロールの無効
-		window.onkeydown = function(e) {
+		window.onkeydown = function( e ) {
 			if (e.keyCode == 32 && e.target == document.body) e.preventDefault();
 		};
 		
-		stage.addEventListener('mousedown', handleClickDown);
-		stage.addEventListener('pressup', handleClickUp);
+		stage.addEventListener( 'mousedown', handleClickDown );
+		stage.addEventListener( 'pressup', handleClickUp );
 		
 		stage.update();
 		if ( !createjs.Ticker.hasEventListener( 'tick' ) ){ 
@@ -270,14 +275,13 @@ var StaticBitmap  = require( './static_bitmap' ),
 		
 	}
 
-	//userContorol系にまとめたい
 	function handleKeyDown(event){
 		if ( event.keyCode !== KEYCODE_SPACE ) return false;
 		
 		userKeyStatus.pressSpaceHeld();
 		createjs.Sound.play( 'playing_track' );
 	}
-	//userContorol系にまとめたい
+
 	function handleKeyUp ( event ) {
 		if ( event.keyCode !== KEYCODE_SPACE ) return false;
 		
@@ -299,13 +303,13 @@ var StaticBitmap  = require( './static_bitmap' ),
 	function setupSound() {
 		var $sound       = $( '#sound' );
 		var $switchSound = $( '#switchSound' );
+
 		$switchSound.on( 'change', function() {
 			var isChecked   = $switchSound.is( ':checked' ),
 				soundStatus = isChecked ? 'on' : 'off';
 
 			createjs.Sound.setMute( isChecked );
 			$sound.attr( 'data-status', soundStatus );
-
 			return false;
 		});
 	}
@@ -434,9 +438,9 @@ var StaticBitmap  = require( './static_bitmap' ),
 		if(length) {
 			
 			var currentTime = bgmInstance.getPosition ();
-			var relativeTime = Math.abs(currentTime - waitingSushi[0].timing);
-			checkIsAbleJudge( currentTime, isPlay, waitingSushi[0].isAbleJudge );
-			if(isPlay && waitingSushi[0].isAbleJudge) {
+			var relativeTime = Math.abs(currentTime - waitingSushi[ 0 ].timing);
+			checkIsAbleJudge( currentTime, isPlay, waitingSushi[ 0 ].isAbleJudge );
+			if(isPlay && waitingSushi[ 0 ].isAbleJudge) {
 				var judgeStatus = checkJudge(relativeTime);
 				if( judgeStatus ) effectSushi(judgeStatus); //ジャッジステータスが返されたらエフェクトをかける。
 				checkSuccessPlay(judgeStatus);
@@ -446,38 +450,38 @@ var StaticBitmap  = require( './static_bitmap' ),
 			//ボタンを押さずにスルーした時の処理
 			if( !waitingSushi.length ) return;
 
-			var isThroughSushi = currentTime > waitingSushi[0].timing + JUDGE_AREA_FRAME.MISS.OUTSIDE * ONE_FRAMERATE_TIME;
+			var isThroughSushi = currentTime > waitingSushi[ 0 ].timing + JUDGE_AREA_FRAME.MISS.OUTSIDE * ONE_FRAMERATE_TIME;
 			if( !isThroughSushi ) return;
 			
 			judgeStatus = 'MISS';
-			effectSushi(judgeStatus);
-			checkSuccessPlay(judgeStatus);
-			if(judgeStatus) userData.incrementScore (judgeStatus);
+			effectSushi( judgeStatus );
+			checkSuccessPlay( judgeStatus );
+			if(judgeStatus) userData.incrementScore ( judgeStatus );
 			
 		}
 
 	}
 
-	function checkSuccessPlay(judgeStatus) {
+	function checkSuccessPlay( judgeStatus ) {
 		var isSuccess = judgeStatus == 'GOOD' || judgeStatus == 'AWESOME' || judgeStatus == 'PERFECT';
 		userData.setIsSuccessPlay(isSuccess);
 	}
 
-	function checkIsAbleJudge(currentTime,isPlay) {
+	function checkIsAbleJudge( currentTime, isPlay ) {
 		//寿司がジャッジ可能ではなく、かつボタンも押しっぱなしではなく、かつ現在の時間が寿司の判定時間の内側にいるとき
 		var isChangeAble = !waitingSushi[0].isAbleJudge && !isPlay &&  currentTime <= waitingSushi[0].timing + JUDGE_AREA_FRAME.MISS.OUTSIDE * ONE_FRAMERATE_TIME;
 		if( isChangeAble ) waitingSushi[0].isAbleJudge = true;
 	}
 
-	function showCurrentScore(currentScore) {
+	function showCurrentScore( currentScore ) {
 		scoreMessageField.text = 'スコア ' + currentScore;
 	}
 
-	function showCombo(currentCombo) {
-		comboMessageField.text = 'コンボ ' + currentCombo +'皿';
+	function showCombo( currentCombo ) {
+		comboMessageField.text = 'コンボ ' + currentCombo + '皿';
 	}
 
-	function checkJudge(relativeTime) {
+	function checkJudge( relativeTime ) {
 		var missJudge = JUDGE_AREA_FRAME.MISS.INSIDE * ONE_FRAMERATE_TIME <= relativeTime && relativeTime <= JUDGE_AREA_FRAME.MISS.OUTSIDE * ONE_FRAMERATE_TIME;
 		if( missJudge ) return 'MISS';
 
@@ -504,50 +508,50 @@ var StaticBitmap  = require( './static_bitmap' ),
 
 	function showResult() {
 		createjs.Ticker.removeEventListener( 'tick', tick );
-		document.removeEventListener('keydown', handleKeyDown, false);
-		document.removeEventListener('keyup', handleKeyUp, false);
-		stage.removeEventListener('mousedown', handleClickDown);
-		stage.removeEventListener('pressup', handleClickUp);
+		document.removeEventListener( 'keydown', handleKeyDown, false );
+		document.removeEventListener( 'keyup', handleKeyUp, false );
+		stage.removeEventListener( 'mousedown', handleClickDown );
+		stage.removeEventListener( 'pressup', handleClickUp );
 
 		//背景
 		var blackBackGround = new createjs.Shape();
 		blackBackGround.alpha = 0.6;
-		blackBackGround.graphics.beginFill('#000'); 
-		blackBackGround.graphics.drawRect(0, 0, 960, 640);
+		blackBackGround.graphics.beginFill( '#000' ); 
+		blackBackGround.graphics.drawRect( 0, 0, 960, 640 );
 		stage.addChild(blackBackGround);
 		
 		//タイトル表示
-		var preLoadedResultTitle      = preload.getResult('result_title');
+		var preLoadedResultTitle      = preload.getResult( 'result_title' );
 		var bitmapResultTitle         = new StaticBitmap( preLoadedResultTitle );
 		bitmapResultTitle.setCordinate( { x : 629 , y : 10 } );
 		stage.addChild( bitmapResultTitle );
 		
 		//ランキング登録
-		var preLoadedResultRegistButton      = preload.getResult('result_regist_button');
+		var preLoadedResultRegistButton      = preload.getResult( 'result_regist_button' );
 		bitmapResultRegistButton         = new StaticBitmap( preLoadedResultRegistButton );
 		
 		var isSP = userData.getUA() == 'sp' || userData.getUA() == 'tab';
 		bitmapResultRegistButton.setCordinate( { x : 565 , y : 300 } );
 		if(isSP) bitmapResultRegistButton.setCordinate( { x : 324 , y : 450 } );
 		stage.addChild( bitmapResultRegistButton );
-		bitmapResultRegistButton.addEventListener('click', function(){ 
-			ranking_comu( userData.getUserScore(),$( '.resultInputName input' ).val() ,showRanking );
+		bitmapResultRegistButton.addEventListener( 'click', function(){ 
+			ranking_comu( userData.getUserScore(),$( '.resultInputName input' ).val(), showRanking );
 		} );
 		//テキストフィールドの表示
-		$( '.resultInputName' ).toggleClass('off').toggleClass( 'on' );
+		$( '.resultInputName' ).toggleClass( 'off' ).toggleClass( 'on' );
 
 		//twitterとfacebook表示
 		//twitter
-		var preLoadedResultTwitter      = preload.getResult('result_twitter'),
-			bitmapResultTwitter         = new StaticBitmap( preLoadedResultTwitter );
+		var preLoadedResultTwitter = preload.getResult( 'result_twitter' ),
+			bitmapResultTwitter    = new StaticBitmap( preLoadedResultTwitter );
 		
 		bitmapResultTwitter.setCordinate( { x : 788 , y : 554 } );
 		bitmapResultTwitter.cursor = 'pointer';
 		stage.addChild( bitmapResultTwitter );
-		bitmapResultTwitter.addEventListener('click', shareTwitter);
+		bitmapResultTwitter.addEventListener( 'click', shareTwitter );
 		//facebook
-		var preLoadedResultFacebook      = preload.getResult('result_facebook'),
-			bitmapResultFacebook         = new StaticBitmap( preLoadedResultFacebook );
+		var preLoadedResultFacebook = preload.getResult( 'result_facebook' ),
+			bitmapResultFacebook    = new StaticBitmap( preLoadedResultFacebook );
 		
 		bitmapResultFacebook.cursor = 'pointer';
 		bitmapResultFacebook.setCordinate( { x : 870 , y : 554 } );
@@ -557,21 +561,21 @@ var StaticBitmap  = require( './static_bitmap' ),
 
 		//スコア表示
 		//'スコア'という文字列の表示
-		var preLoadedResultStringScore      = preload.getResult('result_string_score');
-		var bitmapResultStringScore         = new StaticBitmap( preLoadedResultStringScore );
+		var preLoadedResultStringScore = preload.getResult( 'result_string_score' );
+		var bitmapResultStringScore    = new StaticBitmap( preLoadedResultStringScore );
 		bitmapResultStringScore.setCordinate( { x : 234 , y : 44 } );
 		stage.addChild( bitmapResultStringScore );
 		//ユーザーの得点の表示
-		var resultScoreText = new createjs.Text( userData.getUserScore() + '円' , 'bold 51px Arial', '#FFF' );
+		var resultScoreText       = new createjs.Text( userData.getUserScore() + '円', 'bold 51px Arial', '#FFF' );
 		resultScoreText.textAlign = 'left';
-		resultScoreText.x = 369;
-		resultScoreText.y = 38;
+		resultScoreText.x         = 369;
+		resultScoreText.y         = 38;
 		stage.addChild( resultScoreText );
 
 		//最大コンボ表示
 		//'コンボ'という文字列の表示
-		var preLoadedResultStringCombo      = preload.getResult('result_string_combo');
-		var bitmapResultStringCombo         = new StaticBitmap( preLoadedResultStringCombo );
+		var preLoadedResultStringCombo = preload.getResult( 'result_string_combo' );
+		var bitmapResultStringCombo    = new StaticBitmap( preLoadedResultStringCombo );
 		bitmapResultStringCombo.setCordinate( { x : 234 , y : 126 } );
 		stage.addChild( bitmapResultStringCombo );
 		//最大コンボの表示
@@ -582,11 +586,11 @@ var StaticBitmap  = require( './static_bitmap' ),
 		stage.addChild( resultMaxComboText );
 
 		//もう１度ボタンの表示
-		var preLoadedResultOneMoreButton      = preload.getResult('result_one_more_button');
-		var bitmapResultOneMoreButton         = new StaticBitmap( preLoadedResultOneMoreButton );
+		var preLoadedResultOneMoreButton = preload.getResult( 'result_one_more_button' );
+		var bitmapResultOneMoreButton    = new StaticBitmap( preLoadedResultOneMoreButton );
 		bitmapResultOneMoreButton.setCordinate( { x : 324 , y : 552 } );
 		bitmapResultOneMoreButton.cursor = 'pointer';
-		bitmapResultOneMoreButton.addEventListener('click', function(){ 
+		bitmapResultOneMoreButton.addEventListener( 'click', function(){ 
 			restart( bitmapResultOneMoreButton );
 		} );
 		stage.addChild( bitmapResultOneMoreButton );
@@ -595,15 +599,15 @@ var StaticBitmap  = require( './static_bitmap' ),
 	function ranking_comu ( score, name, callback ){
 
 		if( name == '' ) {
-			$('.resultInputName input').val('').attr('placeholder' ,'名前を入力してから登録ボタンを押してください。');
+			$( '.resultInputName input').val( '' ).attr( 'placeholder' , '名前を入力してから登録ボタンを押してください。' );
 			return;
 		}
 
 		window._picomon_savedScore = callback;
 		var solt = ( typeof window.__404_picomon_solt__ === 'function' ) ? __404_picomon_solt__() : '';
-		var js2 = document.createElement( 'script' );
+		var js2  = document.createElement( 'script' );
 
-		js2.src = 'https://www.picomon.jp/game/set_score?data=' + Base64.encodeURI( solt + Base64.encodeURI( JSON.stringify( {
+		js2.src  = 'https://www.picomon.jp/game/set_score?data=' + Base64.encodeURI( solt + Base64.encodeURI( JSON.stringify( {
 			callback: '_picomon_savedScore',
 			type:     'shingen_sushi',
 			score:    ( score === 0 ) ? 1 : score, // <--- 0ポイントだとエラーなのでバリでする
@@ -643,12 +647,12 @@ var StaticBitmap  = require( './static_bitmap' ),
 		var rankingArea = new createjs.Container();
 		rankingArea.x = 128;
 		rankingArea.y = 231;
-		if(!data.error) 
+		if( !data.error ) 
 			data.ranking.forEach(function(rankedDataJson,index){
-				var rankedData   = JSON.parse( rankedDataJson ),
-					rankNumber   = index + 1;
-				var isRankOver5th     = 5 < rankNumber && rankNumber <= 10,
-					validateName = rankedData.nickname.length > 6 ? rankedData.nickname.substr(0,5) + '...' : rankedData.nickname;
+				var rankedData    = JSON.parse( rankedDataJson ),
+					rankNumber    = index + 1;
+				var isRankOver5th = 5 < rankNumber && rankNumber <= 10,
+					validateName  = rankedData.nickname.length > 6 ? rankedData.nickname.substr( 0, 5 ) + '...' : rankedData.nickname;
 			
 				var displayRankingData = {
 					container : new createjs.Container(),
@@ -657,8 +661,8 @@ var StaticBitmap  = require( './static_bitmap' ),
 					score     : new createjs.Text( rankedData.score, 'bold 26px Arial', '#FFF' )
 				};
 
-				displayRankingData.rank.textAlign = 'right';
-				displayRankingData.name.textAlign = 'right';
+				displayRankingData.rank.textAlign  = 'right';
+				displayRankingData.name.textAlign  = 'right';
 				displayRankingData.score.textAlign = 'right';
 
 				displayRankingData.rank.maxWidth = 70;
@@ -667,11 +671,11 @@ var StaticBitmap  = require( './static_bitmap' ),
 				displayRankingData.score.x       = 300;
 				
 				rankedUserData.push( displayRankingData );
-				rankedUserData[index].container.addChild( rankedUserData[index].rank ,rankedUserData[index].name,rankedUserData[index].score);
-				var verticalPosition                = (rankedUserData[index].container.getBounds().height + 23) * (index % 5) ;
-				rankedUserData[index].container.y   = verticalPosition;
-				rankingArea.addChild( rankedUserData[index].container );
-				if(isRankOver5th ) rankedUserData[index].container.x = 400;
+				rankedUserData[index].container.addChild( rankedUserData[ index ].rank ,rankedUserData[ index ].name, rankedUserData[ index ].score);
+				var verticalPosition                = ( rankedUserData[ index ].container.getBounds().height + 23 ) * ( index % 5 );
+				rankedUserData[ index ].container.y   = verticalPosition;
+				rankingArea.addChild( rankedUserData[ index ].container );
+				if( isRankOver5th ) rankedUserData[ index ].container.x = 400;
 			});
 		stage.addChild( rankingArea );
 		stage.update();
