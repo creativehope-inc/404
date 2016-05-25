@@ -613,11 +613,6 @@ var StaticBitmap  = require( './static_bitmap' ),
 	}
 
 	function showRanking ( data ) {
-		if( data.error ) {
-			$( '.resultInputName input').val( '' ).attr( 'placeholder' , 'エラーが発生いたしました。もう１度入力お願いします。' );
-			return;
-		}
-
 		if( $( '.resultInputName' ).hasClass( 'on' ) ) $( '.resultInputName' ).addClass( 'off' ).removeClass( 'on' );
 		stage.removeChild( bitmapResultRegistButton );
 		stage.update();
@@ -625,6 +620,7 @@ var StaticBitmap  = require( './static_bitmap' ),
 		var rankingArea = new createjs.Container();
 		rankingArea.x = 128;
 		rankingArea.y = 231;
+		if( data.error ) return;
 
 		data.ranking.forEach(function( rankedDataJson, index ){
 			var rankedData    = JSON.parse( rankedDataJson ),
