@@ -100,41 +100,41 @@ var StaticBitmap  = require( './static_bitmap' ),
 
 		var manifest = [
 			//プリロードsoundデータ
-			{ id: 'start_bgm', src:'./music/start_bgm.mp3' },
-			{ id: 'playing_bgm', src:'./music/playing_bgm.mp3' },
-			{ id: 'playing_track', src:'./music/trackSE.mp3' },
+			{ id: 'start_bgm', src:'/archive/v5/public/music/start_bgm.mp3' },
+			{ id: 'playing_bgm', src:'/archive/v5/public/music/playing_bgm.mp3' },
+			{ id: 'playing_track', src:'/archive/v5/public/music/trackSE.mp3' },
 
 			//プリロードイメージデータ
 			//タイトル画面用
-			{ id: 'start_background', src:'./img/start_background.jpg' },
-			{ id: 'start_button', src:'./img/start_button.png' },
-			{ id: 'start_mie', src:'./img/start_mie.png'},
-			{ id: 'start_title', src:'./img/start_title.png'},
+			{ id: 'start_background', src:'/archive/v5/public/img/start_background.jpg' },
+			{ id: 'start_button', src:'/archive/v5/public/img/start_button.png' },
+			{ id: 'start_mie', src:'/archive/v5/public/img/start_mie.png'},
+			{ id: 'start_title', src:'/archive/v5/public/img/start_title.png'},
 
 			//プレイ画面用
-			{ id: 'playing_background', src:'./img/playing_background.jpg'},
-			{ id: 'playing_table', src:'./img/playing_table.jpg'},
-			{ id: 'playing_lines', src:'./img/playing_lines.png'},
-			{ id: 'playing_cover', src:'./img/playing_cover.png'},
-			{ id: 'playing_mie_normal_1', src:'./img/playing_mie_nomarl_1.png'},
-			{ id: 'playing_judge_area', src:'./img/playing_judge_area.png'},
-			{ id: 'playing_num', src:'./img/playing_num.png'},
-			{ id: 'playing_score_back', src:'./img/playing_score_back.png'},
-			{ id: 'sushi_1', src:'./img/sushi_1.png'},
-			{ id: 'sushi_2', src:'./img/sushi_2.png'},
-			{ id: 'sushi_3', src:'./img/sushi_3.png'},
-			{ id: 'sushi_4', src:'./img/sushi_4.png'},
-			{ id: 'sushi_5', src:'./img/sushi_5.png'},
-			{ id: 'sushi_6', src:'./img/sushi_6.png'},
+			{ id: 'playing_background', src:'/archive/v5/public/img/playing_background.jpg'},
+			{ id: 'playing_table', src:'/archive/v5/public/img/playing_table.jpg'},
+			{ id: 'playing_lines', src:'/archive/v5/public/img/playing_lines.png'},
+			{ id: 'playing_cover', src:'/archive/v5/public/img/playing_cover.png'},
+			{ id: 'playing_mie_normal_1', src:'/archive/v5/public/img/playing_mie_nomarl_1.png'},
+			{ id: 'playing_judge_area', src:'/archive/v5/public/img/playing_judge_area.png'},
+			{ id: 'playing_num', src:'/archive/v5/public/img/playing_num.png'},
+			{ id: 'playing_score_back', src:'/archive/v5/public/img/playing_score_back.png'},
+			{ id: 'sushi_1', src:'/archive/v5/public/img/sushi_1.png'},
+			{ id: 'sushi_2', src:'/archive/v5/public/img/sushi_2.png'},
+			{ id: 'sushi_3', src:'/archive/v5/public/img/sushi_3.png'},
+			{ id: 'sushi_4', src:'/archive/v5/public/img/sushi_4.png'},
+			{ id: 'sushi_5', src:'/archive/v5/public/img/sushi_5.png'},
+			{ id: 'sushi_6', src:'/archive/v5/public/img/sushi_6.png'},
 
 			//結果画面用
-			{ id: 'result_title', src:'./img/result_title.png'},
-			{ id: 'result_facebook', src:'./img/result_facebook.png'},
-			{ id: 'result_twitter', src:'./img/result_twitter.png'},
-			{ id: 'result_one_more_button', src:'./img/result_one_more_button.png'},
-			{ id: 'result_regist_button', src:'./img/result_regist_button.png'},
-			{ id: 'result_string_combo', src:'./img/result_string_combo.png'},
-			{ id: 'result_string_score', src:'./img/result_string_score.png'}
+			{ id: 'result_title', src:'/archive/v5/public/img/result_title.png'},
+			{ id: 'result_facebook', src:'/archive/v5/public/img/result_facebook.png'},
+			{ id: 'result_twitter', src:'/archive/v5/public/img/result_twitter.png'},
+			{ id: 'result_one_more_button', src:'/archive/v5/public/img/result_one_more_button.png'},
+			{ id: 'result_regist_button', src:'/archive/v5/public/img/result_regist_button.png'},
+			{ id: 'result_string_combo', src:'/archive/v5/public/img/result_string_combo.png'},
+			{ id: 'result_string_score', src:'/archive/v5/public/img/result_string_score.png'}
 		];
 
 		preload = new createjs.LoadQueue();
