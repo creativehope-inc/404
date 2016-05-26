@@ -64,10 +64,18 @@ var StaticBitmap  = require( './static_bitmap' ),
 		bitmapResultRegistButton,
 		rankedUserData = [],
 		isSP = userData.getUA() == 'sp' || userData.getUA() == 'tab',
+		isIE = userData.getUA() == 'ie',
 		preload;
 
 	// 初期化
 	function init() {
+		if( isIE ) return;
+
+		// サポートしているブラウザには要素を表示する
+		$( '.not_support' ).hide();
+		$( '.canvasShowArea' ).show();
+		$( '.switchArea' ).show();
+
 		userData       = new User();
 		rankedUserData = [];
 		musicNotes     = new Music();
@@ -392,7 +400,7 @@ var StaticBitmap  = require( './static_bitmap' ),
 		tweenSushi.regX        = judgingSushiSize.width / 2;
 		tweenSushi.regY        = judgingSushiSize.height / 2;
 
-		var animateSuShiConfig = {
+		var animateSushiConfig = {
 			MISS:    { color: '#050000', effect: downSushi },
 			BAD:     { color: '#6861B5', effect: downSushi },
 			GOOD:    { color: '#6DB561', effect: upSushi },
@@ -400,7 +408,7 @@ var StaticBitmap  = require( './static_bitmap' ),
 			PERFECT: { color: '#B56161', effect: upSushi }
 		};
 
-		var config = animateSuShiConfig[ judgeStatus ];
+		var config = animateSushiConfig[ judgeStatus ];
 
 		if ( config ) {
 			setTweenJudge( config.color );
