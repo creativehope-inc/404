@@ -16,8 +16,8 @@ var User = function() {
 		setIsSuccessPlay: function( boolSuccess ) {
 			isSuccessPlay = boolSuccess;
 		},
-		
-		incrementScore: function(judgeStatus) {			
+
+		incrementScore: function(judgeStatus) {
 			if( isSuccessPlay ) {
 				score += defaultAddScore[judgeStatus] + comboBonus * currentCombo++;
 				if(currentCombo > maxCombo) maxCombo++;
@@ -33,7 +33,7 @@ var User = function() {
 		getMaxCombo : function () {
 			return maxCombo;
 		},
-		
+
 		resetData : function() {
 			score = 0;
 			currentCombo = 0;
@@ -43,8 +43,9 @@ var User = function() {
 
 		getUA : function () {
 			var ua = navigator.userAgent;
-			if( ua.indexOf('iPhone') > 0 || ua.indexOf('iPod') > 0 || ua.indexOf('Android') > 0 && ua.indexOf('Mobile') > 0 )	return 'sp';
-			if( ua.indexOf('iPad') > 0 || ua.indexOf('Android') > 0 ) return 'tab';
+			if( ua.indexOf( 'iPhone' ) > 0 || ua.indexOf( 'iPod' ) > 0 || ua.indexOf( 'Android' ) > 0 && ua.indexOf( 'Mobile' ) > 0 )	return 'sp';
+			if( ua.indexOf( 'iPad' ) > 0 || ua.indexOf( 'Android' ) > 0 ) return 'tab';
+			if( ua.indexOf( 'MSIE' ) > 0  || ua.indexOf( 'Trident' ) > 0 ) return 'ie';
 			return 'other';
 		},
 
